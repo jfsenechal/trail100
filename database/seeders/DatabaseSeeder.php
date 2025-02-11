@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             'name' => Role::ROLE_ADMIN,
         ]);
         $runnerRole = Role::factory()->create([
-            'name' => Role::ROLE_RUNNER,
+            'name' => Role::ROLE_WALKER,
         ]);
         $user = User::factory()
             ->hasAttached($adminRole)
@@ -31,10 +31,10 @@ class DatabaseSeeder extends Seeder
                 'first_name' => 'Jf',
                 'last_name' => 'Sénéchal',
                 'email' => 'jf@marche.be',
-                'password' => static::$password ??= Hash::make('homer'),
+                'password' => static::$password ??= Hash::make('marge'),
             ]);
 
-      //  $user->createToken(config('app.name'));
+        //  $user->createToken(config('app.name'));
         // Create additional users
         //User::factory(10)->create();
         // Create Leads

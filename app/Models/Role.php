@@ -12,7 +12,7 @@ class Role extends Model
 
     public $timestamps = false;
     const ROLE_ADMIN = 'admin';
-    const ROLE_RUNNER = 'runner';
+    const ROLE_WALKER = 'walker';
 
     protected $fillable = ['name'];
 

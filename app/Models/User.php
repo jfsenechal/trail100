@@ -71,9 +71,9 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasName
         return $this->BelongsToMany(Role::class);
     }
 
-    public function runners(): BelongsToMany
+    public function walkers(): BelongsToMany
     {
-        return $this->belongsToMany(Runner::class);
+        return $this->belongsToMany(Walker::class);
     }
 
     public function hasRole(string $roleToFind): bool
@@ -95,7 +95,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasName
         }
 
         if ($panel->getId() === 'front') {
-            return $this->hasRole(Role::ROLE_RUNNER);
+            return $this->hasRole(Role::ROLE_WALKER);
         }
 
         return false;

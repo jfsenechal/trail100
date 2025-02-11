@@ -12,7 +12,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('runner', function (Blueprint $table) {
+        Schema::create('walker', function (Blueprint $table) {
             $table->id();
             $table->string('email');
             $table->string('country')->nullable()->default('Belgium');
@@ -35,6 +35,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('runner');
+        Schema::dropIfExists('walker');
     }
 };

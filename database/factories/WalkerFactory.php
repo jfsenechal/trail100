@@ -21,6 +21,8 @@ class WalkerFactory extends Factory
             'last_name' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
             'phone' => fake()->phoneNumber(),
+            'city' => fake()->city(),
+            'country' => fake()->country(),
         ];
     }
 }

@@ -71,11 +71,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasName
         return $this->BelongsToMany(Role::class);
     }
 
-    public function walkers(): BelongsToMany
-    {
-        return $this->belongsToMany(Walker::class);
-    }
-
     public function hasRole(string $roleToFind): bool
     {
         foreach ($this->roles()->get() as $role) {

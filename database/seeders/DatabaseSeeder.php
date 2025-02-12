@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Walker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -34,6 +35,10 @@ class DatabaseSeeder extends Seeder
                 'password' => static::$password ??= Hash::make('marge'),
             ]);
 
+        Walker::factory()
+            ->createOne([
+
+            ]);
         //  $user->createToken(config('app.name'));
         // Create additional users
         //User::factory(10)->create();

@@ -2,14 +2,24 @@
 
 namespace App\Filament\FrontPanel\Resources;
 
+use App\Constant\DisplayNameEnum;
+use App\Constant\TshirtEnum;
 use App\Filament\FrontPanel\Resources\WalkerResource\Pages;
 use App\Models\Walker;
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\Alignment;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\HtmlString;
 
 class WalkerResource extends Resource
 {
@@ -21,52 +31,38 @@ class WalkerResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Coordonnées')
-                    ->columns(2)
-                    ->schema([
-                        Forms\Components\TextInput::make('first_name')
-                            ->required()
-                            ->maxLength(150),
-                        Forms\Components\TextInput::make('last_name')
-                            ->required()
-                            ->maxLength(150),
-                        Forms\Components\TextInput::make('email')
-                            ->label('Email address')
-                            ->email()
-                            ->maxLength(150),
-                        Forms\Components\TextInput::make('phone')
-                            ->label('Phone number')
-                            ->tel(),
-                        Forms\Components\TextInput::make('street')
-                            ->label('Street address')
-                            ->maxLength(150),
-                        Forms\Components\TextInput::make('city')
-                            ->label('City')
-                            ->maxLength(150),
-                        Forms\Components\TextInput::make('country')
-                            ->label('Country')
-                            ->maxLength(150),
-                        Forms\Components\DatePicker::make('date_of_birth')
-                            ->label('Birthday')
-                            ->date(),
-                    ]),
-                Section::make('Infos')
-                    ->columns(2)
-                    ->schema([
-                        Forms\Components\Select::make('tshirt_size')
-                            ->label('T-shirt size')
-                            ->options([
-                                'XS' => 'XS',
-                                'S' => 'S',
-                                'M' => 'M',
-                                'L' => 'L',
-                                'Xl' => 'XL',
-                                'XXL' => 'XXL',
-                            ]),
-                        Forms\Components\TextInput::make('club_name')
-                            ->label('Club name')
-                            ->maxLength(150),
-                    ]),
+                Forms\Components\Repeater::make('walkers')
+                    ->reorderable(false)
+                    ->defaultItems(0)
+                    ->minItems(1)
+                    ->columnSpanFull(2)
+                    ->collapsible()
+                    ->collapseAllAction(
+                        fn(Action $action) => $action->label('Collapse all walkers'),
+                    )
+                    ->live()
+                    ->itemLabel(
+                        fn(array $state): string => $state['title'] ?? $state['first_name'].' '.$state['last_name'],
+                    )
+                    ->addActionLabel(__('messages.form.walker.btn.add.label'))
+                    ->addActionAlignment(Alignment::Start)
+                    ->schema(
+                        [
+                            Section::make(__('messages.form.walker.section.personal'))
+                                ->columns(2)
+                                ->schema(self::fieldsPersonal()),
+                            Section::make(__('messages.form.walker.section.contact'))
+                                ->columns(2)
+                                ->schema(self::fieldsContact()),
+                            Section::make(__('messages.form.walker.section.tshirt'))
+                                ->description(__('messages.form.tshirt.section.description'))
+                                ->columns(2)
+                                ->schema(self::fieldsTshirt()),
+                            Section::make(__('messages.form.walker.section.gdpr'))
+                                ->columns(2)
+                                ->schema(self::fieldsGdpr()),
+                        ],
+                    ),
             ]);
     }
 
@@ -108,7 +104,69 @@ class WalkerResource extends Resource
             'index' => Pages\ListWalkers::route('/'),
             'create' => Pages\CreateWalker::route('/create'),
             'view' => Pages\ViewWalker::route('/{record}'),
-            'edit' => Pages\EditWalker::route('/{record}/edit'),
+        ];
+    }
+
+    public static function fieldsPersonal(): array
+    {
+        return [
+            TextInput::make('first_name')
+                ->required()
+                ->maxLength(150),
+            TextInput::make('last_name')
+                ->required()
+                ->maxLength(150),
+            TextInput::make('street')
+                ->label('Street address')
+                ->maxLength(150),
+            TextInput::make('city')
+                ->label('City')
+                ->maxLength(150),
+            TextInput::make('country')
+                ->label('Country')
+                ->maxLength(150),
+            DatePicker::make('date_of_birth')
+                ->label('Birthday')
+                ->date(),
+        ];
+    }
+
+    public static function fieldsContact(): array
+    {
+        return [
+            TextInput::make('email')
+                ->label('Email address')
+                ->email()
+                ->maxLength(150)
+                ->autocomplete('email')
+                ->required(),
+            TextInput::make('phone')
+                ->label('Phone number')
+                ->tel(),
+        ];
+    }
+
+    public static function fieldsTshirt(): array
+    {
+        return [
+            Select::make('tshirt')
+                ->options(TshirtEnum::class)
+                ->suffixIcon('heroicon-m-clipboard'),
+        ];
+    }
+
+    public static function fieldsGdpr(): array
+    {
+        return [
+            Select::make('display_name')
+                ->options(DisplayNameEnum::class)
+                ->helperText(
+                    __('messages.display_name.select.help'),
+                ),
+            Checkbox::make('gdpr')
+            ->helperText(__('messages.gdpr.select.help')),
+Placeholder::make('documentation')
+    ->content(new HtmlString('<a href="https://filamentphp.com/docs">filamentphp.com</a>'))
         ];
     }
 }

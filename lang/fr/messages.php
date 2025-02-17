@@ -7,6 +7,7 @@ return [
     'register.form.first_name.label' => 'Prénom',
     'register.form.last_name.label' => 'Nom',
     'form.walker.btn.add.label' => 'Ajouter un marcheur',
+    'form.walker.actions.create.title'=>'Ajout des marcheurs',
     'form.walker.section.personal' => 'Personal information',
     'form.walker.section.contact' => 'Contact information',
     'form.walker.section.tshirt' => 'T-shirt information',

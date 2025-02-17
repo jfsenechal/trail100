@@ -2,16 +2,15 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\FrontPanel\Resources\Pages\Information;
 use App\Models\Role;
-use Filament\Http\Middleware\Authenticate;
-use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\NavigationItem;
-use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Support\Facades\FilamentColor;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -21,6 +20,18 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class FrontPanelProvider extends PanelProvider
 {
+    public function boot(): void
+    {
+        FilamentColor::register([
+            'danger' => Color::Red,
+            'gray' => Color::Zinc,
+            'info' => Color::Blue,
+            'primary' => Color::Amber,
+            'success' => Color::Green,
+            'warning' => Color::Amber,
+        ]);
+    }
+
     public function panel(Panel $panel): Panel
     {
         return $panel
@@ -40,7 +51,7 @@ class FrontPanelProvider extends PanelProvider
                 for: 'App\\Filament\\FrontPanel\\Pages',
             )
             ->pages([
-                Pages\Dashboard::class,
+                Information::class,
             ])
             ->discoverWidgets(
                 in: app_path('Filament/FrontPanel/Widgets'),
@@ -54,7 +65,7 @@ class FrontPanelProvider extends PanelProvider
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
-              //  AuthenticateSession::class,
+                //  AuthenticateSession::class,
                 ShareErrorsFromSession::class,
                 VerifyCsrfToken::class,
                 SubstituteBindings::class,
@@ -62,14 +73,18 @@ class FrontPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->authMiddleware([
-             //   Authenticate::class,
+                //   Authenticate::class,
             ])
-            /*->navigationItems([
+            ->navigationItems([
                 NavigationItem::make('dashboard admin')
                     ->icon('heroicon-o-cog-6-tooth')
                     ->label(fn(): string => __('messages.navigation.admin.dashboard'))
                     ->url('/admin')
-                    ->visible(fn(): bool => auth()->user()->hasRole(Role::ROLE_ADMIN)),
-            ])*/;
+                    ->visible(function (): bool {
+                        $isAdmin = auth()->user()?->hasRole(Role::ROLE_ADMIN);
+
+                        return $isAdmin ?? false;
+                    }),
+            ]);
     }
 }

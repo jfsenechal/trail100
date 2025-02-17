@@ -39,7 +39,7 @@ class Homepage extends Page
         return static::$layout ?? 'filament-panels::components.layout.simple';
     }
 
-    protected function getHeaderActions(): array
+    protected function getHeaderActions22(): array
     {
         return [
             Action::make(__('Register'))

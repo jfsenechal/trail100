@@ -6,6 +6,7 @@ return [
     'register.form.first_name.label' => 'First Name',
     'register.form.last_name.label' => 'Last Name',
     'form.walker.btn.add.label' => 'Add a walker',
+    'form.walker.actions.create.title'=>'Add walkers',
     'form.walker.section.personal' => 'Personal information',
     'form.walker.section.contact' => 'Contact information',
     'form.walker.section.tshirt' => 'T-shirt information',

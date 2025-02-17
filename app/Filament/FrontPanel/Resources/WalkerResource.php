@@ -164,9 +164,9 @@ class WalkerResource extends Resource
                     __('messages.display_name.select.help'),
                 ),
             Checkbox::make('gdpr')
-            ->helperText(__('messages.gdpr.select.help')),
-Placeholder::make('documentation')
-    ->content(new HtmlString('<a href="https://filamentphp.com/docs">filamentphp.com</a>'))
+                ->helperText(__('messages.gdpr.select.help')),
+            Placeholder::make('documentation')
+                ->content(new HtmlString('<a href="https://filamentphp.com/docs">filamentphp.com</a>')),
         ];
     }
 }

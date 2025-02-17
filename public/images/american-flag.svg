@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 40">
+    <!-- Red and white stripes -->
+    <rect width="60" height="40" fill="white"/>
+    <rect y="0" width="60" height="4.44" fill="red"/>
+    <rect y="8.88" width="60" height="4.44" fill="red"/>
+    <rect y="17.76" width="60" height="4.44" fill="red"/>
+    <rect y="26.64" width="60" height="4.44" fill="red"/>
+    <rect y="35.52" width="60" height="4.44" fill="red"/>
+
+    <!-- Blue rectangle -->
+    <rect width="24" height="20" fill="blue"/>
+
+    <!-- White stars -->
+    <g fill="white">
+        <circle cx="3" cy="3" r="1"/>
+        <circle cx="9" cy="3" r="1"/>
+        <circle cx="15" cy="3" r="1"/>
+        <circle cx="21" cy="3" r="1"/>
+
+        <circle cx="6" cy="6" r="1"/>
+        <circle cx="12" cy="6" r="1"/>
+        <circle cx="18" cy="6" r="1"/>
+
+        <circle cx="3" cy="9" r="1"/>
+        <circle cx="9" cy="9" r="1"/>
+        <circle cx="15" cy="9" r="1"/>
+        <circle cx="21" cy="9" r="1"/>
+
+        <circle cx="6" cy="12" r="1"/>
+        <circle cx="12" cy="12" r="1"/>
+        <circle cx="18" cy="12" r="1"/>
+
+        <circle cx="3" cy="15" r="1"/>
+        <circle cx="9" cy="15" r="1"/>
+        <circle cx="15" cy="15" r="1"/>
+        <circle cx="21" cy="15" r="1"/>
+
+        <circle cx="6" cy="18" r="1"/>
+        <circle cx="12" cy="18" r="1"/>
+        <circle cx="18" cy="18" r="1"/>
+    </g>
+</svg>

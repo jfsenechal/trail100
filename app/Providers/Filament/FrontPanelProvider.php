@@ -40,7 +40,9 @@ class FrontPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Pink,
             ])
-            ->brandLogo('https://www.marche.be/administration/files/2014/08/Marche-_logo_quadri.png')
+            ->viteTheme('resources/css/filament/front/theme.css')
+            ->brandLogo(fn() => view('filament.pages.brandlogo'))
+            ->favicon(asset('images/favicon.png'))
             ->font('Poppins')
             ->discoverResources(
                 in: app_path('Filament/FrontPanel/Resources'),

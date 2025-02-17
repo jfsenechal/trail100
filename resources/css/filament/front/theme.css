@@ -1,0 +1,31 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@config 'tailwind.config.js';
+
+@layer base {
+    html {
+        @apply scroll-pt-3 scroll-smooth text-base;
+        /* see https://www.getrevue.co/profile/shrutibalasa/issues/did-you-know-about-scroll-padding-easy-solution-to-fixed-header-problem-1325973 */
+    }
+
+    body {
+        @apply antialiased text-gray-800;
+    }
+
+    img, video, iframe {
+        @apply object-cover max-w-full object-top-center;
+        block-size: auto;
+        /*max-inline-size: 100%;*/
+        /* see https://web.dev/learn/design/responsive-images/ */
+    }
+}
+
+@layer utilities {
+    .walker-secondary {
+        @apply text-pink-600
+    }
+
+    .walker-primary {
+        @apply text-green-600;
+    }
+}

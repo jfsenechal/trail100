@@ -26,6 +26,8 @@ class WalkerResource extends Resource
     protected static ?string $model = Walker::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    //protected ?string $heading = 'Custom Page Heading';
+    //protected ?string $subheading = 'Custom Page Subheading';
 
     public static function form(Form $form): Form
     {
@@ -166,8 +168,13 @@ class WalkerResource extends Resource
             Checkbox::make('gdpr')
                 ->helperText(__('messages.gdpr.select.help')),
             Placeholder::make('documentation')
-                ->content(new HtmlString('<a href="https://filamentphp.com/docs">filamentphp.com</a>')),
+                ->content(new HtmlString('<a href="/rgpd">filamentphp.com</a>')),
         ];
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('messages.walker.navigation.title');
     }
 }
 

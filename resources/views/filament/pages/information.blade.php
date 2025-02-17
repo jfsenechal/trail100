@@ -1,15 +1,31 @@
 <x-filament-panels::page>
 
-    <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8">
-        <h1 class="text-3xl font-bold primary text-center">Les Marcheurs de la Famenne LUX034</h1>
-        <h2 class="text-xl secondary text-center my-4">Vous invitent</h2>
+    <div class="mx-5 bg-white shadow-lg rounded-lg p-4">
+        <div class="flex flex-row items-center justify-center">
+            <img src="/images/logoMarcheur.jpg" alt="logo marcheur" class="w-56 ml-8">
+            <h1 class="text-3xl font-bold primary text-center">Les Marcheurs de la Famenne</h1>
+        </div>
 
-        <p class="text-lg text-center">Le vendredi 29 août 2025 - Départ à 21 h</p>
+        <div class="text-center">
+            <h2 class="text-2xl secondary text-center my-4">Vous invitent</h2>
 
-        <h3 class="text-2xl font-semibold primary text-center mt-6">100 KM – FAMENNE – ARDENNE</h3>
-        <p class="text-lg text-center">Le samedi 30 août 2025</p>
+            <h3 class="text-2xl font-semibold primary text-center mt-6"> au 100 KM – FAMENNE – ARDENNE</h3>
 
-        <table class="w-full border-collapse mt-6">
+            <p class="text-lg text-center font-bold">Le vendredi 29 août 2025 - Départ à 21 h</p>
+            <x-filament::button
+                href="/front/walker/create"
+                tag="a"
+                class="text-center"
+            >
+                Je m'inscris au 100km
+            </x-filament::button>
+        </div>
+
+
+        <h3 class="text-2xl font-semibold primary mt-6"> et aux autres parcours</h3>
+        <p class="text-lg ">Le samedi 30 août 2025</p>
+
+        <table class="w-full border-collapse mt-6 max-w-xl">
             <thead>
             <tr class="bg-green-600 text-white">
                 <th class="p-2">Distance</th>
@@ -36,13 +52,10 @@
             </tbody>
         </table>
 
-        <div class="mt-6 text-center">
-            <p class="font-semibold">Institut Ste Julie</p>
-            <p>Rue de Nérette 2, 6900 – MARCHE-en-FAMENNE</p>
-        </div>
-
         <h3 class="text-2xl font-semibold secondary mt-6">DÉPART</h3>
-        <p>Vendredi 29 août 2025 à 21h</p>
+        <p class="font-semibold">Le Vendredi 29 août 2025 à 21h</p>
+        <p class="font-semibold">Institut Ste Julie</p>
+        <p>Rue de Nérette 2, 6900 – MARCHE-en-FAMENNE</p>
 
         <h3 class="text-2xl font-semibold secondary mt-6">INSCRIPTION</h3>
         <p>Avant le 1 août 2025 : <span class="font-semibold">45 €</span></p>
@@ -64,9 +77,24 @@
         <p>DEGEYE Philippe – <a href="mailto:degeye.philippe@gmail.com" class="text-green-600 underline">degeye.philippe@gmail.com</a>
             – +32 476 545 951</p>
 
-        <div class="text-center mt-6">
+        <div class="my-6">
             <a href="https://marcheursdelafamenne.marche.be" target="_blank"
-               class="text-green-600 underline font-semibold">Visitez notre site</a>
+               class="text-green-600 underline font-semibold">https://marcheursdelafamenne.marche.be</a>
+        </div>
+
+        <div class="grid grid-cols-2 items-center justify-center gap-2 mt-2">
+            <a href="https://www.marche.be" target="_blank">
+                <img src="/images/LogoMarche.png" alt="logo marcheur" class="w-32">
+            </a>
+            <a href="https://www.ethias.be" target="_blank">
+                <img src="/images/ethias.jpg" alt="logo ethias" class="w-32">
+            </a>
+            <a href="https://www.marche.be" target="_blank">
+                <img src="/images/Amitie-marche.jpg" alt="logo amitie marcheur" class="w-32">
+            </a>
+            <a href="https://www.marche.be" target="_blank">
+                <img src="/images/Logorouge.png" alt="" class="w-32">
+            </a>
         </div>
 
         <p class="text-sm text-center mt-4 font-semibold">N° d’agréation: 04/25/01PW</p>

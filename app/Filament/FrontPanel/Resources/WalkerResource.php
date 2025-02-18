@@ -127,6 +127,7 @@ class WalkerResource extends Resource
                 ->maxLength(150),
             DatePicker::make('date_of_birth')
                 ->label('Birthday')
+                ->maxDate(now())
                 ->date(),
         ];
     }

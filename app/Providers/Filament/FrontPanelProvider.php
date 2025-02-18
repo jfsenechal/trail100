@@ -46,7 +46,7 @@ class FrontPanelProvider extends PanelProvider
             ])
             ->viteTheme('resources/css/filament/front/theme.css')
             ->brandLogo('/images/logoMarcheur.jpg')
-            ->favicon(asset('images/favicon.png'))
+            ->favicon(asset('/favicon/favicon.svg'))
             ->font('Poppins')
             ->discoverResources(
                 in: app_path('Filament/FrontPanel/Resources'),
@@ -105,4 +105,9 @@ FilamentView::registerRenderHook(
 FilamentView::registerRenderHook(
     PanelsRenderHook::TOPBAR_END,
     fn(): View => view('filament.pages._select_language'),
+);
+
+FilamentView::registerRenderHook(
+    PanelsRenderHook::HEAD_END,
+    fn(): View => view('filament.favicon'),
 );

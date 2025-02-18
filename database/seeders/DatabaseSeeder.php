@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Registration;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Walker;
@@ -35,9 +36,12 @@ class DatabaseSeeder extends Seeder
                 'password' => static::$password ??= Hash::make('marge'),
             ]);
 
+        $registration = Registration::factory()->create([
+            'email' => 'jf@marche.be',
+        ]);
         Walker::factory()
             ->createOne([
-
+                'registration_id' => $registration->id,
             ]);
         //  $user->createToken(config('app.name'));
         // Create additional users

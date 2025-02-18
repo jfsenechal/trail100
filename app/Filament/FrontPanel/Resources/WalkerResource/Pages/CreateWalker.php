@@ -3,11 +3,14 @@
 namespace App\Filament\FrontPanel\Resources\WalkerResource\Pages;
 
 use App\Filament\FrontPanel\Resources\WalkerResource;
-use App\Models\Walker;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Resources\Pages\CreateRecord;
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Contracts\View\View;
+use Filament\Support\Exceptions\Halt;
 
 class CreateWalker extends CreateRecord
 {
@@ -45,9 +48,19 @@ class CreateWalker extends CreateRecord
      * Change title
      * @return string|Htmlable
      */
-    public function getTitle(): string | Htmlable
+    public function getTitle(): string|Htmlable
     {
         return __('messages.form.walker.actions.create.title');
+    }
+
+    public function getHeading(): string
+    {
+        return __('messages.form.walker.actions.create.heading');
+    }
+
+    public function getSubheading(): string
+    {
+        return __('messages.form.walker.actions.create.subheading');
     }
 
     public function create(bool $another = false): void
@@ -56,11 +69,34 @@ class CreateWalker extends CreateRecord
         $this->beginDatabaseTransaction();
         $data = $this->form->getState();
         $data = $this->mutateFormDataBeforeCreate($data);
-        dd($data);
+
         foreach ($this->data['walkers'] as $item) {
-            $record = Walker::create($item);
-            dd($record);
+            try {
+                //$record = Walker::create($item);
+            } catch (Halt $exception) {
+                dd($exception);
+            }
         }
-        parent::create($another);
+        $this->commitDatabaseTransaction();
+        $this->rememberData();
+
+        $this->getCreatedNotification()?->send();
+        $redirectUrl = $this->getRedirectUrl();
+
+        $this->redirect($redirectUrl, navigate: FilamentView::hasSpaMode() && is_app_url($redirectUrl));
     }
+
 }
+
+FilamentView::registerRenderHook(
+    PanelsRenderHook::CONTENT_START,
+    fn(): View => view('filament.information.impersonation-banner'),
+    scopes: \App\Filament\FrontPanel\Resources\WalkerResource\Pages\CreateWalker::class,
+);
+
+FilamentView::registerRenderHook(
+    PanelsRenderHook::CONTENT_END,
+    fn(): View => view('filament.information.impersonation-banner'),
+    scopes: \App\Filament\FrontPanel\Resources\WalkerResource\Pages\CreateWalker::class,
+);
+

@@ -8,6 +8,8 @@ return [
     'register.form.last_name.label' => 'Nom',
     'walker.navigation.title' => 'Inscriptions',
     'form.walker.btn.add.label' => 'Ajouter un marcheur',
+    'form.walker.actions.create.heading'=>'Ajouté un ou plusieurs participants, puis confirmé',
+    'form.walker.actions.create.subheading'=>'Sous entete',
     'form.walker.actions.create.title'=>'Ajout des marcheurs',
     'form.walker.section.personal' => 'Personal information',
     'form.walker.section.contact' => 'Contact information',

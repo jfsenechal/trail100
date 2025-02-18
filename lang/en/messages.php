@@ -8,6 +8,8 @@ return [
     'walker.navigation.title' => 'Inscriptions',
     'form.walker.btn.add.label' => 'Add a walker',
     'form.walker.actions.create.title' => 'Add walkers',
+    'form.walker.actions.create.heading' => 'Add one or more participants, then confirm.',
+    'form.walker.actions.create.subheading' => 'sub heading',
     'form.walker.section.personal' => 'Personal information',
     'form.walker.section.contact' => 'Contact information',
     'form.walker.section.tshirt' => 'T-shirt information',

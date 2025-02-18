@@ -11,6 +11,9 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Support\Facades\FilamentColor;
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
+use Illuminate\Contracts\View\View;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -35,13 +38,14 @@ class FrontPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->default()
             ->id('front')
             ->path('front')
             ->colors([
                 'primary' => Color::Pink,
             ])
             ->viteTheme('resources/css/filament/front/theme.css')
-            ->brandLogo(fn() => view('filament.pages.brandlogo'))
+            ->brandLogo('/images/logoMarcheur.jpg')
             ->favicon(asset('images/favicon.png'))
             ->font('Poppins')
             ->discoverResources(
@@ -90,3 +94,15 @@ class FrontPanelProvider extends PanelProvider
             ]);
     }
 }
+
+
+FilamentView::registerRenderHook(
+    PanelsRenderHook::TOPBAR_START,
+    fn(): View => view('filament.pages.brandlogo'),
+);
+
+
+FilamentView::registerRenderHook(
+    PanelsRenderHook::TOPBAR_END,
+    fn(): View => view('filament.pages._select_language'),
+);

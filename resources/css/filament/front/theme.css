@@ -28,4 +28,7 @@
     .walker-primary {
         @apply text-green-600;
     }
+    .lng-selected {
+        @apply border border-green-400;
+    }
 }

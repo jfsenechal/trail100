@@ -5,8 +5,10 @@ namespace App\Filament\Pages;
 use App\Models\Walker;
 use Filament\Actions\Action;
 use Filament\Pages\Page;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class Homepage extends Page
 {
@@ -18,6 +20,18 @@ class Homepage extends Page
      * @var Collection<int, Walker> $walkers
      */
     public Collection $walkers;
+
+    public string $locale = '';
+
+    public function __construct()
+    {
+        $this->localeLanguage();
+    }
+
+    public function localeLanguage(): void
+    {
+        $this->locale = App::getLocale() ?? 'en';
+    }
 
     public function getSubheading(): ?string
     {

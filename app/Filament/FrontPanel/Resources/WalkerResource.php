@@ -26,8 +26,6 @@ class WalkerResource extends Resource
     protected static ?string $model = Walker::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    //protected ?string $heading = 'Custom Page Heading';
-    //protected ?string $subheading = 'Custom Page Subheading';
 
     public static function form(Form $form): Form
     {

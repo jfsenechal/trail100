@@ -6,6 +6,8 @@
             <h1 class="text-3xl font-bold primary text-center">Les Marcheurs de la Famenne</h1>
         </div>
 
+        LOCALE = {{$locale}} from app {{ app()->getLocale()}}
+
         <div class="text-center">
             <h2 class="text-2xl secondary text-center my-4">Vous invitent</h2>
 
@@ -13,7 +15,7 @@
 
             <p class="text-lg text-center font-bold">Le vendredi 29 août 2025 - Départ à 21 h</p>
             <x-filament::button
-                href="/front/walker/create"
+                href="/front/walkers/create"
                 tag="a"
                 class="text-center"
             >

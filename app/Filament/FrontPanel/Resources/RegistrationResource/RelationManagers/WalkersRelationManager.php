@@ -2,13 +2,19 @@
 
 namespace App\Filament\FrontPanel\Resources\RegistrationResource\RelationManagers;
 
+use App\Constant\DisplayNameEnum;
 use App\Constant\TshirtEnum;
-use App\Filament\FrontPanel\Resources\WalkerResource;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\HtmlString;
 
 class WalkersRelationManager extends RelationManager
 {
@@ -22,15 +28,15 @@ class WalkersRelationManager extends RelationManager
                 Wizard::make([
                     Wizard\Step::make('Données nécessaires')
                         ->schema(
-                            WalkerResource::fieldsPersonal(),
+                            self::fieldsPersonal(),
                         ),
                     Wizard\Step::make('Contact')
                         ->schema(
-                            WalkerResource::fieldsContact(),
+                            self::fieldsContact(),
                         ),
                     Wizard\Step::make('T-shirt')
                         ->schema(
-                            WalkerResource::fieldsTshirt(),
+                            self::fieldsTshirt(),
                         ),
                 ]),
             ]);
@@ -69,5 +75,74 @@ class WalkersRelationManager extends RelationManager
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function fieldsPersonal(): array
+    {
+        return [
+            TextInput::make('first_name')
+                ->required()
+                ->maxLength(150),
+            TextInput::make('last_name')
+                ->required()
+                ->maxLength(150),
+            TextInput::make('street')
+                ->label('Street address')
+                ->maxLength(150),
+            TextInput::make('city')
+                ->label('City')
+                ->maxLength(150),
+            TextInput::make('country')
+                ->label('Country')
+                ->maxLength(150),
+            DatePicker::make('date_of_birth')
+                ->label('Birthday')
+                ->maxDate(now())
+                ->date(),
+        ];
+    }
+
+    public static function fieldsContact(): array
+    {
+        return [
+            TextInput::make('email')
+                ->label('Email address')
+                ->email()
+                ->maxLength(150)
+                ->autocomplete('email')
+                ->required(),
+            TextInput::make('phone')
+                ->label('Phone number')
+                ->tel(),
+        ];
+    }
+
+    public static function fieldsTshirt(): array
+    {
+        return [
+            Select::make('tshirt')
+                ->options(TshirtEnum::class)
+                ->suffixIcon('heroicon-m-clipboard'),
+        ];
+    }
+
+    public static function fieldsGdpr(): array
+    {
+        return [
+            Select::make('display_name')
+                ->options(DisplayNameEnum::class)
+                ->helperText(
+                    __('messages.display_name.select.help'),
+                ),
+            Checkbox::make('gdpr')
+                ->helperText(__('messages.gdpr.select.help')),
+            Placeholder::make('documentation')
+                ->content(new HtmlString('<a href="/rgpd">filamentphp.com</a>')),
+        ];
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('messages.walker.navigation.title');
     }
 }

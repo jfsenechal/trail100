@@ -15,6 +15,16 @@ class EditRegistration extends EditRecord
 {
     protected static string $resource = RegistrationResource::class;
 
+    public static function canAccess(array $parameters = []): bool
+    {
+        $record = $parameters['record'] ?? null;
+        if ($record instanceof Registration) {
+            return !$record->isFinished();
+        }
+
+        return false;
+    }
+
     public function getTitle(): string|Htmlable
     {
         return __('messages.form.registration.actions.edit.title');
@@ -38,7 +48,7 @@ class EditRegistration extends EditRecord
                             ->send();
                         $this->halt();
                     }
-                    $record->confirmFinished();
+                    $record->setFinished();
                     $record->save();
                     Notification::make()
                         ->success()

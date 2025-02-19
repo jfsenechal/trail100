@@ -4,6 +4,10 @@ namespace App\Filament\FrontPanel\Resources\RegistrationResource\Pages;
 
 use App\Filament\FrontPanel\Resources\RegistrationResource;
 use Filament\Resources\Pages\CreateRecord;
+use Filament\Support\Exceptions\Halt;
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
+use Illuminate\Contracts\View\View;
 
 class CreateRegistration extends CreateRecord
 {
@@ -41,6 +45,38 @@ class CreateRegistration extends CreateRecord
         $this->beginDatabaseTransaction();
         $data = $this->form->getState();
         $data = $this->mutateFormDataBeforeCreate($data);
+        $this->authorizeAccess();
+        $this->beginDatabaseTransaction();
+        $data = $this->form->getState();
+        $data = $this->mutateFormDataBeforeCreate($data);
+
+        foreach ($this->data['walkers'] as $item) {
+            try {
+                //$record = Walker::create($item);
+            } catch (Halt $exception) {
+                dd($exception);
+            }
+        }
+        $this->commitDatabaseTransaction();
+        $this->rememberData();
+
+        $this->getCreatedNotification()?->send();
+        $redirectUrl = $this->getRedirectUrl();
+
+        $this->redirect($redirectUrl, navigate: FilamentView::hasSpaMode() && is_app_url($redirectUrl));
     }
 
 }
+
+FilamentView::registerRenderHook(
+    PanelsRenderHook::CONTENT_START,
+    fn(): View => view('filament.information.impersonation-banner'),
+    scopes: CreateRegistration::class,
+);
+
+FilamentView::registerRenderHook(
+    PanelsRenderHook::CONTENT_END,
+    fn(): View => view('filament.information.impersonation-banner'),
+    scopes: CreateRegistration::class,
+);
+

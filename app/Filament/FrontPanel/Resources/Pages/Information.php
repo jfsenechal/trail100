@@ -22,7 +22,6 @@ class Information extends Page
 
     public function localeLanguage(): void
     {
-        dump(App::getLocale());
         $this->locale = App::getLocale() ?? 'en';
     }
 

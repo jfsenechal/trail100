@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Constant\TshirtEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,6 +24,7 @@ class WalkerFactory extends Factory
             'phone' => fake()->phoneNumber(),
             'city' => fake()->city(),
             'country' => fake()->country(),
+            'tshirt_size' => TshirtEnum::M->value,
         ];
     }
 }

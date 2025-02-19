@@ -75,3 +75,5 @@ class RegistrationResource extends Resource
         ];
     }
 }
+
+//todo https://filamentphp.com/docs/3.x/panels/getting-started#casting-the-price-to-an-integer

@@ -9,53 +9,53 @@
         LOCALE = {{$locale}} de app {{ app()->getLocale()}}
 
         <div class="text-center">
-            <h2 class="text-2xl secondary text-center my-4">Vous invitent</h2>
+            <h2 class="text-2xl secondary text-center my-4">Sie einladen</h2>
 
             <h3 class="text-2xl font-semibold primary text-center mt-6"> au 100 KM – FAMENNE – ARDENNE</h3>
 
-            <p class="text-lg text-center font-bold">Le vendredi 29 août 2025 - Départ à 21h</p>
+            <p class="text-lg text-center font-bold">Freitag, den 29. August 2025 - Abfahrt um 21 Uhr</p>
             <x-filament::button
                 href="/front/walkers/create"
                 tag="a"
                 class="text-center"
             >
-                Je m'inscris au 100km
+                Ich melde mich für die 100km an
             </x-filament::button>
         </div>
 
 
-        <h3 class="text-2xl font-semibold primary mt-6"> et aux autres parcours</h3>
-        <p class="text-lg ">Le samedi 30 août 2025</p>
+        <h3 class="text-2xl font-semibold primary mt-6">und zu den andere Wege</h3>
+        <p class="text-lg ">Am Samstag, den 30. August 2025</p>
 
         <table class="w-full border-collapse mt-6 max-w-xl">
             <thead>
             <tr class="bg-green-600 text-white">
-                <th class="p-2">Distance</th>
-                <th class="p-2">Horaire</th>
+                <th class="p-2">Entfernung</th>
+                <th class="p-2">Zeitplan</th>
             </tr>
             </thead>
             <tbody>
             <tr class="border-b">
                 <td class="p-2">50 km</td>
-                <td class="p-2">6h-8h</td>
+                <td class="p-2">6h-8uhr</td>
             </tr>
             <tr class="border-b">
                 <td class="p-2">37 km</td>
-                <td class="p-2">6h-10h</td>
+                <td class="p-2">6h-10uhr</td>
             </tr>
             <tr class="border-b">
                 <td class="p-2">21 km</td>
-                <td class="p-2">6h-12h</td>
+                <td class="p-2">6h-12uhr</td>
             </tr>
             <tr>
                 <td class="p-2">6-14 km</td>
-                <td class="p-2">6h-15h</td>
+                <td class="p-2">6h-15uhr</td>
             </tr>
             </tbody>
         </table>
 
-        <h3 class="text-2xl font-semibold secondary mt-6">DÉPART</h3>
-        <p class="font-semibold">Le Vendredi 29 août 2025 à 21h</p>
+        <h3 class="text-2xl font-semibold secondary mt-6">START</h3>
+        <p class="font-semibold">uur - Freitag 29 août um 21h</p>
         <p class="font-semibold">Institut Ste Julie</p>
         <p>
             <a href="https://maps.app.goo.gl/NunW5AvTdTgLcK1b7" target="_blank">
@@ -63,31 +63,31 @@
             </a>
         </p>
 
-        <h3 class="text-2xl font-semibold secondary mt-6">INSCRIPTION</h3>
-        <p>Avant le 1 août 2025 : <span class="font-semibold">45 €</span></p>
-        <p>Après le 1 août 2025 : <span class="font-semibold">50 €</span> / Sans T-shirt</p>
-        <p class="mt-2">Ce prix comprend : tee-shirt, petit déjeuner à mi-parcours et ravitaillement.</p>
+        <h3 class="text-2xl font-semibold secondary mt-6">ANMELDUNG</h3>
+        <p>Anmeldung vor dem 1. August 2025 : <span class="font-semibold">45 €</span></p>
+        <p>Anmeldung nach dem 1. August 2025 : <span class="font-semibold">50 €</span> / Ohne T-shirt</p>
+        <p class="mt-2">Dieser Preis beinhaltet: T-Shirt, Frühstück auf halber Strecke und Verpflegung.</p>
 
-        <h3 class="text-2xl font-semibold secondary mt-6">IMPORTANT</h3>
+        <h3 class="text-2xl font-semibold secondary mt-6">WICHTIG</h3>
         <ul class="list-disc pl-6 mt-2">
-            <li>L’âge minimum est de 16 ans.</li>
-            <li>Une veste fluorescente et une lampe frontale sont obligatoires.</li>
-            <li>Le transport des bagages est à mi-parcours.</li>
-            <li>Les 100 km doivent être parcourus en maximum 24 h.</li>
-            <li>Les ravitaillements sont fournis par l’organisateur.</li>
-            <li>La marche aura lieu même si les conditions climatiques sont défavorables.</li>
-            <li>L’inscription à la marche vaut un certificat de bonne santé.</li>
+            <li>Das Mindestalter ist 16 Jahre.</li>
+            <li>Eine fluoreszierende Jacke und eine Stirnlampe sind Pflicht.</li>
+            <li>Der Gepäcktransport ist auf halbem Weg.</li>
+            <li>Die 100 km müssen in maximal 24 Stunden zurückgelegt werden.</li>
+            <li>Die Verpflegungsstände werden vom Organisator bereitgestellt.</li>
+            <li>Die Wanderung findet auch bei ungünstigen Wetterbedingungen statt.</li>
+            <li>Die Anmeldung zur Wanderung ist gleichbedeutend mit einem Gesundheitszeugnis.</li>
         </ul>
 
         <h3 class="text-2xl font-semibold secondary mt-6">SECRETARIAT</h3>
         <ul class="list-disc pl-6 mt-2">
-            <li>Le secrétariat est ouvert le vendredi 29 août 2025 à partir de 17h30.</li>
-            <li>La permanence de la FFBMP et IVV le samedi 30 août 2025 de 9 h à 21 h.</li>
+            <li>Das Sekretariat ist am Freitag, den 29. August 2025, ab 17.30 Uhr geöffnet.</li>
+            <li>Die Sprechstunde von FFBMP und IVV am Samstag, den 30. August 2025, von 9.00 bis 21.00 Uhr.</li>
         </ul>
 
-        <h3 class="text-2xl font-semibold secondary mt-6">RENSEIGNEMENTS</h3>
-        <p>DEGEYE Philippe – <a href="mailto:degeye.philippe@gmail.com" class="text-green-600 underline">degeye.philippe@gmail.com</a>
-            – +32 476 545 951</p>
+        <h3 class="text-2xl font-semibold secondary mt-6">AUSKUNFT</h3>
+        <p>KRINS Jean-François – <a href="mailto:jfkrins@yahoo.fr" class="text-green-600 underline">jfkrins@yahoo.fr</a>
+            – +32 497 500 037</p>
 
         <div class="my-6">
             <a href="https://marcheursdelafamenne.marche.be" target="_blank"

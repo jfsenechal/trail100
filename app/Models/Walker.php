@@ -39,4 +39,11 @@ class Walker extends Model
     {
         return $this->belongsTo(Registration::class);
     }
+    public function amount(): float
+    {
+        if($this->tshirt_size != TshirtEnum::NO->value){
+            return 50;
+        }
+        return 45;
+    }
 }

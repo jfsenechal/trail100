@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Invoice\Invoice;
+use App\Invoice\QrCode\QrCodeGenerator;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -15,7 +17,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton('qrCodeGenerator', function ($app) {
+            return new QrCodeGenerator();
+        });
+        $this->app->singleton('invoice', function ($app) {
+            return new Invoice();
+        });
     }
 
     /**
@@ -37,5 +44,25 @@ class AppServiceProvider extends ServiceProvider
                 ->columns()
                 ->compact();
         });
+    }
+
+    /**
+     * Setup the configuration for Invoices.
+     *
+     * @return void
+     */
+    protected function configure(): void
+    {
+        $this->mergeConfigFrom(__DIR__ . '/../../config/invoices.php', 'invoices');
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides(): array
+    {
+        return ['qrCodeGenerator'];
     }
 }

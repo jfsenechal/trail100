@@ -1,5 +1,4 @@
 <x-filament-panels::page>
-
     <div class="mx-5 bg-white shadow-lg rounded-lg p-4">
         <div class="flex flex-row items-center justify-center">
             <img src="/images/logoMarcheur.jpg" alt="logo marcheur" class="w-56 ml-8">
@@ -13,14 +12,13 @@
 
             <p class="text-lg text-center font-bold">Vrijdag 29 augustus 2025 - Vertrek om 21 uur</p>
             <x-filament::button
-                href="/front/walkers/create"
+                href="{{$this->getUrlCreate()}}"
                 tag="a"
                 class="text-center"
             >
                 Ik schrijf me in voor de 100km
             </x-filament::button>
         </div>
-
 
         <h3 class="text-2xl font-semibold primary mt-6">en naar de andere routes</h3>
         <p class="text-lg ">Zaterdag 30 augustus 2025</p>
@@ -56,7 +54,7 @@
         <p class="font-semibold">Vrijdag 29 augustus 2025 om 21uur</p>
         <p class="font-semibold">Institut Ste Julie</p>
         <p>
-            <a href="https://maps.app.goo.gl/NunW5AvTdTgLcK1b7" target="_blank">
+            <a href="https://maps.app.goo.gl/NunW5AvTdTgLcK1b7" target="_blank" class="underline">
                 Rue de Nérette 2, 6900 – MARCHE-en-FAMENNE
             </a>
         </p>

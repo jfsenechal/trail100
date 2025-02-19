@@ -2,6 +2,7 @@
 
 namespace App\Filament\FrontPanel\Resources\Pages;
 
+use App\Filament\FrontPanel\Resources\RegistrationResource;
 use Filament\Pages\Page;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\App;
@@ -28,6 +29,11 @@ class Information extends Page
     public function getLayout(): string
     {
         return static::$layout ?? 'filament-panels::components.layout.index';
+    }
+
+    public function getUrlCreate(): string
+    {
+        return RegistrationResource::getUrl('create');
     }
 
     public function getView(): string

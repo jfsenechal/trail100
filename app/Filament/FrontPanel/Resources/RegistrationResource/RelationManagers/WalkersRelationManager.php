@@ -24,6 +24,8 @@ class WalkersRelationManager extends RelationManager
     {
         return $form
             ->columns(1)
+            ->live()
+            ->reactive()
             ->schema([
                 Wizard::make([
                     Wizard\Step::make('Données nécessaires')
@@ -86,6 +88,21 @@ class WalkersRelationManager extends RelationManager
             TextInput::make('last_name')
                 ->required()
                 ->maxLength(150),
+            TextInput::make('email')
+                ->label('Email address')
+                ->email()
+                ->maxLength(150)
+                ->autocomplete('email')
+                ->required(),
+        ];
+    }
+
+    public static function fieldsContact(): array
+    {
+        return [
+            TextInput::make('phone')
+                ->label('Phone number')
+                ->tel(),
             TextInput::make('street')
                 ->label('Street address')
                 ->maxLength(150),
@@ -99,21 +116,6 @@ class WalkersRelationManager extends RelationManager
                 ->label('Birthday')
                 ->maxDate(now())
                 ->date(),
-        ];
-    }
-
-    public static function fieldsContact(): array
-    {
-        return [
-            TextInput::make('email')
-                ->label('Email address')
-                ->email()
-                ->maxLength(150)
-                ->autocomplete('email')
-                ->required(),
-            TextInput::make('phone')
-                ->label('Phone number')
-                ->tel(),
         ];
     }
 

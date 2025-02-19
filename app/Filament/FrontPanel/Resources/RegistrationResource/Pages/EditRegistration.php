@@ -5,6 +5,7 @@ namespace App\Filament\FrontPanel\Resources\RegistrationResource\Pages;
 use App\Filament\FrontPanel\Resources\RegistrationResource;
 use App\Models\Registration;
 use Filament\Actions;
+use Filament\Forms\Components\Livewire;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
@@ -39,8 +40,21 @@ class EditRegistration extends EditRecord
     {
         return [
             Actions\Action::make('finish')
+                ->disabled(fn(Registration $record) => $record->walkers->count() === 0)
+                ->label(
+                    fn(Registration $record) => $record->walkers->count(
+                    ) === 0 ? 'Must be at least 1 walker to complete' : 'I finished',
+                )
+                ->modalSubmitAction()
+                ->requiresConfirmation()
+                ->modalIcon('heroicon-o-check')
+                ->color('success')
+                ->modalIconColor('warning')
+                ->modalHeading(__('messages.form.registration.actions.finish.title'))
+                ->modalDescription(__('messages.form.registration.actions.finish.description'))
+                ->modalSubmitActionLabel(__('messages.form.registration.actions.finish.label'))
                 ->action(function (Registration $record, array $data): void {
-                    if ($this->record->walkers->count() < 1) {
+                    if ($record->walkers->count() < 1) {
                         Notification::make()
                             ->danger()
                             ->title('Unable to finish')
@@ -60,23 +74,7 @@ class EditRegistration extends EditRecord
                     $redirectUrl = $this->getRedirectUrl();
 
                     $this->redirect($redirectUrl, navigate: FilamentView::hasSpaMode() && is_app_url($redirectUrl));
-                })
-                ->disabled($this->record->walkers->count() < 1)
-                ->label(
-                    fn() => $this->record->walkers->count(
-                    ) < 1 ? 'Must be at least 1 walker to complete' : 'I finished',
-                )
-                ->modalSubmitAction()
-                ->requiresConfirmation()
-                ->modalIcon('heroicon-o-check')
-                ->color('success')
-                ->modalIconColor('warning')
-                ->modalHeading(__('messages.form.registration.actions.finish.title'))
-                ->modalDescription(__('messages.form.registration.actions.finish.description'))
-                ->modalSubmitActionLabel(__('messages.form.registration.actions.finish.label'))
-            //   ->modalContent(view(__('messages.form.registration.actions.finish.title')))
-            // ->requiresConfirmation(fn() => $this->record->walkers->count() > 1)
-            ,
+                }),
         ];
     }
 
@@ -97,8 +95,8 @@ class EditRegistration extends EditRecord
     {
         $resource = static::getResource();
 
-        if ($resource::hasPage('view') && $resource::canView($this->getRecord())) {
-            return $resource::getUrl('view', ['record' => $this->getRecord(), ...$this->getRedirectUrlParameters()]);
+        if ($resource::hasPage('complete') && $resource::canView($this->getRecord())) {
+            return $resource::getUrl('complete', ['record' => $this->getRecord()]);
         }
 
         return null;

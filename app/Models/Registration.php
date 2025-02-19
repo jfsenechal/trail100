@@ -43,6 +43,15 @@ class Registration extends Model
        return $this->finished;
     }
 
+    public function totalAmount(): float
+    {
+        $amount = 0;
+        foreach ($this->walkers()->get() as $walker) {
+            $amount += $walker->amount();
+        }
+        return $amount;
+    }
+
     public function runnersPaid(): array
     {
         return $this->all()

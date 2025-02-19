@@ -1,12 +1,9 @@
 <x-filament-panels::page>
-
     <div class="mx-5 bg-white shadow-lg rounded-lg p-4">
         <div class="flex flex-row items-center justify-center">
             <img src="/images/logoMarcheur.jpg" alt="logo marcheur" class="w-56 ml-8">
             <h1 class="text-3xl font-bold primary text-center">Les Marcheurs de la Famenne</h1>
         </div>
-
-        LOCALE = {{$locale}} de app {{ app()->getLocale()}}
 
         <div class="text-center">
             <h2 class="text-2xl secondary text-center my-4">Vous invitent</h2>
@@ -15,14 +12,13 @@
 
             <p class="text-lg text-center font-bold">Le vendredi 29 août 2025 - Départ à 21h</p>
             <x-filament::button
-                href="/front/walkers/create"
+                href="{{$this->getUrlCreate()}}"
                 tag="a"
                 class="text-center"
             >
                 Je m'inscris au 100km
             </x-filament::button>
         </div>
-
 
         <h3 class="text-2xl font-semibold primary mt-6"> et aux autres parcours</h3>
         <p class="text-lg ">Le samedi 30 août 2025</p>
@@ -58,7 +54,7 @@
         <p class="font-semibold">Le Vendredi 29 août 2025 à 21h</p>
         <p class="font-semibold">Institut Ste Julie</p>
         <p>
-            <a href="https://maps.app.goo.gl/NunW5AvTdTgLcK1b7" target="_blank">
+            <a href="https://maps.app.goo.gl/NunW5AvTdTgLcK1b7" target="_blank" class="underline">
                 Rue de Nérette 2, 6900 – MARCHE-en-FAMENNE
             </a>
         </p>

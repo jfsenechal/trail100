@@ -6,6 +6,12 @@
         <a href="{{route('information',['locale'=>'fr'])}}">information fr</a>
     </p>
     <p>
+        <a href="{{route('information',['locale'=>'nl'])}}">information nl</a>
+    </p>
+    <p>
         <a href="{{route('information',['locale'=>'en'])}}">information en</a>
+    </p>
+    <p>
+        <a href="{{route('information',['locale'=>'de'])}}">information de</a>
     </p>
 </x-filament-panels::page>

@@ -10,8 +10,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RegistrationResource extends Resource
 {
@@ -70,8 +68,8 @@ class RegistrationResource extends Resource
         return [
             'index' => Pages\ListRegistrations::route('/'),
             'create' => Pages\CreateRegistration::route('/create'),
-            'view' => Pages\ViewRegistration::route('/{record}'),
             'edit' => Pages\EditRegistration::route('/{record}/edit'),
+            'complete' => Pages\RegistrationComplete::route('/{record}/complete'),
         ];
     }
 }

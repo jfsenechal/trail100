@@ -27,4 +27,9 @@ return [
     'display_name.first_name.label' => 'Only first name',
     'display_name.full_name.label' => 'First and last name',
     'filament.pages.home.register' => 'Register to 100km',
+    'form.registration.actions.edit.title' => '100km registration',
+    'form.registration.actions.edit.subheading' => 'Add one or more walkers, then confirm.',
+    'form.registration.actions.finish.title' => 'Confirm registration',
+    'form.registration.actions.finish.label' => 'Yes I finished',
+    'form.registration.actions.finish.description' => 'The amount to be paid for your registration will be generated',
 ];

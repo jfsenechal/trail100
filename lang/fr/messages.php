@@ -8,7 +8,7 @@ return [
     'register.form.last_name.label' => 'Nom',
     'walker.navigation.title' => 'Inscriptions',
     'form.walker.btn.add.label' => 'Ajouter un marcheur',
-    'form.walker.actions.create.heading'=>'Ajouté un ou plusieurs participants, puis confirmé',
+    'form.walker.actions.create.heading'=>'Ajoutez un ou plusieurs participants, puis confirmez',
     'form.walker.actions.create.subheading'=>'Sous entete',
     'form.walker.actions.create.title'=>'Ajout des marcheurs',
     'form.walker.section.personal' => 'Personal information',
@@ -27,4 +27,9 @@ return [
     'display_name.first_name.label' => 'Uniquement le prénom',
     'display_name.full_name.label' => 'Nom et prénom',
     'filament.pages.home.register' => 'Register to 100km',
+    'form.registration.actions.edit.title'=> 'Inscription au 100km',
+    'form.registration.actions.edit.subheading' => 'Ajoutez un ou plusieurs marcheurs, puis confirmez.',
+    'form.registration.actions.finish.title' => 'Confirm registration',
+    'form.registration.actions.finish.label' => 'Yes I finished',
+    'form.registration.actions.finish.description' => 'Le montant à payer de votre inscription va être généré',
 ];

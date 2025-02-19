@@ -2,7 +2,9 @@
 
 namespace App\Filament\FrontPanel\Resources\RegistrationResource\RelationManagers;
 
-use Filament\Forms;
+use App\Constant\TshirtEnum;
+use App\Filament\FrontPanel\Resources\WalkerResource;
+use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
@@ -15,19 +17,22 @@ class WalkersRelationManager extends RelationManager
     public function form(Form $form): Form
     {
         return $form
+            ->columns(1)
             ->schema([
-                Forms\Components\TextInput::make('first_name')
-                    ->autocomplete(false)
-                    ->maxLength(150),
-                Forms\Components\TextInput::make('last_name')
-                    ->autocomplete(false)
-                    ->maxLength(150),
-                Forms\Components\TextInput::make('email')
-                    ->label('Email')
-                    ->email()
-                    ->prefixIcon('heroicon-m-at-symbol')
-                    ->autocomplete(false)
-                    ->maxLength(150),
+                Wizard::make([
+                    Wizard\Step::make('Données nécessaires')
+                        ->schema(
+                            WalkerResource::fieldsPersonal(),
+                        ),
+                    Wizard\Step::make('Contact')
+                        ->schema(
+                            WalkerResource::fieldsContact(),
+                        ),
+                    Wizard\Step::make('T-shirt')
+                        ->schema(
+                            WalkerResource::fieldsTshirt(),
+                        ),
+                ]),
             ]);
     }
 
@@ -39,16 +44,23 @@ class WalkersRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('first_name'),
                 Tables\Columns\TextColumn::make('last_name'),
                 Tables\Columns\TextColumn::make('city'),
+                Tables\Columns\TextColumn::make('email')
+                    ->icon('heroicon-m-envelope'),
+                Tables\Columns\TextColumn::make('tshirt_size')
+                    ->badge()->size('xxl')
+                    ->color(fn(TshirtEnum $state): string => $state->getColor())
+                    ->icon(fn(TshirtEnum $state): string => $state->getIcon()),
                 Tables\Columns\TextColumn::make('email'),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->createAnother(false),
             ])
             ->actions([
-            Tables\Actions\ViewAction::make(),
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])

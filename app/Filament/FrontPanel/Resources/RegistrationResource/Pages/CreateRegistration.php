@@ -3,7 +3,6 @@
 namespace App\Filament\FrontPanel\Resources\RegistrationResource\Pages;
 
 use App\Filament\FrontPanel\Resources\RegistrationResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateRegistration extends CreateRecord
@@ -26,6 +25,16 @@ class CreateRegistration extends CreateRecord
         return $resource::getUrl('index');
     }
 
+    public function getHeading(): string
+    {
+        return __('messages.form.walker.actions.create.heading');
+    }
+
+    public function getSubheading(): string
+    {
+        return __('messages.form.walker.actions.create.subheading');
+    }
+
     public function create22(bool $another = false): void
     {
         $this->authorizeAccess();
@@ -33,4 +42,5 @@ class CreateRegistration extends CreateRecord
         $data = $this->form->getState();
         $data = $this->mutateFormDataBeforeCreate($data);
     }
+
 }

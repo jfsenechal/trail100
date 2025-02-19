@@ -33,6 +33,11 @@ class Registration extends Model
         return (bool)$this->paid;
     }
 
+    public function confirmFinished(): void
+    {
+        $this->finished = true;
+    }
+
     public function runnersPaid(): array
     {
         return $this->all()

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Constant\TshirtEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,7 +31,7 @@ class Walker extends Model
     protected function casts(): array
     {
         return [
-
+            'tshirt_size' => TshirtEnum::class,
         ];
     }
 

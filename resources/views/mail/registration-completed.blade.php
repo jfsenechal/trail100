@@ -1,14 +1,27 @@
 <x-mail::message>
-# Welcome Jf
+# Welcome {{$registration->email}}
 
-## Etapes pour votre enregistrement au {{ config('app.name') }}
+##{{ config('app.name') }}
 
-- Ajouter d'autres participants
-- Payer votre participation
+## Votre inscription sera validée après paiement
 
+<x-mail::table>
+| Name          | T-shirt       | Price         |
+| ------------- | :-----------: | ------------: |
+@foreach($registration->walkers as $item)
+| {{$item->name()}} | {{$item->tshirt_size}} | {{$item->amount()}} |
+@endforeach
+</x-mail::table>
 ---
-## Informations de connection
-Utilisez le bouton ci dessous.
+## Informations de paiements
+
+@if(isset($logo))
+![Image](cid:image.png)
+<img src="{{$message->embed($logo)}}" alt="logo" height="100">
+@else
+    <p>Image not found.</p>
+@endif
+
 <x-mail::button :url="$url" color="success">
     {{$textbtn}}
 </x-mail::button>

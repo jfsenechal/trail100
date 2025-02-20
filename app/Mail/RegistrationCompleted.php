@@ -2,9 +2,12 @@
 
 namespace App\Mail;
 
+use App\Invoice\Facades\Invoice;
+use App\Models\Registration;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -13,7 +16,7 @@ class RegistrationCompleted extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct() {}
+    public function __construct(public readonly Registration $registration) {}
 
     /**
      * Get the message envelope.
@@ -21,8 +24,8 @@ class RegistrationCompleted extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('jf@marche.be', config('APP_NAME')),
-            subject: 'Registration completed',
+            from: new Address(config('mail.from.address'), config('APP_NAME')),
+            subject: __('messages.email.registration.confirm.subject'),
         );
     }
 
@@ -32,25 +35,35 @@ class RegistrationCompleted extends Mailable
     public function content(): Content
     {
         $url = config('app.url');
-
-        //CustomerResource::getUrl('create');
+        $logo = null;
+        $path = public_path('images/logoMarcheur.jpg');
+        if (file_exists($path)) {
+            $logo = $path;
+        }
         return new Content(
             markdown: 'mail.registration-completed',
             with: [
                 'textbtn' => __('messages.btn.access_platform.label'),
                 'url' => $url,
+                'logo' => $logo,
             ],
-        //    text: 'mail.orders.shipped-text',
         );
     }
 
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
     public function attachments(): array
     {
+        $fileName = 'invoice-4_AA_00001.pdf';
+        $filePath = storage_path('data/invoices/invoice-4_AA_00001.pdf');
+
+        if (file_exists($filePath)) {
+            return [
+                Attachment::fromStorageDisk('invoices', $fileName)
+                    ->as('name.pdf')
+                    ->withMime('application/pdf'),
+            ];
+        }
+
         return [];
     }
+
 }

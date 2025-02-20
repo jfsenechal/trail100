@@ -5,9 +5,8 @@ namespace App\Listeners;
 use App\Events\RegistrationProcessed;
 use App\Invoice\Invoice;
 use App\Mail\RegistrationCompleted;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
+use Symfony\Component\Mime\Address;
 
 class SendRegistrationNotification
 {
@@ -30,7 +29,6 @@ class SendRegistrationNotification
         $registration = $event->registration();
 
         Invoice::downloadPdf();
-        Mail::to('jf@marche.be')->send(new RegistrationCompleted());
-
+        Mail::to(new Address('jf@marche.be', $registration->email))->send(new RegistrationCompleted($registration));
     }
 }

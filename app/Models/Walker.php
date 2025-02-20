@@ -6,6 +6,7 @@ use App\Constant\TshirtEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 
 class Walker extends Model
 {
@@ -39,11 +40,18 @@ class Walker extends Model
     {
         return $this->belongsTo(Registration::class);
     }
+
+    public function name(): string
+    {
+        return $this->first_name.' '.Str::upper($this->last_name);
+    }
+
     public function amount(): float
     {
-        if($this->tshirt_size != TshirtEnum::NO->value){
+        if ($this->tshirt_size != TshirtEnum::NO->value) {
             return 50;
         }
+
         return 45;
     }
 }

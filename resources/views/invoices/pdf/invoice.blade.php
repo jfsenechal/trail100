@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- https://github.com/LaravelDaily/laravel-invoices/blob/master/resources/views/templates/default.blade.php -->
     <title>{{ $invoice->name }}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
@@ -138,12 +137,9 @@
         }
     </style>
 </head>
-
 <body>
 {{-- Header --}}
-<img src="/images/logoMarcheur.jpg" alt="logo" height="100">
-
-
+<img src="{{asset('images/logoMarcheur.jpg')}}" alt="logo" height="100">
 <table class="table mt-5">
     <tbody>
     <tr>
@@ -311,17 +307,5 @@
 <p>
     {{ __('invoices::invoice.pay_until') }}: {{ $invoice->getPayUntilDate() }}
 </p>
-
-<script type="text/php">
-    if (isset($pdf) && $PAGE_COUNT > 1) {
-        $text = "{{ __('invoices::invoice.page') }} {PAGE_NUM} / {PAGE_COUNT}";
-                $size = 10;
-                $font = $fontMetrics->getFont("Verdana");
-                $width = $fontMetrics->get_text_width($text, $font, $size) / 2;
-                $x = ($pdf->get_width() - $width);
-                $y = $pdf->get_height() - 35;
-                $pdf->page_text($x, $y, $text, $font, $size);
-            }
-</script>
 </body>
 </html>

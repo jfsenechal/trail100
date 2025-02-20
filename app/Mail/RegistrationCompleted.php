@@ -2,7 +2,6 @@
 
 namespace App\Mail;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
@@ -14,13 +13,7 @@ class RegistrationCompleted extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     */
-    public function __construct(
-        public User $user,
-        public string $token,
-    ) {}
+    public function __construct() {}
 
     /**
      * Get the message envelope.
@@ -38,13 +31,12 @@ class RegistrationCompleted extends Mailable
      */
     public function content(): Content
     {
-        $url = route('protected.route', ['token' => $this->token]);
+        $url = config('app.url');
 
         //CustomerResource::getUrl('create');
         return new Content(
             markdown: 'mail.registration-completed',
             with: [
-                'user' => $this->user,
                 'textbtn' => __('messages.btn.access_platform.label'),
                 'url' => $url,
             ],

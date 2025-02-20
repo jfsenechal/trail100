@@ -1,5 +1,5 @@
 <x-mail::message>
-# Welcome {{$user->first_name}} {{$user->last_name}}
+# Welcome Jf
 
 ## Etapes pour votre enregistrement au {{ config('app.name') }}
 
@@ -13,13 +13,7 @@ Utilisez le bouton ci dessous.
     {{$textbtn}}
 </x-mail::button>
 <x-mail::panel>
-@if ($user->plainPassword)
-    Ou connectez vous avec le compte suivant:
-
-    Login: {{$user->email}}
-
-    Password: {{$user->plainPassword}}
-@endif
+    <p>coucou</p>
 </x-mail::panel>
 [Site web des Marcheurs de la Famenne](https://marcheursdelafamenne.marche.be/)
 <x-mail::subcopy>

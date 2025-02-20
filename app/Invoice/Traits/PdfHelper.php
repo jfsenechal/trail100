@@ -96,7 +96,7 @@ trait PdfHelper
 
     public static function downloadPdf(): BinaryFileResponse
     {
-        $filePath = storage_path(self::downloadUrl());
+        $filePath = storage_path('data/invoices/invoice-4_AA_00001.pdf');
 
         if (!file_exists($filePath)) {
             abort(404, 'File not found.');

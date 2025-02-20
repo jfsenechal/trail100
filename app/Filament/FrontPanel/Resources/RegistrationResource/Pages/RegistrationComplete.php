@@ -4,10 +4,12 @@ namespace App\Filament\FrontPanel\Resources\RegistrationResource\Pages;
 
 use App\Filament\FrontPanel\Resources\RegistrationResource;
 use App\Invoice\Invoice;
+use App\Mail\RegistrationCompleted;
 use App\Models\Registration;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\Page;
+use Illuminate\Support\Facades\Mail;
 
 class RegistrationComplete extends Page
 {
@@ -23,6 +25,7 @@ class RegistrationComplete extends Page
          * @var Registration $this->record
          */
         $this->record = $this->resolveRecord($record);
+        Mail::to('jf@marche.be')->send(new RegistrationCompleted());
     }
 
     protected function getHeaderActions(): array
@@ -32,7 +35,7 @@ class RegistrationComplete extends Page
                 ->label('Download invoice (pdf)')
                 ->icon('tabler-file-type-pdf')
                 ->action(function (Registration $record) {
-                    return Invoice::generatePdfAndSaveIt($record);
+                    return Invoice::downloadPdf();
                 }),
         ];
     }

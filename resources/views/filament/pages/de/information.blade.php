@@ -1,7 +1,7 @@
 <x-filament-panels::page>
     <div class="mx-5 bg-white shadow-lg rounded-lg p-4">
         <div class="flex flex-row items-center justify-center">
-            <img src="/images/logoMarcheur.jpg" alt="logo marcheur" class="w-56 ml-8">
+            <img src="{{asset('images/logoMarcheur.jpg'}}" alt="logo marcheur" class="w-56 ml-8">
             <h1 class="text-3xl font-bold primary text-center">Les Marcheurs de la Famenne</h1>
         </div>
 
@@ -90,22 +90,7 @@
                class="text-green-600 underline font-semibold">https://marcheursdelafamenne.marche.be</a>
         </div>
 
-        <div class="grid grid-cols-2 items-center justify-center gap-2 mt-2">
-            <a href="https://www.marche.be" target="_blank">
-                <img src="/images/LogoMarche.png" alt="logo marcheur" class="w-32">
-            </a>
-            <a href="https://www.ethias.be" target="_blank">
-                <img src="/images/ethias.jpg" alt="logo ethias" class="w-32">
-            </a>
-            <a href="https://www.marche.be" target="_blank">
-                <img src="/images/Amitie-marche.jpg" alt="logo amitie marcheur" class="w-32">
-            </a>
-            <a href="https://www.marche.be" target="_blank">
-                <img src="/images/Logorouge.png" alt="" class="w-32">
-            </a>
-        </div>
-
-        <p class="text-sm text-center mt-4 font-semibold">N° d’agréation: 04/25/01PW</p>
+        @include('filament.pages.parts._logos')
     </div>
 
 </x-filament-panels::page>

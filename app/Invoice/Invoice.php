@@ -14,6 +14,7 @@ use Barryvdh\DomPDF\Pdf;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Response;
+//use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\View;
 
@@ -32,7 +33,7 @@ class Invoice
 
     public string $name;
 
-    public string $logo;
+    public ?string $logo;
 
     public Seller $seller;
 
@@ -59,6 +60,9 @@ class Invoice
 
     public array $paperOptions;
 
+    /**
+     * @see \Dompdf\Options
+     */
     public array $options;
 
     public ?string $notes = null;
@@ -75,7 +79,7 @@ class Invoice
         // Invoice
         $this->name = $name ?: __('invoices::invoice.invoice');
         $this->items = Collection::make([]);
-        $this->template = 'default';
+        $this->template = 'invoice';
 
         // Date
         $this->date = Carbon::now();
@@ -105,9 +109,12 @@ class Invoice
         $this->paperOptions = config('invoices.paper');
 
         // DomPDF options
+        /**
+         * @see \Dompdf\Options
+         */
         $this->options = array_merge(
             app('dompdf.options'),
-            config('invoices.dompdf_options') ?? ['enable_php' => true],
+            config('invoices.dompdf_options') ?? ['enable_php' => true, 'enable_remote' => true],
         );
 
         $this->disk = config('invoices.disk');
@@ -133,15 +140,18 @@ class Invoice
     {
         $this->beforeRender();
 
-        $template = sprintf('invoices::templates.%s', $this->template);
-        $view = View::make('filament.pdf.invoice', ['invoice' => $this]);
-        $html = mb_convert_encoding($view, 'HTML-ENTITIES', 'UTF-8');
+        $template = sprintf('invoices::pdf.%s', $this->template);
+        $view = View::make($template, ['invoice' => $this]);
+        //$html = mb_convert_encoding($view->render(), 'HTML-ENTITIES', 'UTF-8');
+        $html = $view->render();
+
         try {
-            $this->pdf = PdfFacade::setOptions($this->options)
+            $this->options['isPhpEnabled'] = true;
+            $this->options['isRemoteEnabled'] = true;
+            $this->pdf = PdfFacade::setOptions($this->options, true)
                 ->setPaper($this->paperOptions['size'], $this->paperOptions['orientation'])
-                ->loadHtml($view->render());
-        }
-        catch (Exception $exception) {
+                ->loadHtml($html, 'UTF-8');
+        } catch (Exception $exception) {
             dd($exception->getMessage());
         }
 
@@ -152,7 +162,7 @@ class Invoice
 
     public function toHtml()
     {
-        $template = sprintf('invoices::templates.%s', $this->template);
+        $template = sprintf('invoices::pdf.%s', $this->template);
 
         return View::make($template, ['invoice' => $this]);
     }
@@ -170,10 +180,28 @@ class Invoice
         ]);
     }
 
+    public function download(): Response
+    {
+        return \Illuminate\Support\Facades\Response::make($this->loadView()->stream('raport.pdf'), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="report.pdf"',
+        ]);
+    }
+
+    public function loadView(): PDF
+    {
+        $this->beforeRender();
+        $template = sprintf('invoices::pdf.%s', $this->template);
+
+        return PdfFacade::setOptions($this->options, true)
+            ->setPaper($this->paperOptions['size'], $this->paperOptions['orientation'])
+            ->loadView($template, ['invoice' => $this]);
+    }
+
     /**
      * @throws Exception
      */
-    public function download(): Response
+    public function downloadBroke(): Response
     {
         $this->render();
 

@@ -30,6 +30,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views/invoices', 'invoices');
+        $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'invoices');
+
         TextInput::configureUsing(function (TextInput $config) {
             $config->inlineLabel();
         });

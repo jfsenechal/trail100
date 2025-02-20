@@ -32,7 +32,7 @@ trait InvoiceHelpers
         return $this;
     }
 
-    public function logo(string $logo): static
+    public function logo(?string $logo): static
     {
         $this->logo = $logo;
 

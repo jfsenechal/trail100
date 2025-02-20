@@ -139,7 +139,12 @@
 </head>
 <body>
 {{-- Header --}}
-<img src="{{asset('images/logoMarcheur.jpg')}}" alt="logo" height="100">
+@if(isset($invoice->logo))
+    <img src="{{$invoice->logo}}" alt="logo" height="100">
+@else
+    <p>Image not found.</p>
+@endif
+
 <table class="table mt-5">
     <tbody>
     <tr>

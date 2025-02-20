@@ -2,10 +2,10 @@
 
 namespace App\Filament\FrontPanel\Resources\RegistrationResource\Pages;
 
+use App\Events\RegistrationProcessed;
 use App\Filament\FrontPanel\Resources\RegistrationResource;
 use App\Models\Registration;
 use Filament\Actions;
-use Filament\Forms\Components\Livewire;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
@@ -64,6 +64,9 @@ class EditRegistration extends EditRecord
                     }
                     $record->setFinished();
                     $record->save();
+
+                    RegistrationProcessed::dispatch($record);
+
                     Notification::make()
                         ->success()
                         ->title('Finish')
@@ -80,14 +83,16 @@ class EditRegistration extends EditRecord
 
     public function getFormActions(): array
     {
-        return [];
+        return [
+            Actions\Action::make('zeze')->label('zeze'),
+            Actions\Action::make('zozo')->label('zozo'),
+        ];
     }
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-
             ]);
     }
 

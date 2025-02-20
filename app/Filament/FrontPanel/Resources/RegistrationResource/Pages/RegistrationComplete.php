@@ -4,12 +4,10 @@ namespace App\Filament\FrontPanel\Resources\RegistrationResource\Pages;
 
 use App\Filament\FrontPanel\Resources\RegistrationResource;
 use App\Invoice\Invoice;
-use App\Mail\RegistrationCompleted;
 use App\Models\Registration;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\Page;
-use Illuminate\Support\Facades\Mail;
 
 class RegistrationComplete extends Page
 {
@@ -22,10 +20,9 @@ class RegistrationComplete extends Page
     public function mount(int|string $record): void
     {
         /**
-         * @var Registration $this->record
+         * @var Registration $this ->record
          */
         $this->record = $this->resolveRecord($record);
-        Mail::to('jf@marche.be')->send(new RegistrationCompleted());
     }
 
     protected function getHeaderActions(): array

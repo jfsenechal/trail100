@@ -39,4 +39,8 @@ trait SavesFiles
     {
         return Storage::disk($this->disk)->url($this->filename);
     }
+
+    public function downloadUrl(): string {
+        return Storage::disk($this->disk)->url($this->filename);
+    }
 }

@@ -2,16 +2,22 @@
 
 namespace App\Invoice\Traits;
 
+use App\Invoice\Buyer;
+use App\Invoice\Invoice;
+use App\Invoice\Seller;
+use App\Models\Registration;
 use Barryvdh\DomPDF\Facade\Pdf as PdfFacade;
 use Barryvdh\DomPDF\PDF;
 use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\HeaderUtils;
+use Illuminate\Support\Facades\Response as FacadeResponse;
 
-trait PdfHelper {
-
+trait PdfHelper
+{
     public Pdf $pdf;
 
     public string $output;
@@ -19,6 +25,26 @@ trait PdfHelper {
     public string $filename;
 
     public string $template;
+
+    public static function generatePdfAndSaveIt(Registration $record): void
+    {
+        Invoice::make('Invoice-'.$record->id)
+            ->name(Str::slug($record->email.''.$record->id))
+            ->seller(new Seller())
+            ->buyer(
+                new Buyer([
+                    'name' => fake()->firstName(),
+                    'address' => fake()->streetAddress(),
+                    'phone' => fake()->phoneNumber(),
+                ]),
+            )
+            ->registration($record)
+            ->totalAmount($record->totalAmount())
+            ->status('not paid')
+            ->date($record->created_at)
+            ->logo(self::logoToBase64())
+            ->save('invoices');
+    }
 
     /**
      * @throws Exception
@@ -68,6 +94,19 @@ trait PdfHelper {
         return View::make($template, ['invoice' => $this]);
     }
 
+    public static function downloadPdf(): BinaryFileResponse
+    {
+        $filePath = storage_path(self::downloadUrl());
+
+        if (!file_exists($filePath)) {
+            abort(404, 'File not found.');
+        }
+
+        return FacadeResponse::download($filePath, 'downloaded-file.pdf', [
+            'Content-Type' => 'application/pdf',
+        ]);
+    }
+
     public function download(): Response
     {
         $filename = $this->filename;
@@ -112,5 +151,19 @@ trait PdfHelper {
             'Content-Disposition' => 'attachment; filename="'.$this->filename.'"',
             'Content-Length' => strlen($this->output),
         ]);
+    }
+
+    public static function logoToBase64(): ?string
+    {
+        $path = public_path('images/logoMarcheur.jpg');
+        if (file_exists($path)) {
+            $imageData = base64_encode(file_get_contents($path));
+            $mimeType = mime_content_type($path);
+            $base64Image = "data:$mimeType;base64,$imageData";
+
+            return $base64Image;
+        } else {
+            return null;
+        }
     }
 }

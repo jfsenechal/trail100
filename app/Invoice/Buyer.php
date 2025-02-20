@@ -5,6 +5,9 @@ namespace App\Invoice;
 class Buyer
 {
     public $custom_fields;
+    public string $name;
+    public string $address;
+    public string $phone;
 
     /**
      * Party constructor.

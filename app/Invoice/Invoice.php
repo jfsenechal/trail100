@@ -5,28 +5,21 @@ namespace App\Invoice;
 use App\Invoice\Traits\CurrencyFormatter;
 use App\Invoice\Traits\DateFormatter;
 use App\Invoice\Traits\InvoiceHelpers;
+use App\Invoice\Traits\PdfHelper;
 use App\Invoice\Traits\SavesFiles;
 use App\Invoice\Traits\SerialNumberFormatter;
 use App\Models\Registration;
 use App\Models\Walker;
-use Barryvdh\DomPDF\Facade\Pdf as PdfFacade;
-use Barryvdh\DomPDF\Pdf;
 use Carbon\Carbon;
-use Exception;
-use Illuminate\Http\Response;
-//use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\View;
 
-/**
- * Class Invoices.
- */
 class Invoice
 {
     use CurrencyFormatter;
     use InvoiceHelpers;
     use DateFormatter;
     use SavesFiles;
+    use PdfHelper;
     use SerialNumberFormatter;
 
     public int $table_columns = 4;
@@ -46,17 +39,9 @@ class Invoice
      */
     public Collection $items;
 
-    public string $template;
-
-    public string $filename;
-
     public float $total_amount;
 
     public string $status;
-
-    public Pdf $pdf;
-
-    public string $output;
 
     public array $paperOptions;
 
@@ -74,7 +59,7 @@ class Invoice
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    public function __construct($name = '')
+    public function __construct(string $name = '')
     {
         // Invoice
         $this->name = $name ?: __('invoices::invoice.invoice');
@@ -132,83 +117,5 @@ class Invoice
         return new static($name);
     }
 
-    /**
-     * @return $this
-     * @throws Exception
-     */
-    public function render(): static
-    {
-        $this->beforeRender();
 
-        $template = sprintf('invoices::pdf.%s', $this->template);
-        $view = View::make($template, ['invoice' => $this]);
-        //$html = mb_convert_encoding($view->render(), 'HTML-ENTITIES', 'UTF-8');
-        $html = $view->render();
-
-        try {
-            $this->options['isPhpEnabled'] = true;
-            $this->options['isRemoteEnabled'] = true;
-            $this->pdf = PdfFacade::setOptions($this->options, true)
-                ->setPaper($this->paperOptions['size'], $this->paperOptions['orientation'])
-                ->loadHtml($html, 'UTF-8');
-        } catch (Exception $exception) {
-            dd($exception->getMessage());
-        }
-
-        $this->output = $this->pdf->output();
-
-        return $this;
-    }
-
-    public function toHtml()
-    {
-        $template = sprintf('invoices::pdf.%s', $this->template);
-
-        return View::make($template, ['invoice' => $this]);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function stream(): Response
-    {
-        $this->render();
-
-        return new Response($this->output, Response::HTTP_OK, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="'.$this->filename.'"',
-        ]);
-    }
-
-    public function download(): Response
-    {
-        return \Illuminate\Support\Facades\Response::make($this->loadView()->stream('raport.pdf'), 200, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="report.pdf"',
-        ]);
-    }
-
-    public function loadView(): PDF
-    {
-        $this->beforeRender();
-        $template = sprintf('invoices::pdf.%s', $this->template);
-
-        return PdfFacade::setOptions($this->options, true)
-            ->setPaper($this->paperOptions['size'], $this->paperOptions['orientation'])
-            ->loadView($template, ['invoice' => $this]);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function downloadBroke(): Response
-    {
-        $this->render();
-
-        return new Response($this->output, Response::HTTP_OK, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="'.$this->filename.'"',
-            'Content-Length' => strlen($this->output),
-        ]);
-    }
 }

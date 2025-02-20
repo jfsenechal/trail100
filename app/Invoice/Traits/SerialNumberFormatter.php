@@ -48,7 +48,7 @@ trait SerialNumberFormatter
     public function sequence(int $sequence)
     {
         $this->sequence = str_pad((string) $sequence, $this->sequence_padding, 0, STR_PAD_LEFT);
-        $this->filename($this->getDefaultFilename($this->name));
+        //$this->filename($this->getDefaultFilename($this->name));
 
         return $this;
     }

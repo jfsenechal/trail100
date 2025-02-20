@@ -12,6 +12,7 @@ use Filament\Actions\Action;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\Page;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 
 class RegistrationComplete extends Page
 {
@@ -76,7 +77,8 @@ class RegistrationComplete extends Page
 
     private function generatePdf(Registration $record): Response
     {
-        $invoice = Invoice::make('receipt')
+        $invoice = Invoice::make('Invoice-'.$record->id)
+            ->name(Str::slug($record->email.''.$record->id))
             ->seller(new Seller())
             ->buyer(
                 new Buyer([
@@ -89,8 +91,8 @@ class RegistrationComplete extends Page
             ->totalAmount($record->totalAmount())
             ->status('not paid')
             ->date($record->created_at)
-            ->logo($this->logo());
-        //->save('public');
+            ->logo($this->logo())
+            ->save('invoices');
         try {
             return $invoice->download();
         } catch (\Exception $exception) {

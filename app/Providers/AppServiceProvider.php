@@ -47,16 +47,6 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Setup the configuration for Invoices.
-     *
-     * @return void
-     */
-    protected function configure(): void
-    {
-        $this->mergeConfigFrom(__DIR__ . '/../../config/invoices.php', 'invoices');
-    }
-
-    /**
      * Get the services provided by the provider.
      *
      * @return array

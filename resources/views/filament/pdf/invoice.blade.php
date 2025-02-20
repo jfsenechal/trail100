@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <!-- https://github.com/LaravelDaily/laravel-invoices/blob/master/resources/views/templates/default.blade.php -->
-    <title>100km Famenne - Ardenne</title>
+    <title>{{ $invoice->name }}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
     <style type="text/css" media="screen">
@@ -141,7 +141,7 @@
 
 <body>
 {{-- Header --}}
-    <img src="/images/logoMarcheur.jpg" alt="logo" height="100">
+<img src="/images/logoMarcheur.jpg" alt="logo" height="100">
 
 
 <table class="table mt-5">
@@ -264,17 +264,8 @@
     <thead>
     <tr>
         <th scope="col" class="border-0 pl-0">{{ __('invoices::invoice.description') }}</th>
-        @if($invoice->hasItemUnits)
-            <th scope="col" class="text-center border-0">{{ __('invoices::invoice.units') }}</th>
-        @endif
         <th scope="col" class="text-center border-0">{{ __('invoices::invoice.quantity') }}</th>
         <th scope="col" class="text-right border-0">{{ __('invoices::invoice.price') }}</th>
-        @if($invoice->hasItemDiscount)
-            <th scope="col" class="text-right border-0">{{ __('invoices::invoice.discount') }}</th>
-        @endif
-        @if($invoice->hasItemTax)
-            <th scope="col" class="text-right border-0">{{ __('invoices::invoice.tax') }}</th>
-        @endif
         <th scope="col" class="text-right border-0 pr-0">{{ __('invoices::invoice.sub_total') }}</th>
     </tr>
     </thead>
@@ -283,81 +274,21 @@
     @foreach($invoice->items as $item)
         <tr>
             <td class="pl-0">
-                {{ $item->title }}
-
-                @if($item->description)
-                    <p class="cool-gray">{{ $item->description }}</p>
+                {{ $item->first_name }}{{ $item->last_name }}
+                @if($item->city)
+                    <p class="cool-gray">{{ $item->city }}</p>
                 @endif
             </td>
-            @if($invoice->hasItemUnits)
-                <td class="text-center">{{ $item->units }}</td>
-            @endif
-            <td class="text-center">{{ $item->quantity }}</td>
+            <td class="text-center">{{ $item->tshirt_size->value }}</td>
             <td class="text-right">
-                {{ $invoice->formatCurrency($item->price_per_unit) }}
+                {{ $invoice->formatCurrency($item->amount()) }}
             </td>
-            @if($invoice->hasItemDiscount)
-                <td class="text-right">
-                    {{ $invoice->formatCurrency($item->discount) }}
-                </td>
-            @endif
-            @if($invoice->hasItemTax)
-                <td class="text-right">
-                    {{ $invoice->formatCurrency($item->tax) }}
-                </td>
-            @endif
-
             <td class="text-right pr-0">
-                {{ $invoice->formatCurrency($item->sub_total_price) }}
+                {{ $invoice->formatCurrency($item->amount()) }}
             </td>
         </tr>
     @endforeach
     {{-- Summary --}}
-    @if($invoice->hasItemOrInvoiceDiscount())
-        <tr>
-            <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-            <td class="text-right pl-0">{{ __('invoices::invoice.total_discount') }}</td>
-            <td class="text-right pr-0">
-                {{ $invoice->formatCurrency($invoice->total_discount) }}
-            </td>
-        </tr>
-    @endif
-    @if($invoice->taxable_amount)
-        <tr>
-            <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-            <td class="text-right pl-0">{{ __('invoices::invoice.taxable_amount') }}</td>
-            <td class="text-right pr-0">
-                {{ $invoice->formatCurrency($invoice->taxable_amount) }}
-            </td>
-        </tr>
-    @endif
-    @if($invoice->tax_rate)
-        <tr>
-            <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-            <td class="text-right pl-0">{{ __('invoices::invoice.tax_rate') }}</td>
-            <td class="text-right pr-0">
-                {{ $invoice->tax_rate }}%
-            </td>
-        </tr>
-    @endif
-    @if($invoice->hasItemOrInvoiceTax())
-        <tr>
-            <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-            <td class="text-right pl-0">{{ __('invoices::invoice.total_taxes') }}</td>
-            <td class="text-right pr-0">
-                {{ $invoice->formatCurrency($invoice->total_taxes) }}
-            </td>
-        </tr>
-    @endif
-    @if($invoice->shipping_amount)
-        <tr>
-            <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-            <td class="text-right pl-0">{{ __('invoices::invoice.shipping') }}</td>
-            <td class="text-right pr-0">
-                {{ $invoice->formatCurrency($invoice->shipping_amount) }}
-            </td>
-        </tr>
-    @endif
     <tr>
         <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
         <td class="text-right pl-0">{{ __('invoices::invoice.total_amount') }}</td>
@@ -394,9 +325,3 @@
 </script>
 </body>
 </html>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<style>
-</style>
-<h1>Page 1</h1>
-<div class="page-break"></div>
-<h1>Page 2</h1>

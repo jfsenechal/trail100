@@ -3,10 +3,15 @@
 namespace App\Filament\FrontPanel\Resources\RegistrationResource\Pages;
 
 use App\Filament\FrontPanel\Resources\RegistrationResource;
+use App\Invoice\Buyer;
+use App\Invoice\Invoice;
+use App\Invoice\Seller;
+use App\Models\Registration;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\Page;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class RegistrationComplete extends Page
 {
@@ -18,7 +23,29 @@ class RegistrationComplete extends Page
 
     public function mount(int|string $record): void
     {
+        /**
+         * @var Registration $this ->record
+         */
         $this->record = $this->resolveRecord($record);
+     /*   $invoice = Invoice::make('receipt')
+            ->seller(new Seller())
+            ->buyer(
+                new Buyer([
+                    'name' => fake()->firstName(),
+                    'address' => fake()->streetAddress(),
+                    'phone' => fake()->phoneNumber(),
+                ]),
+            )
+            ->registration($this->record)
+            ->totalAmount($this->record->totalAmount())
+            ->status('not paid')
+            ->date(Carbon::today());
+
+        try {
+            dd($invoice->download());
+        } catch (\Exception $exception) {
+            dd($exception);
+        }*/
     }
 
     protected function getHeaderActions(): array
@@ -27,7 +54,27 @@ class RegistrationComplete extends Page
             Action::make('pdf')
                 ->label('Export pdf')
                 ->icon('tabler-file-type-pdf')
-                ->action(fn() => dump('pdf')),
+                ->action(function (Registration $record) {
+                    $invoice = Invoice::make('receipt')
+                        ->seller(new Seller())
+                        ->buyer(
+                            new Buyer([
+                                'name' => fake()->firstName(),
+                                'address' => fake()->streetAddress(),
+                                'phone' => fake()->phoneNumber(),
+                            ]),
+                        )
+                        ->registration($record)
+                        ->totalAmount($record->totalAmount())
+                        ->status('not paid')
+                        ->date(Carbon::today());
+
+                    try {
+                        return $invoice->download();
+                    } catch (\Exception $exception) {
+                        dd($exception);
+                    }
+                }),
         ];
     }
 
@@ -40,6 +87,7 @@ class RegistrationComplete extends Page
     {
         $data = [];
         $pdf = Pdf::loadView('filament.pdf.invoice', $data);
+
         return $pdf->download('invoice.pdf');
     }
 

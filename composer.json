@@ -16,7 +16,9 @@
         "khanamiryan/qrcode-detector-decoder": "^2.0",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
-        "secondnetwork/blade-tabler-icons": "^3.30"
+        "secondnetwork/blade-tabler-icons": "^3.30",
+        "ext-fileinfo": "*",
+        "ext-intl": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",

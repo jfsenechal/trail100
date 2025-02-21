@@ -2,32 +2,29 @@
 
 namespace App\Invoice;
 
+use App\Models\Registration;
+
 class Buyer
 {
-    public $custom_fields;
     public string $name;
-    public string $address;
-    public string $phone;
+    public string $email;
+    public string $city = '';
+    public string $address = '';
+    public string $phone = '';
 
-    /**
-     * Party constructor.
-     * @param $properties
-     */
-    public function __construct($properties)
+    public static function newFromRegistration(Registration $registration): self
     {
-        $this->custom_fields = [];
-
-        foreach ($properties as $property => $value) {
-            $this->{$property} = $value;
+        $firstWalker = $registration->walkers_count > 0 ? $registration->walkers[0] : null;
+        $buyer = new self();
+        $buyer->name = $registration->email;
+        $buyer->email = $registration->email;
+        if ($firstWalker) {
+            $buyer->address = $firstWalker->street;
+            $buyer->city = $firstWalker->city;
+            $buyer->phone = $firstWalker->phone;
         }
+
+        return $buyer;
     }
 
-    /**
-     * @param $key
-     * @return mixed|null
-     */
-    public function __get($key)
-    {
-        return $this->{$key} ?? null;
-    }
 }

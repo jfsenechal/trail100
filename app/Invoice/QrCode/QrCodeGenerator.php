@@ -2,16 +2,65 @@
 
 namespace App\Invoice\QrCode;
 
+use App\Invoice\Traits\SavesFiles;
 use App\Models\Registration;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\Writer\PngWriter;
+use Illuminate\Contracts\Container\BindingResolutionException;
 
 class QrCodeGenerator
 {
-    public static function make($name = '')
+    use SavesFiles;
+
+    public string $id;
+
+    public string $name;
+
+    public string $bank_account;
+
+    public string $communication;
+
+    public float $amount;
+
+    public function __construct(string $name = '')
     {
-        return new static($name);
+        $this->name = config('app.name');
+        $this->bank_account = config('invoices.seller.bank_account');
+    }
+
+    /**
+     * @throws BindingResolutionException
+     * @throws \Exception
+     */
+    public static function makeFromRegistration(Registration $registration): void
+    {
+        $qrCode = QrCodeGenerator::make('Invoice-'.$registration->id)
+            ->id($registration->id)
+            ->amount($registration->totalAmount())
+            ->communication($registration->communication());
+        $qrCode->generate();
+    }
+
+    public function amount(float $amount): static
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    public function id(string $id): static
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    public function communication(string $communication): static
+    {
+        $this->communication = $communication;
+
+        return $this;
     }
 
     /**
@@ -28,7 +77,7 @@ class QrCodeGenerator
      * Information:    Sample EPC QR code
      * @throws \Exception
      */
-    public function generate(Registration $registration): string
+    public function generate(): void
     {
         $qr_content = [];
         $qr_content[] = "BCD";
@@ -36,13 +85,13 @@ class QrCodeGenerator
         $qr_content[] = "1";
         $qr_content[] = "SCT";
         $qr_content[] = "";//BIC
-        $qr_content[] = config('APP_NAME');
-        $qr_content[] = config('TRAIL_BANK_ACCOUNT');
-        $qr_content[] = "EUR".$registration->totalAmount();
+        $qr_content[] = $this->name;
+        $qr_content[] = $this->bank_account;
+        $qr_content[] = "EUR".$this->amount;
         $qr_content[] = "CHAR";//reason
         $qr_content[] = "";
-        $qr_content[] = "100km ".$registration->id;//BelgianStructuredGenerator::generate();
-        $qr_content[] = "Sample EPC QR code";
+        $qr_content[] = $this->communication;//BelgianStructuredGenerator::generate();
+        $qr_content[] = "100 km EPC QR code";
 
         $qr_string = implode(PHP_EOL, $qr_content);
 
@@ -56,21 +105,28 @@ class QrCodeGenerator
         );
         $result = $qrCode->build();
 
-        $fileName = $registration->getUuid().'.png';
-        $directory = $this->project_dir.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'qrcode'.DIRECTORY_SEPARATOR;
-        $publicPath = DIRECTORY_SEPARATOR.'qrcode'.DIRECTORY_SEPARATOR.$fileName;
-
         try {
-            $result->saveToFile($directory.$fileName);
+            $file = $this->saveQrCode($result);
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
 
-        $mime = \mime_content_type($directory.$fileName);
+        $mime = \mime_content_type($file);
         if ($mime != 'image/png') {
             throw new \Exception('Not image/png mime:'.$result->getMimeType());
         }
-
-        return $publicPath;
     }
+
+    /**
+     * @param string $name
+     *
+     * @return $this
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
+     */
+    public static function make($name = '')
+    {
+        return new static($name);
+    }
+
 }

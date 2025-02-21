@@ -32,7 +32,7 @@ class RegistrationComplete extends Page
                 ->label('Download invoice (pdf)')
                 ->icon('tabler-file-type-pdf')
                 ->action(function (Registration $record) {
-                    return Invoice::downloadPdf();
+                    return Invoice::downloadPdfFromPath($record);
                 }),
         ];
     }

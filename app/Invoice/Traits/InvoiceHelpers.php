@@ -5,15 +5,34 @@ namespace App\Invoice\Traits;
 use App\Invoice\Buyer;
 use App\Invoice\Seller;
 use App\Models\Registration;
+use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Exception;
-use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\File\File;
 
 trait InvoiceHelpers
 {
+    public function id(string $id): static
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
     public function name(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function date(CarbonInterface|string $date): static
+    {
+        if (!$date instanceof CarbonInterface) {
+            $date = Carbon::createFromFormat('Y-m-d H:i:s', $date);
+        }
+
+        $this->date = $date;
 
         return $this;
     }
@@ -44,6 +63,11 @@ trait InvoiceHelpers
         $this->total_amount = $total_amount;
 
         return $this;
+    }
+
+    public function getTotalAmountInWords(): string
+    {
+        return $this->total_amount.' €';
     }
 
     public function seller(Seller $seller): static
@@ -81,11 +105,6 @@ trait InvoiceHelpers
         return $this;
     }
 
-    public function getTotalAmountInWords(): string
-    {
-        return $this->getAmountInWords($this->total_amount);
-    }
-
     public function getLogo(): string
     {
         $file = new File($this->logo);
@@ -96,15 +115,6 @@ trait InvoiceHelpers
     public function hasTotalAmount(): bool
     {
         return !is_null($this->total_amount);
-    }
-
-    protected function getDefaultFilename(string $name): string
-    {
-        if ($name === '') {
-            return sprintf('%s_%s', $this->series, $this->sequence);
-        }
-
-        return sprintf('%s_%s_%s', Str::snake($name), $this->series, $this->sequence);
     }
 
     /**
@@ -128,10 +138,6 @@ trait InvoiceHelpers
         if (!$this->seller) {
             throw new Exception('Seller not defined.');
         }
-
-        if (!count($this->items)) {
-           // throw new Exception('No walkers to invoice defined.');
-        }
     }
 
     public function calculate(): static
@@ -146,5 +152,10 @@ trait InvoiceHelpers
         $this->hasTotalAmount() ?: $this->total_amount = $total_amount;
 
         return $this;
+    }
+
+    public function formatCurrency(): string
+    {
+        return $this->total_amount;
     }
 }

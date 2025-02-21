@@ -4,9 +4,6 @@ namespace App\Invoice\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-/**
- * Class Invoice
- */
 class QrCodeGenerator extends Facade
 {
     /**

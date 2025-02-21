@@ -42,6 +42,12 @@
     {{$textbtn}}
 </x-mail::button>
 
+@if(isset($qrcode))
+<img src="{{$message->embed($qrcode)}}" alt="logo" height="200">
+@else
+<p>qrcode not found.</p>
+@endif
+
 [Site web des Marcheurs de la Famenne](https://marcheursdelafamenne.marche.be/)
 
 <x-mail::subcopy>

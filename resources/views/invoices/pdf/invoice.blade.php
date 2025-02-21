@@ -159,8 +159,8 @@
                     <strong>{{ $invoice->status }}</strong>
                 </h4>
             @endif
-            <p>{{ __('invoices::invoice.serial') }} <strong>{{ $invoice->getSerialNumber() }}</strong></p>
-            <p>{{ __('invoices::invoice.date') }}: <strong>{{ $invoice->getDate() }}</strong></p>
+            <p>{{ __('invoices::invoice.serial') }} <strong>{{ $invoice->id }}</strong></p>
+            <p>{{ __('invoices::invoice.date') }}: <strong>{{ $invoice->date }}</strong></p>
         </td>
     </tr>
     </tbody>
@@ -196,13 +196,13 @@
 
             @if($invoice->seller->code)
                 <p class="seller-code">
-                    {{ __('invoices::invoice.code') }}: {{ $invoice->seller->code }}
+                    {{ __('invoices::invoice.code') }}: {{ $invoice->seller->code }} {{ $invoice->seller->city }}
                 </p>
             @endif
 
-            @if($invoice->seller->vat)
+            @if($invoice->seller->bank_account)
                 <p class="seller-vat">
-                    {{ __('invoices::invoice.vat') }}: {{ $invoice->seller->vat }}
+                    {{ __('invoices::invoice.vat') }}: {{ $invoice->seller->bank_account }}
                 </p>
             @endif
 
@@ -212,11 +212,6 @@
                 </p>
             @endif
 
-            @foreach($invoice->seller->custom_fields as $key => $value)
-                <p class="seller-custom-field">
-                    {{ ucfirst($key) }}: {{ $value }}
-                </p>
-            @endforeach
         </td>
         <td class="border-0"></td>
         <td class="px-0">
@@ -232,15 +227,9 @@
                 </p>
             @endif
 
-            @if($invoice->buyer->code)
+            @if($invoice->buyer->city)
                 <p class="buyer-code">
-                    {{ __('invoices::invoice.code') }}: {{ $invoice->buyer->code }}
-                </p>
-            @endif
-
-            @if($invoice->buyer->vat)
-                <p class="buyer-vat">
-                    {{ __('invoices::invoice.vat') }}: {{ $invoice->buyer->vat }}
+                    {{ __('invoices::invoice.code') }}: {{ $invoice->buyer->city }}
                 </p>
             @endif
 
@@ -249,12 +238,6 @@
                     {{ __('invoices::invoice.phone') }}: {{ $invoice->buyer->phone }}
                 </p>
             @endif
-
-            @foreach($invoice->buyer->custom_fields as $key => $value)
-                <p class="buyer-custom-field">
-                    {{ ucfirst($key) }}: {{ $value }}
-                </p>
-            @endforeach
         </td>
     </tr>
     </tbody>
@@ -310,7 +293,7 @@
     {{ __('invoices::invoice.amount_in_words') }}: {{ $invoice->getTotalAmountInWords() }}
 </p>
 <p>
-    {{ __('invoices::invoice.pay_until') }}: {{ $invoice->getPayUntilDate() }}
+    {{ __('invoices::invoice.pay_until') }}: blabla
 </p>
 </body>
 </html>

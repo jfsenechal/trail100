@@ -3,7 +3,24 @@
 use App\Invoice\Seller;
 
 return [
-    'bank_account' => env('TRAIL_BANK_ACCOUNT'),
+    'seller' =>
+        [
+            'name' => env('APP_NAME'),
+            'address' => env('TRAIL_ADDRESS'),
+            'code' => env('TRAIL_CODE'),
+            'city' => env('TRAIL_CITY'),
+            'phone' => env('TRAIL_PHONE'),
+            'email' => env('TRAIL_EMAIL'),
+            'bank_account' => env('TRAIL_BANK_ACCOUNT'),
+            /*
+             * Class used in templates via $invoice->seller
+             *
+             * Must implement LaravelDaily\Invoices\Contracts\PartyContract
+             *      or extend LaravelDaily\Invoices\Classes\Party
+             */
+            'class' => Seller::class,
+        ],
+
     'date' => [
 
         /*
@@ -76,36 +93,6 @@ return [
     ],
 
     'disk' => 'local',
-
-    'seller' => [
-        /*
-         * Class used in templates via $invoice->seller
-         *
-         * Must implement LaravelDaily\Invoices\Contracts\PartyContract
-         *      or extend LaravelDaily\Invoices\Classes\Party
-         */
-        'class' => Seller::class,
-
-        /*
-         * Default attributes for Seller::class
-         */
-        'attributes' => [
-            'name' => 'Towne, Smith and Ebert',
-            'address' => '89982 Pfeffer Falls Damianstad, CO 66972-8160',
-            'code' => '41-1985581',
-            'vat' => '123456789',
-            'phone' => '760-355-3930',
-            'custom_fields' => [
-                /*
-                 * Custom attributes for Seller::class
-                 *
-                 * Used to display additional info on Seller section in invoice
-                 * attribute => value
-                 */
-                'SWIFT' => 'BANK101',
-            ],
-        ],
-    ],
 
     'dompdf_options' => [
         'enable_php' => true,

@@ -9,12 +9,13 @@ use App\Models\Registration;
 use Barryvdh\DomPDF\Facade\Pdf as PdfFacade;
 use Barryvdh\DomPDF\PDF;
 use Exception;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Response as FacadeResponse;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\HeaderUtils;
-use Illuminate\Support\Facades\Response as FacadeResponse;
 
 trait PdfHelper
 {
@@ -26,37 +27,24 @@ trait PdfHelper
 
     public string $template;
 
+    /**
+     * @throws BindingResolutionException
+     * @throws Exception
+     */
     public static function generatePdfAndSaveIt(Registration $record): void
     {
         Invoice::make('Invoice-'.$record->id)
+            ->id($record->id)
             ->name(Str::slug($record->email.''.$record->id))
-            ->seller(new Seller())
-            ->buyer(
-                new Buyer([
-                    'name' => fake()->firstName(),
-                    'address' => fake()->streetAddress(),
-                    'phone' => fake()->phoneNumber(),
-                ]),
-            )
+            ->seller(Seller::withDefaultValues())
+            ->buyer(Buyer::newFromRegistration($record))
             ->registration($record)
             ->totalAmount($record->totalAmount())
             ->status('not paid')
-            ->date($record->created_at)
+            ->date($record->registration_date)
             ->logo(self::logoToBase64())
-            ->save('invoices');
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function stream(): Response
-    {
-        $this->render();
-
-        return new Response($this->output, Response::HTTP_OK, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="'.$this->filename.'"',
-        ]);
+            ->render()
+            ->saveInvoice();
     }
 
     /**
@@ -67,10 +55,7 @@ trait PdfHelper
     {
         $this->beforeRender();
 
-        $template = sprintf('invoices::pdf.%s', $this->template);
-        $view = View::make($template, ['invoice' => $this]);
-        //$html = mb_convert_encoding($view->render(), 'HTML-ENTITIES', 'UTF-8');
-        $html = $view->render();
+        $html = $this->toHtml();
 
         try {
             $this->options['isPhpEnabled'] = true;
@@ -90,18 +75,21 @@ trait PdfHelper
     public function toHtml()
     {
         $template = sprintf('invoices::pdf.%s', $this->template);
+        $view = View::make($template, ['invoice' => $this]);
+        //$html = mb_convert_encoding($view->render(), 'HTML-ENTITIES', 'UTF-8');
 
-        return View::make($template, ['invoice' => $this]);
+        return $view->render();
     }
 
-    public static function downloadPdf(): BinaryFileResponse
+    public  function downloadPdfFromPath(): BinaryFileResponse
     {
-        $filePath = storage_path('data/invoices/invoice-4_AA_00001.pdf');
+        $filePath = $this->invoicePathDisk();
 
         if (!file_exists($filePath)) {
             abort(404, 'File not found.');
         }
 
+        $fallback = $this->fallbackName($filePath);
         return FacadeResponse::download($filePath, 'downloaded-file.pdf', [
             'Content-Type' => 'application/pdf',
         ]);
@@ -114,7 +102,7 @@ trait PdfHelper
         $this->pdf = $this->loadView();
         $this->output = $this->pdf->output();
 
-        return \Illuminate\Support\Facades\Response::make($this->pdf->stream($filename), 200, [
+        return FacadeResponse::make($this->pdf->stream($filename), 200, [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => HeaderUtils::makeDisposition('attachment', $filename, $fallback),
             'Content-Length' => strlen($this->output),
@@ -142,14 +130,13 @@ trait PdfHelper
     /**
      * @throws Exception
      */
-    public function downloadBroke(): Response
+    public function stream(): Response
     {
         $this->render();
 
         return new Response($this->output, Response::HTTP_OK, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="'.$this->filename.'"',
-            'Content-Length' => strlen($this->output),
+            'Content-Disposition' => 'inline; filename="'.$this->filename.'"',
         ]);
     }
 

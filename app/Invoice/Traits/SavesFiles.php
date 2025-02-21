@@ -2,45 +2,51 @@
 
 namespace App\Invoice\Traits;
 
+use Endroid\QrCode\Writer\Result\ResultInterface;
 use Illuminate\Support\Facades\Storage;
 
-/**
- * Trait SavesFiles
- */
 trait SavesFiles
 {
-    /**
-     * @var string
-     */
-    public $disk;
+    public string $disk = 'invoices';
+
+    public function qrCodeFileName(): string
+    {
+        return 'qrcode-'.$this->id.'.png';
+    }
+
+    public function invoiceFileName(): string
+    {
+        return 'invoice-'.$this->id.'.pdf';
+    }
+
+    public function invoicePathDisk(): string
+    {
+        return Storage::disk($this->disk)->path('');
+    }
+
+    public function qrCodePathDiskTo(): string
+    {
+        return Storage::disk($this->disk)->path('');
+    }
 
     /**
      * @param string $disk
      * @return $this
      * @throws \Exception
      */
-    public function save(string $disk = 'local'): static
+    public function saveInvoice(): static
     {
-        if ($disk !== '') {
-            $this->disk = $disk;
-        }
-
-        $this->render();
-
-        Storage::disk($this->disk)->put($this->filename, $this->output);
+        Storage::disk($this->disk)->put($this->invoiceFileName(), $this->output);
 
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function url(): mixed
+    public function saveQrCode(ResultInterface $result): string
     {
-        return Storage::disk($this->disk)->url($this->filename);
-    }
+        $filePath = $this->qrCodePathDiskTo().DIRECTORY_SEPARATOR.$this->qrCodeFileName();
 
-    public function downloadUrl(): string {
-        return Storage::disk($this->disk)->url($this->filename);
+        $result->saveToFile($filePath);
+
+        return $filePath;
     }
 }

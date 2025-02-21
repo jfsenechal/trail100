@@ -3,6 +3,8 @@
 namespace App\Mail;
 
 use App\Filament\FrontPanel\Resources\RegistrationResource;
+use App\Invoice\Facades\Invoice;
+use App\Invoice\Seller;
 use App\Models\Registration;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -20,6 +22,7 @@ class RegistrationCompleted extends Mailable
     use Queueable, SerializesModels;
 
     public ?string $logo = null;
+    public ?string $qrcode = null;
 
     public function __construct(public readonly Registration $registration) {}
 
@@ -44,33 +47,39 @@ class RegistrationCompleted extends Mailable
             $this->logo = null;
         }
 
+        $this->qrcode = public_path('images/logoMarcheur.jpg');
+        if (!file_exists($this->qrcode)) {
+            $this->qrcode = null;
+        }
+
         return new Content(
             markdown: 'mail.registration-completed',
             with: [
                 'textbtn' => __('messages.email.registration.confirm.btn.label'),
                 'url' => RegistrationResource::getUrl('complete', ['record' => $this->registration]),
                 'logo' => $this->logo,
+                'seller' => Seller::withDefaultValues(),
             ],
         );
     }
 
     public function attachments(): array
     {
-        $fileName = 'invoice-4_AA_00001.pdf';
-        $filePath = storage_path('data/invoices/invoice-4_AA_00001.pdf');
+        $attachments = [];
+        $attachments[] =
+            Attachment::fromPath($this->logo)
+                ->as('logoMarcheur.jpg')
+                ->withMime('image/jpg');
 
-        if (file_exists($filePath)) {
-            return [
-                Attachment::fromStorageDisk('invoices', $fileName)
+        $invoicePath = Invoice::invoicePathDisk();
+        if (file_exists($invoicePath)) {
+            $attachments[] =
+                Attachment::fromStorageDisk('invoices', $invoicePath)
                     ->as('name.pdf')
-                    ->withMime('application/pdf'),
-                Attachment::fromPath($this->logo)
-                    ->as('logoMarcheur.jpg')
-                    ->withMime('image/jpg'),
-            ];
+                    ->withMime('application/pdf');
         }
 
-        return [];
+        return $attachments;
     }
 
 }

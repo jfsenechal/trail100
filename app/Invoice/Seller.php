@@ -2,52 +2,33 @@
 
 namespace App\Invoice;
 
-
-/**
- * Class Seller
- */
 class Seller
 {
-    /**
-     * @var \Illuminate\Config\Repository|mixed
-     */
-    public $name;
+    public string $name;
 
-    /**
-     * @var \Illuminate\Config\Repository|mixed
-     */
-    public $address;
+    public string $address;
 
-    /**
-     * @var \Illuminate\Config\Repository|mixed
-     */
-    public $code;
+    public string $code;
 
-    /**
-     * @var \Illuminate\Config\Repository|mixed
-     */
-    public $vat;
+    public string $city;
 
-    /**
-     * @var \Illuminate\Config\Repository|mixed
-     */
-    public $phone;
+    public string $bank_account;
 
-    /**
-     * @var \Illuminate\Config\Repository|mixed
-     */
-    public $custom_fields;
+    public string $email;
 
-    /**
-     * Seller constructor.
-     */
-    public function __construct()
+    public string $phone;
+
+    public static function withDefaultValues(): self
     {
-        $this->name = config('invoices.seller.attributes.name');
-        $this->address = config('invoices.seller.attributes.address');
-        $this->code = config('invoices.seller.attributes.code');
-        $this->vat = config('invoices.seller.attributes.vat');
-        $this->phone = config('invoices.seller.attributes.phone');
-        $this->custom_fields = config('invoices.seller.attributes.custom_fields');
+        $seller = new self();
+        $seller->name = config('invoices.seller.name');
+        $seller->address = config('invoices.seller.address');
+        $seller->code = config('invoices.seller.code');
+        $seller->city = config('invoices.seller.city');
+        $seller->bank_account = config('invoices.seller.bank_account');
+        $seller->email = config('invoices.seller.email');
+        $seller->phone = config('invoices.seller.phone');
+
+        return $seller;
     }
 }

@@ -9,6 +9,7 @@ return [
     'form.registration.actions.finish.title' => 'Confirm registration',
     'form.registration.actions.finish.label' => 'Yes I finished',
     'form.registration.actions.finish.description' => 'The amount to be paid for your registration will be generated',
-    'email.registration.confirm.subject' => 'Registration confirmation',
+    'email.registration.confirm.subject' => 'Registration 100 km - Payment',
     'email.registration.complete.subject' => 'Registration complete',
+    'email.registration.confirm.btn.label' => 'Show my registration',
 ];

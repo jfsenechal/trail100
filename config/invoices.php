@@ -3,6 +3,7 @@
 use App\Invoice\Seller;
 
 return [
+    'bank_account' => env('TRAIL_BANK_ACCOUNT'),
     'date' => [
 
         /*

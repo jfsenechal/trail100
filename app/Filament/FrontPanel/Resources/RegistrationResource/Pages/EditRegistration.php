@@ -15,6 +15,7 @@ use Illuminate\Contracts\Support\Htmlable;
 class EditRegistration extends EditRecord
 {
     protected static string $resource = RegistrationResource::class;
+    protected ?bool $hasUnsavedDataChangesAlert = true;
 
     public static function canAccess(array $parameters = []): bool
     {
@@ -94,6 +95,11 @@ class EditRegistration extends EditRecord
         return $form
             ->schema([
             ]);
+    }
+
+    protected function hasUnsavedDataChangesAlert22(): bool
+    {
+        return $this->registration;
     }
 
     protected function getRedirectUrl(): ?string

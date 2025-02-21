@@ -40,7 +40,7 @@ class Registration extends Model
 
     public function isFinished(): bool
     {
-       return $this->finished;
+        return $this->finished;
     }
 
     public function totalAmount(): float
@@ -49,7 +49,13 @@ class Registration extends Model
         foreach ($this->walkers()->get() as $walker) {
             $amount += $walker->amount();
         }
+
         return $amount;
+    }
+
+    public function communication(): string
+    {
+        return '100Km fact '.$this->id;
     }
 
     public function runnersPaid(): array

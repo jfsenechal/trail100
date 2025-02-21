@@ -1,34 +1,49 @@
 <x-mail::message>
-# Welcome {{$registration->email}}
 
-##{{ config('app.name') }}
+@if(isset($logo))
+<img src="{{$message->embed($logo)}}" alt="logo" height="100" style="float: left;">
+@else
+<p>Image not found.</p>
+@endif
 
-## Votre inscription sera validée après paiement
+# {{ config('app.name') }}
+
+## Welcome :joy:
+
+<x-mail::panel style="margin-top: 20px;margin-bottom: 20px;">
+<p style="color: #9f1239;font-weight: bold;">
+## Votre inscription sera validée après paiement !
+</p>
+</x-mail::panel>
+
+## Informations de paiements
+
+**Name:** {{config('app.name')}}
+
+**Bank account:** {{config('invoices.bank_account')}}
+
+**Communication:** {{$registration->communication()}}
+
+**Amount:** {{$registration->totalAmount()}} euros
+
+
+## Walkers
 
 <x-mail::table>
-| Name          | T-shirt       | Price         |
-| ------------- | :-----------: | ------------: |
+| Name     | T-shirt  | Price  |
+| -------- | -------- | -------|
 @foreach($registration->walkers as $item)
-| {{$item->name()}} | {{$item->tshirt_size}} | {{$item->amount()}} |
+| {{$item->name()}} | {{$item->tshirt_size}} | {{$item->amount()}} € |
 @endforeach
 </x-mail::table>
 ---
-## Informations de paiements
-
-@if(isset($logo))
-![Image](cid:image.png)
-<img src="{{$message->embed($logo)}}" alt="logo" height="100">
-@else
-    <p>Image not found.</p>
-@endif
 
 <x-mail::button :url="$url" color="success">
     {{$textbtn}}
 </x-mail::button>
-<x-mail::panel>
-    <p>coucou</p>
-</x-mail::panel>
+
 [Site web des Marcheurs de la Famenne](https://marcheursdelafamenne.marche.be/)
+
 <x-mail::subcopy>
     Ma subcopy
 </x-mail::subcopy>

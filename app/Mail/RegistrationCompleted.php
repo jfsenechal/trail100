@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Invoice\Facades\Invoice;
+use App\Filament\FrontPanel\Resources\RegistrationResource;
 use App\Models\Registration;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -12,9 +12,14 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
+/**
+ * https://maizzle.com/docs/components // todo
+ */
 class RegistrationCompleted extends Mailable
 {
     use Queueable, SerializesModels;
+
+    public ?string $logo = null;
 
     public function __construct(public readonly Registration $registration) {}
 
@@ -34,18 +39,17 @@ class RegistrationCompleted extends Mailable
      */
     public function content(): Content
     {
-        $url = config('app.url');
-        $logo = null;
-        $path = public_path('images/logoMarcheur.jpg');
-        if (file_exists($path)) {
-            $logo = $path;
+        $this->logo = public_path('images/logoMarcheur.jpg');
+        if (!file_exists($this->logo)) {
+            $this->logo = null;
         }
+
         return new Content(
             markdown: 'mail.registration-completed',
             with: [
-                'textbtn' => __('messages.btn.access_platform.label'),
-                'url' => $url,
-                'logo' => $logo,
+                'textbtn' => __('messages.email.registration.confirm.btn.label'),
+                'url' => RegistrationResource::getUrl('complete', ['record' => $this->registration]),
+                'logo' => $this->logo,
             ],
         );
     }
@@ -60,6 +64,9 @@ class RegistrationCompleted extends Mailable
                 Attachment::fromStorageDisk('invoices', $fileName)
                     ->as('name.pdf')
                     ->withMime('application/pdf'),
+                Attachment::fromPath($this->logo)
+                    ->as('logoMarcheur.jpg')
+                    ->withMime('image/jpg'),
             ];
         }
 

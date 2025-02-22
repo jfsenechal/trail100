@@ -30,7 +30,7 @@ class SendRegistrationNotification
     {
         $registration = $event->registration();
         try {
-            QrCodeGenerator::makeFromRegistration($registration);
+            QrCodeGenerator::generateAndSaveIt($registration);
         } catch (BindingResolutionException|\Exception $e) {
         }
 

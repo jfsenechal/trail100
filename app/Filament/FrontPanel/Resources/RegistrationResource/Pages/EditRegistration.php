@@ -99,7 +99,7 @@ class EditRegistration extends EditRecord
 
     protected function hasUnsavedDataChangesAlert22(): bool
     {
-        return $this->registration;
+        return $this->record;//todo condition
     }
 
     protected function getRedirectUrl(): ?string

@@ -19,9 +19,23 @@ trait InvoiceHelpers
         return $this;
     }
 
+    public function uuid(string $uuid): static
+    {
+        $this->uuid = $uuid;
+
+        return $this;
+    }
+
     public function name(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function communication(string $communication): static
+    {
+        $this->communication = $communication;
 
         return $this;
     }

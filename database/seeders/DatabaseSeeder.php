@@ -39,13 +39,17 @@ class DatabaseSeeder extends Seeder
         $registration = Registration::factory()->create([
             'email' => 'jf@marche.be',
         ]);
-        Walker::factory()
-            ->createOne([
-                'registration_id' => $registration->id,
-            ]);
+
+        Walker::factory(3)->set('registration_id', $registration->id)->create();
+
+        User::factory(10)->hasAttached($adminRole)->create();
+
+        Registration::factory(6)->create()->each(function (Registration $registration) {
+            Walker::factory(rand(1, 5))->set('registration_id', $registration->id)->create();
+        });
+
         //  $user->createToken(config('app.name'));
         // Create additional users
-        //User::factory(10)->create();
         // Create Leads
         /*   Lead::factory(100)->create()->each(function ($lead) {
                if ($lead->status == LeadStatus::Qualified) {

@@ -21,7 +21,11 @@ class Invoice
 
     public string $id;
 
+    public string $uuid;
+
     public string $name;
+
+    public string $communication;
 
     public ?string $logo;
 

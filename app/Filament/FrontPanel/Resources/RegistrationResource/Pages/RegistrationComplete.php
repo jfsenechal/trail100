@@ -20,7 +20,7 @@ class RegistrationComplete extends Page
     public function mount(int|string $record): void
     {
         /**
-         * @var Registration $this ->record
+         * @var Registration $this->record
          */
         $this->record = $this->resolveRecord($record);
     }
@@ -32,7 +32,11 @@ class RegistrationComplete extends Page
                 ->label('Download invoice (pdf)')
                 ->icon('tabler-file-type-pdf')
                 ->action(function (Registration $record) {
-                    return Invoice::downloadPdfFromPath($record);
+                    $invoicePath = Invoice::make()
+                        ->uuid($record->uuid)
+                        ->invoicePath();
+
+                    return Invoice::downloadPdfFromPath($invoicePath);
                 }),
         ];
     }

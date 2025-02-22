@@ -35,12 +35,14 @@ trait PdfHelper
     {
         Invoice::make('Invoice-'.$record->id)
             ->id($record->id)
+            ->uuid($record->uuid)
             ->name(Str::slug($record->email.''.$record->id))
             ->seller(Seller::withDefaultValues())
             ->buyer(Buyer::newFromRegistration($record))
             ->registration($record)
             ->totalAmount($record->totalAmount())
-            ->status('not paid')
+            ->communication($record->communication())
+            ->status($record->isPaid() ? 'paid' : 'order command')
             ->date($record->registration_date)
             ->logo(self::logoToBase64())
             ->render()
@@ -55,7 +57,7 @@ trait PdfHelper
     {
         $this->beforeRender();
 
-        $html = $this->toHtml();
+        $html = $this->generateHtml();
 
         try {
             $this->options['isPhpEnabled'] = true;
@@ -72,24 +74,39 @@ trait PdfHelper
         return $this;
     }
 
-    public function toHtml()
+    public function generateHtml(): string
     {
         $template = sprintf('invoices::pdf.%s', $this->template);
-        $view = View::make($template, ['invoice' => $this]);
+
+        $qrCodeFile = $this
+            ->uuid($this->uuid)
+            ->qrCodePath();
+
+        $fileScanning = public_path('images/qr-code-scanning2.jpg');
+        $qrCodeScanning = self::convertToBase64($fileScanning);
+
+        if ($qrCodeFile) {
+            $qrCodeFile = self::convertToBase64($qrCodeFile);
+        }
+
+        $view = View::make(
+            $template,
+            ['invoice' => $this, 'qrCode' => $qrCodeFile, 'qrCodeScanning' => $qrCodeScanning],
+        );
+
         //$html = mb_convert_encoding($view->render(), 'HTML-ENTITIES', 'UTF-8');
 
         return $view->render();
     }
 
-    public  function downloadPdfFromPath(): BinaryFileResponse
+    public function downloadPdfFromPath(string $filePath): BinaryFileResponse
     {
-        $filePath = $this->invoicePathDisk();
-
         if (!file_exists($filePath)) {
             abort(404, 'File not found.');
         }
 
         $fallback = $this->fallbackName($filePath);
+
         return FacadeResponse::download($filePath, 'downloaded-file.pdf', [
             'Content-Type' => 'application/pdf',
         ]);
@@ -152,5 +169,14 @@ trait PdfHelper
         } else {
             return null;
         }
+    }
+
+    public static function convertToBase64(string $filePath): ?string
+    {
+        $imageData = base64_encode(file_get_contents($filePath));
+        $mimeType = mime_content_type($filePath);
+        $base64Image = "data:$mimeType;base64,$imageData";
+
+        return $base64Image;
     }
 }

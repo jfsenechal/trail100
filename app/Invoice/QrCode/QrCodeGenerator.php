@@ -15,6 +15,8 @@ class QrCodeGenerator
 
     public string $id;
 
+    public string $uuid;
+
     public string $name;
 
     public string $bank_account;
@@ -33,10 +35,11 @@ class QrCodeGenerator
      * @throws BindingResolutionException
      * @throws \Exception
      */
-    public static function makeFromRegistration(Registration $registration): void
+    public static function generateAndSaveIt(Registration $registration): void
     {
-        $qrCode = QrCodeGenerator::make('Invoice-'.$registration->id)
+        $qrCode = QrCodeGenerator::make('Invoice-'.$registration->uuid)
             ->id($registration->id)
+            ->uuid($registration->uuid)
             ->amount($registration->totalAmount())
             ->communication($registration->communication());
         $qrCode->generate();
@@ -52,6 +55,13 @@ class QrCodeGenerator
     public function id(string $id): static
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    public function uuid(string $uuid): static
+    {
+        $this->uuid = $uuid;
 
         return $this;
     }

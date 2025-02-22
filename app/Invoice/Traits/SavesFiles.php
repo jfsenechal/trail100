@@ -11,12 +11,36 @@ trait SavesFiles
 
     public function qrCodeFileName(): string
     {
-        return 'qrcode-'.$this->id.'.png';
+        return 'qrcode-'.$this->uuid.'.png';
+    }
+
+    public function qrCodePathDiskTo(): string
+    {
+        return Storage::disk($this->disk)->path('');
+    }
+
+    public function qrCodePath(): ?string
+    {
+        $path = $this->qrCodePathDiskTo().$this->qrCodeFileName();
+
+        if (!file_exists($path)) {
+            return null;
+        }
+
+        return $path;
+    }
+
+    public function saveQrCode(ResultInterface $result): string
+    {
+        $filePath = $this->qrCodePathDiskTo().$this->qrCodeFileName();
+        $result->saveToFile($filePath);
+
+        return $filePath;
     }
 
     public function invoiceFileName(): string
     {
-        return 'invoice-'.$this->id.'.pdf';
+        return 'invoice-'.$this->uuid.'.pdf';
     }
 
     public function invoicePathDisk(): string
@@ -24,9 +48,15 @@ trait SavesFiles
         return Storage::disk($this->disk)->path('');
     }
 
-    public function qrCodePathDiskTo(): string
+    public function invoicePath(): ?string
     {
-        return Storage::disk($this->disk)->path('');
+        $path = $this->invoicePathDisk().$this->invoiceFileName();
+
+        if (!file_exists($path)) {
+            return null;
+        }
+
+        return $path;
     }
 
     /**
@@ -41,12 +71,4 @@ trait SavesFiles
         return $this;
     }
 
-    public function saveQrCode(ResultInterface $result): string
-    {
-        $filePath = $this->qrCodePathDiskTo().DIRECTORY_SEPARATOR.$this->qrCodeFileName();
-
-        $result->saveToFile($filePath);
-
-        return $filePath;
-    }
 }

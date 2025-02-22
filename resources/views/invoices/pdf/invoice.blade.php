@@ -295,5 +295,18 @@
 <p>
     {{ __('invoices::invoice.pay_until') }}: blabla
 </p>
+
+<h3>Informations de paiements</h3>
+<br/>
+<strong>For : </strong> {{config('app.name')}}
+<br/>
+<strong>IBAN :</strong> {{config('invoices.bank_account')}}
+<br/>
+<strong>Communication :</strong> {{$invoice->communication}}
+<br/>
+<strong>Amount : </strong> {{$invoice->getTotalAmountInWords()}} euros
+
+@include('invoices::pdf.qrcode')
+
 </body>
 </html>

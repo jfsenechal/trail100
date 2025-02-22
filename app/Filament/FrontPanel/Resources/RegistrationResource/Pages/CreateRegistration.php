@@ -5,15 +5,12 @@ namespace App\Filament\FrontPanel\Resources\RegistrationResource\Pages;
 use App\Filament\FrontPanel\Resources\RegistrationResource;
 use App\Invoice\Facades\Invoice;
 use App\Invoice\QrCode\QrCodeGenerator;
-use App\Mail\RegistrationCompleted;
 use App\Models\Registration;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Support\Exceptions\Halt;
 use Filament\Support\Facades\FilamentView;
 use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Support\Facades\Mail;
-use Symfony\Component\Mime\Address;
 
 class CreateRegistration extends CreateRecord
 {
@@ -22,9 +19,9 @@ class CreateRegistration extends CreateRecord
 
     public function mount(): void
     {
-        $registration = Registration::find(2);
+        $registration = Registration::find(1);
         try {
-            QrCodeGenerator::makeFromRegistration($registration);
+            QrCodeGenerator::generateAndSaveIt($registration);
         } catch (\Exception $e) {
             dd($e->getMessage());
         }

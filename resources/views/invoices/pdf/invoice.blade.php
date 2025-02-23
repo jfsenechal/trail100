@@ -56,7 +56,7 @@
         }
 
         h4, .h4 {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
         }
 
         .table {
@@ -139,19 +139,25 @@
 </head>
 <body>
 {{-- Header --}}
-@if(isset($invoice->logo))
-    <img src="{{$invoice->logo}}" alt="logo" height="100">
-@else
-    <p>Image not found.</p>
-@endif
-
+<table style="width: 100%;margin-left: 50px;margin-right: 50px;">
+    <tr>
+        <td style="width: 50%;">
+            @if(isset($invoice->logo))
+                <img src="{{$invoice->logo}}" alt="logo" height="100">
+            @else
+                <p>Image not found.</p>
+            @endif
+        </td>
+        <td style="width: 50%;">
+            @include('invoices::pdf.sender')
+        </td>
+    </tr>
+</table>
 <table class="table mt-5">
     <tbody>
     <tr>
         <td class="border-0 pl-0" width="70%">
-            <h4 class="text-uppercase">
-                <strong>{{ $invoice->name }}</strong>
-            </h4>
+            @include('invoices::pdf.buyer')
         </td>
         <td class="border-0 pl-0">
             @if($invoice->status)
@@ -166,82 +172,7 @@
     </tbody>
 </table>
 
-{{-- Seller - Buyer --}}
-<table class="table">
-    <thead>
-    <tr>
-        <th class="border-0 pl-0 party-header" width="48.5%">
-            {{ __('invoices::invoice.seller') }}
-        </th>
-        <th class="border-0" width="3%"></th>
-        <th class="border-0 pl-0 party-header">
-            {{ __('invoices::invoice.buyer') }}
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td class="px-0">
-            @if($invoice->seller->name)
-                <p class="seller-name">
-                    <strong>{{ $invoice->seller->name }}</strong>
-                </p>
-            @endif
-
-            @if($invoice->seller->address)
-                <p class="seller-address">
-                    {{ __('invoices::invoice.address') }}: {{ $invoice->seller->address }}
-                </p>
-            @endif
-
-            @if($invoice->seller->code)
-                <p class="seller-code">
-                    {{ __('invoices::invoice.code') }}: {{ $invoice->seller->code }} {{ $invoice->seller->city }}
-                </p>
-            @endif
-
-            @if($invoice->seller->bank_account)
-                <p class="seller-vat">
-                    {{ __('invoices::invoice.vat') }}: {{ $invoice->seller->bank_account }}
-                </p>
-            @endif
-
-            @if($invoice->seller->phone)
-                <p class="seller-phone">
-                    {{ __('invoices::invoice.phone') }}: {{ $invoice->seller->phone }}
-                </p>
-            @endif
-
-        </td>
-        <td class="border-0"></td>
-        <td class="px-0">
-            @if($invoice->buyer->name)
-                <p class="buyer-name">
-                    <strong>{{ $invoice->buyer->name }}</strong>
-                </p>
-            @endif
-
-            @if($invoice->buyer->address)
-                <p class="buyer-address">
-                    {{ __('invoices::invoice.address') }}: {{ $invoice->buyer->address }}
-                </p>
-            @endif
-
-            @if($invoice->buyer->city)
-                <p class="buyer-code">
-                    {{ __('invoices::invoice.code') }}: {{ $invoice->buyer->city }}
-                </p>
-            @endif
-
-            @if($invoice->buyer->phone)
-                <p class="buyer-phone">
-                    {{ __('invoices::invoice.phone') }}: {{ $invoice->buyer->phone }}
-                </p>
-            @endif
-        </td>
-    </tr>
-    </tbody>
-</table>
+{{-- Buyer --}}
 
 {{-- Table --}}
 <table class="table table-items">
@@ -300,7 +231,7 @@
 <br/>
 <strong>For : </strong> {{config('app.name')}}
 <br/>
-<strong>IBAN :</strong> {{config('invoices.bank_account')}}
+<strong>IBAN :</strong> {{config('invoices.seller.bank_account')}}
 <br/>
 <strong>Communication :</strong> {{$invoice->communication}}
 <br/>

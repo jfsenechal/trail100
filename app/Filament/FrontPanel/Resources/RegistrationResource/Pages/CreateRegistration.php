@@ -19,7 +19,8 @@ class CreateRegistration extends CreateRecord
 
     public function mount(): void
     {
-        $registration = Registration::find(1);
+        $registration = Registration::with('walkers')->withCount('walkers')->find(1);
+
         try {
             QrCodeGenerator::generateAndSaveIt($registration);
         } catch (\Exception $e) {

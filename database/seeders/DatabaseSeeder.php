@@ -40,12 +40,14 @@ class DatabaseSeeder extends Seeder
             'email' => 'jf@marche.be',
         ]);
 
-        Walker::factory(3)->set('registration_id', $registration->id)->create();
+        Walker::factory(3)->create(['registration_id' => $registration->id]);
 
         User::factory(10)->hasAttached($adminRole)->create();
 
         Registration::factory(6)->create()->each(function (Registration $registration) {
-            Walker::factory(rand(1, 5))->set('registration_id', $registration->id)->create();
+            Walker::factory(rand(1, 5))->create([
+                'registration_id' => $registration->id,
+            ]);
         });
 
         //  $user->createToken(config('app.name'));

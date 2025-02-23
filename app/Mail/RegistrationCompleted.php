@@ -71,10 +71,17 @@ class RegistrationCompleted extends Mailable
                 ->as('logoMarcheur.jpg')
                 ->withMime('image/jpg');
 
-        $invoicePath = Invoice::invoicePathDisk();
-        if (file_exists($invoicePath)) {
+        $invoicePath = Invoice::make()
+            ->uuid($this->registration->uuid)
+            ->invoicePath();
+
+        $invoiceFileName = Invoice::make()
+            ->uuid($this->registration->uuid)
+            ->invoiceFileName();
+
+        if (is_file($invoicePath)) {
             $attachments[] =
-                Attachment::fromStorageDisk('invoices', $invoicePath)
+                Attachment::fromStorageDisk('invoices', $invoiceFileName)
                     ->as('name.pdf')
                     ->withMime('application/pdf');
         }

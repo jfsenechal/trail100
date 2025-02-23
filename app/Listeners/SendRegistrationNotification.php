@@ -32,14 +32,19 @@ class SendRegistrationNotification
         try {
             QrCodeGenerator::generateAndSaveIt($registration);
         } catch (BindingResolutionException|\Exception $e) {
+            dd($e->getMessage());
         }
 
         try {
             Invoice::generatePdfAndSaveIt($registration);
-        } catch (BindingResolutionException |\Exception $e) {
-
+        } catch (BindingResolutionException|\Exception $e) {
+            dd($e->getMessage());
         }
 
-        Mail::to(new Address('jf@marche.be', $registration->email))->send(new RegistrationCompleted($registration));
+        try {
+            Mail::to(new Address('jf@marche.be', $registration->email))->send(new RegistrationCompleted($registration));
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 }

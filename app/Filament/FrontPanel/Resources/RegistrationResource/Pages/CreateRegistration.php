@@ -25,10 +25,6 @@ class CreateRegistration extends CreateRecord
     public function mount(): void
     {
         $registration = Registration::with('walkers')->withCount('walkers')->first();
-        dump(Session::get('locale'));
-        dump(\App::getLocale());
-        dump(\App::currentLocale());
-        //\App::setLocale($locale);
 
         try {
             //       QrCodeGenerator::generateAndSaveIt($registration);
@@ -48,7 +44,7 @@ class CreateRegistration extends CreateRecord
 
     public function getTitle(): string|Htmlable
     {
-        return __('messages.form.registration.actions.new.title', locale: Session::get('locale'));
+        return __('messages.form.registration.actions.new.title');
     }
 
     /**
@@ -57,19 +53,19 @@ class CreateRegistration extends CreateRecord
     protected function getCreateFormAction(): Action
     {
         return Action::make('create')
-            ->label(__('messages.form.registration.actions.create.label', locale: Session::get('locale')))
+            ->label(__('messages.form.registration.actions.create.label'))
             ->submit('create')
             ->keyBindings(['mod+s']);
     }
 
     public function getHeading22(): string
     {
-        return __('messages.form.walker.actions.create.heading', locale: Session::get('locale'));
+        return __('messages.form.walker.actions.create.heading');
     }
 
     public function getSubheading(): string
     {
-        return __('messages.form.walker.actions.create.subheading', locale: Session::get('locale'));
+        return __('messages.form.walker.actions.create.subheading');
     }
 
     public function create22(bool $another = false): void

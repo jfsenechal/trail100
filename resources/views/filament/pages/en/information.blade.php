@@ -54,8 +54,8 @@
         </p>
 
         <h3 class="text-2xl font-semibold walker-secondary mt-6">REGISTRATION</h3>
-        <p>Avant le 1 août 2025 : <span class="font-semibold">45 €</span></p>
-        <p>Après le 1 août 2025 : <span class="font-semibold">50 €</span> / Without T-shirt</p>
+        <p>Before August 1, 2025 : <span class="font-semibold">45 €</span></p>
+        <p>After August 1, 2025 : <span class="font-semibold">50 €</span> / Without T-shirt</p>
         <p class="mt-2">This price includes: t-shirt, mid-course breakfast and refreshments.</p>
 
         <h3 class="text-2xl font-semibold walker-secondary mt-6">IMPORTANT</h3>

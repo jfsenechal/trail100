@@ -78,6 +78,12 @@ class RegistrationResource extends Resource
         return __('messages.registration.navigation.label');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('messages.registration.navigation.plural.model.label');
+    }
+
+
 }
 
 //todo https://filamentphp.com/docs/3.x/panels/getting-started#casting-the-price-to-an-integer

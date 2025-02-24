@@ -106,7 +106,7 @@ FilamentView::registerRenderHook(
 
 FilamentView::registerRenderHook(
     PanelsRenderHook::TOPBAR_END,
-    fn(): View => view('filament.pages._select_language'),
+    fn(): View => view('filament.pages.parts._select_language'),
 );
 
 FilamentView::registerRenderHook(

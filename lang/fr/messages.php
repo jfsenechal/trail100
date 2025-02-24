@@ -1,9 +1,11 @@
 <?php
 
 return [
+    'registration.navigation.label' => 'Nouvelle inscription',
+    'registration.navigation.plural.model.label' => 'Inscriptions',
     'form.registration.actions.new.title' => 'Nouvelle inscription',
+    'form.walker.actions.create.subheading' => 'Votre adresse mail est nécessaire à votre inscription',
     'registration.btn.new.signup' => 'Je m\'inscris au 100km',
-    'form.walker.actions.create.subheading' => 'Sous titre',
     'form.registration.actions.create.label' => 'Nouvelle inscription',
     'form.registration.actions.edit.title' => 'Inscription au 100km',
     'form.registration.actions.edit.subheading' => 'Ajoutez un ou plusieurs marcheurs, puis confirmez.',

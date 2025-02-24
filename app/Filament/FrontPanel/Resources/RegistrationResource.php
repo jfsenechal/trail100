@@ -66,12 +66,18 @@ class RegistrationResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListRegistrations::route('/'),
+            'index' => Pages\CreateRegistration::route('/'),
             'create' => Pages\CreateRegistration::route('/create'),
             'edit' => Pages\EditRegistration::route('/{record}/edit'),
             'complete' => Pages\RegistrationComplete::route('/{record}/complete'),
         ];
     }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('messages.registration.navigation.label');
+    }
+
 }
 
 //todo https://filamentphp.com/docs/3.x/panels/getting-started#casting-the-price-to-an-integer

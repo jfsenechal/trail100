@@ -3,9 +3,9 @@
 namespace App\Filament\FrontPanel\Resources\Pages;
 
 use App\Filament\FrontPanel\Resources\RegistrationResource;
+use App\Http\Middleware\SetLocaleLanguage;
 use Filament\Pages\Page;
 use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Support\Facades\App;
 
 class Information extends Page
 {
@@ -16,14 +16,14 @@ class Information extends Page
     public array $log = ['reason' => 'super'];
     public string $locale = '';
 
-    public function __construct()
+    public function onMount(): void
     {
         $this->localeLanguage();
     }
 
     public function localeLanguage(): void
     {
-        $this->locale = App::getLocale() ?? 'en';
+        $this->locale = SetLocaleLanguage::getLanguage();
     }
 
     public function getLayout(): string

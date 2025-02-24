@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\FrontPanel\Resources\Pages\Information;
+use App\Http\Middleware\SetLocaleLanguage;
 use App\Models\Role;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -77,6 +78,7 @@ class FrontPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                SetLocaleLanguage::class
             ])
             ->authMiddleware([
                 //   Authenticate::class,

@@ -1,5 +1,6 @@
 <?php
 
+use App\Constant\AppConstant;
 use App\Filament\FrontPanel\Resources\Pages\Information;
 use App\Filament\FrontPanel\Resources\Pages\Rgpd;
 use App\Filament\Pages\Homepage;
@@ -17,12 +18,6 @@ Route::prefix('{locale}')->middleware(SetLocaleLanguage::class)->group(function 
 });
 
 Route::get('/change-language/{locale}', function () {
-    $locale = request('locale');
-
-    if (in_array($locale, ['en', 'fr', 'nl', 'de'])) {
-        Session::put('locale', $locale);
-        App::setLocale($locale);
-    }
-
+    SetLocaleLanguage::setLanguage(request('locale'));
     return back();
-})->name('change.language');
+})->middleware(SetLocaleLanguage::class)->name('change.language');

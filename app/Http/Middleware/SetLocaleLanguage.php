@@ -25,7 +25,7 @@ class SetLocaleLanguage
         Session::put('locale', $locale);
     }
 
-    public static function getLanguage( ): string
+    public static function getLanguage(): string
     {
         return Session::get('locale', App::getLocale());
     }

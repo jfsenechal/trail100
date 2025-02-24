@@ -11,14 +11,7 @@
             <h3 class="text-3xl font-semibold walker-primary text-center mt-6"> to the 100 KM – FAMENNE – ARDENNE</h3>
 
             <p class="text-lg text-center font-bold">Friday, August 29, 2025 - Departure at 9 p.m.</p>
-            <x-filament::button
-                href="{{$this->getUrlCreate()}}"
-                tag="a"
-                icon="tabler-sign-right-f"
-                color="warning"
-                class="text-center my-5">
-                I'm signing up for the 100km
-            </x-filament::button>
+            @include('filament.pages.parts._btn_signup')
         </div>
 
         <h3 class="text-2xl font-semibold walker-primary mt-6">and other walks</h3>

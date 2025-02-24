@@ -2,6 +2,7 @@
 
 return [
     'form.registration.actions.new.title' => 'New registration',
+    'registration.btn.new.signup' => 'I\'m signing up for the 100km',
     'form.walker.actions.create.subheading' => 'Sous titre',
     'form.registration.actions.create.label' => 'New registration',
     'form.registration.actions.edit.title' => '100km registration',

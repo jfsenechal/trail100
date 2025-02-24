@@ -11,13 +11,7 @@
             <h3 class="text-2xl font-semibold walker-primary text-center mt-6"> au 100 KM – FAMENNE – ARDENNE</h3>
 
             <p class="text-lg text-center font-bold">Vrijdag 29 augustus 2025 - Vertrek om 21 uur</p>
-            <x-filament::button
-                href="{{$this->getUrlCreate()}}"
-                tag="a"
-                class="text-center"
-            >
-                Ik schrijf me in voor de 100km
-            </x-filament::button>
+            @include('filament.pages.parts._btn_signup')
         </div>
 
         <h3 class="text-2xl font-semibold walker-primary mt-6">en naar de andere routes</h3>

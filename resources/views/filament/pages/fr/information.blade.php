@@ -11,13 +11,7 @@
             <h3 class="text-2xl font-semibold walker-primary text-center mt-6"> au 100 KM – FAMENNE – ARDENNE</h3>
 
             <p class="text-lg text-center font-bold">Le vendredi 29 août 2025 - Départ à 21h</p>
-            <x-filament::button
-                href="{{$this->getUrlCreate()}}"
-                tag="a"
-                class="text-center"
-            >
-                Je m'inscris au 100km
-            </x-filament::button>
+            @include('filament.pages.parts._btn_signup')
         </div>
 
         <h3 class="text-2xl font-semibold walker-primary mt-6"> et aux autres parcours</h3>

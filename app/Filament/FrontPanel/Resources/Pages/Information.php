@@ -16,7 +16,7 @@ class Information extends Page
     public array $log = ['reason' => 'super'];
     public string $locale = '';
 
-    public function onMount(): void
+    public function __construct()
     {
         $this->localeLanguage();
     }

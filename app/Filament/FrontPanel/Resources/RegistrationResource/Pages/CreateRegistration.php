@@ -5,12 +5,15 @@ namespace App\Filament\FrontPanel\Resources\RegistrationResource\Pages;
 use App\Filament\FrontPanel\Resources\RegistrationResource;
 use App\Invoice\Facades\Invoice;
 use App\Invoice\QrCode\QrCodeGenerator;
+use App\Mail\RegistrationCompleted;
 use App\Models\Registration;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Support\Exceptions\Halt;
 use Filament\Support\Facades\FilamentView;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Mail\Mailables\Address;
+use Illuminate\Support\Facades\Mail;
 
 class CreateRegistration extends CreateRecord
 {
@@ -19,21 +22,21 @@ class CreateRegistration extends CreateRecord
 
     public function mount(): void
     {
-        $registration = Registration::with('walkers')->withCount('walkers')->find(1);
+        $registration = Registration::with('walkers')->withCount('walkers')->first();
 
         try {
-            QrCodeGenerator::generateAndSaveIt($registration);
+            //       QrCodeGenerator::generateAndSaveIt($registration);
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
 
         try {
-            Invoice::generatePdfAndSaveIt($registration);
+            //     Invoice::generatePdfAndSaveIt($registration);
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
 
-        // Mail::to(new Address('jf@marche.be', $registration->email))->send(new RegistrationCompleted($registration));
+        //  Mail::to(new Address('jf@marche.be', $registration->email))->send(new RegistrationCompleted($registration));
         parent::mount();
     }
 

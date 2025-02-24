@@ -6,6 +6,8 @@ use App\Events\RegistrationProcessed;
 use App\Filament\FrontPanel\Resources\RegistrationResource;
 use App\Models\Registration;
 use Filament\Actions;
+use Filament\Actions\StaticAction;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
@@ -37,32 +39,55 @@ class EditRegistration extends EditRecord
         return __('messages.form.registration.actions.edit.subheading');
     }
 
-    protected function getHeaderActions(): array
+    public function getFormActions(): array
     {
         return [
             Actions\Action::make('finish')
-                ->disabled(fn(Registration $record) => $record->walkers->count() === 0)
-                ->label(
-                    fn(Registration $record) => $record->walkers->count(
-                    ) === 0 ? 'Must be at least 1 walker to complete' : 'I finished',
-                )
-                ->modalSubmitAction()
+                ->form([
+                    Checkbox::make('newsletter_accepted')
+                        ->label(__('messages.form.registration.actions.newsletter_accepted.label'))
+                        ->required(false),
+                    Checkbox::make('gdpr_accepted')
+                        ->required()
+                        ->label(__('messages.form.registration.actions.gdpr_accepted.label')),
+                ])
+                ->label(__('messages.form.registration.actions.header.finish.label'))
+                ->modalSubmitAction(function (StaticAction $action, Registration $record) {
+                    if ($record->walkers->count() !== 0) {
+                        $action
+                            ->label('no walkers')
+                            ->disabled();
+                    }
+                })
                 ->requiresConfirmation()
                 ->modalIcon('heroicon-o-check')
                 ->color('success')
                 ->modalIconColor('warning')
-                ->modalHeading(__('messages.form.registration.actions.finish.title'))
-                ->modalDescription(__('messages.form.registration.actions.finish.description'))
-                ->modalSubmitActionLabel(__('messages.form.registration.actions.finish.label'))
-                ->action(function (Registration $record, array $data): void {
-                    if ($record->walkers->count() < 1) {
+                ->modalHeading(__('messages.form.registration.actions.modal.finish.title'))
+                ->modalDescription(__('messages.form.registration.actions.modal.finish.description'))
+                ->modalSubmitActionLabel(__('messages.form.registration.actions.modal.finish.label'))
+                ->mountUsing(function (StaticAction $action) {
+                    $action
+                        ->label('no walkers')
+                        ->disabled();
+                })
+                ->action(function (array $data, Registration $record, StaticAction $action): void {
+                    if ($record->walkers->count() === 0) {
+                        $action
+                            ->label('no walkers')
+                            ->disabled();
+
                         Notification::make()
                             ->danger()
                             ->title('Unable to finish')
                             ->body('You need at least one walker to finish the registration.')
                             ->send();
-                        $this->halt();
+
+                        return;
                     }
+
+                    $record->gdpr_accepted = $data['gdpr_accepted'];
+                    $record->newsletter_accepted = $data['newsletter_accepted'];
                     $record->setFinished();
                     $record->save();
 
@@ -82,19 +107,10 @@ class EditRegistration extends EditRecord
         ];
     }
 
-    public function getFormActions(): array
-    {
-        return [
-            Actions\Action::make('zeze')->label('zeze'),
-            Actions\Action::make('zozo')->label('zozo'),
-        ];
-    }
-
     public function form(Form $form): Form
     {
         return $form
-            ->schema([
-            ]);
+            ->schema([]);
     }
 
     protected function hasUnsavedDataChangesAlert22(): bool

@@ -12,15 +12,17 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('registrations', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->uuid('id')->primary()->unique();
             $table->string('email');
             $table->boolean('finished')->default(false);
+            $table->boolean('gdpr_accepted')->default(false);
+            $table->boolean('newsletter_accepted')->default(false);
             $table->timestamp('registration_date')->useCurrent();
             $table->timestamps();
         });
 
         Schema::create('walkers', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->uuid('id')->primary()->unique();
             $table->string('email')->nullable();
             $table->string('last_name');
             $table->string('first_name');
@@ -33,7 +35,6 @@ return new class extends Migration {
             $table->string('tshirt_size')->nullable();
             $table->string('display_name')->nullable();
             $table->boolean('display_accepted')->default(false);
-            $table->boolean('gdpr_accepted')->default(false);
             $table->foreignIdFor(Registration::class)->constrained('registrations')->cascadeOnDelete();
             $table->timestamps();
         });

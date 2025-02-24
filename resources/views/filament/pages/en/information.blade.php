@@ -2,25 +2,26 @@
     <div class="mx-5 bg-white shadow-lg rounded-lg p-4">
         <div class="flex flex-row items-center justify-center">
             <img src="{{asset('images/logoMarcheur.jpg')}}" alt="logo marcheur" class="w-56 ml-8">
-            <h1 class="text-3xl font-bold primary text-center">Les Marcheurs de la Famenne</h1>
+            <h1 class="text-3xl font-bold walker-primary text-center">Les Marcheurs de la Famenne</h1>
         </div>
 
         <div class="text-center">
-            <h2 class="text-2xl secondary text-center my-4">Invite you</h2>
+            <h2 class="text-2xl walker-secondary text-center my-4">Invite you</h2>
 
-            <h3 class="text-2xl font-semibold primary text-center mt-6"> to the 100 KM – FAMENNE – ARDENNE</h3>
+            <h3 class="text-3xl font-semibold walker-primary text-center mt-6"> to the 100 KM – FAMENNE – ARDENNE</h3>
 
             <p class="text-lg text-center font-bold">Friday, August 29, 2025 - Departure at 9 p.m.</p>
             <x-filament::button
                 href="{{$this->getUrlCreate()}}"
                 tag="a"
-                class="text-center"
-            >
+                icon="tabler-sign-right-f"
+                color="warning"
+                class="text-center my-5">
                 I'm signing up for the 100km
             </x-filament::button>
         </div>
 
-        <h3 class="text-2xl font-semibold primary mt-6">and other walks</h3>
+        <h3 class="text-2xl font-semibold walker-primary mt-6">and other walks</h3>
         <p class="text-lg ">Saturday, August 30, 2025</p>
 
         <table class="w-full border-collapse mt-6 max-w-xl">
@@ -50,7 +51,7 @@
             </tbody>
         </table>
 
-        <h3 class="text-2xl font-semibold secondary mt-6">DEPARTURE</h3>
+        <h3 class="text-2xl font-semibold walker-secondary mt-6">DEPARTURE</h3>
         <p class="font-semibold">Friday, August 29, 2025 at 9 p.m.</p>
         <p class="font-semibold">Institut Ste Julie</p>
         <p>
@@ -59,12 +60,12 @@
             </a>
         </p>
 
-        <h3 class="text-2xl font-semibold secondary mt-6">REGISTRATION</h3>
+        <h3 class="text-2xl font-semibold walker-secondary mt-6">REGISTRATION</h3>
         <p>Avant le 1 août 2025 : <span class="font-semibold">45 €</span></p>
         <p>Après le 1 août 2025 : <span class="font-semibold">50 €</span> / Without T-shirt</p>
         <p class="mt-2">This price includes: t-shirt, mid-course breakfast and refreshments.</p>
 
-        <h3 class="text-2xl font-semibold secondary mt-6">IMPORTANT</h3>
+        <h3 class="text-2xl font-semibold walker-secondary mt-6">IMPORTANT</h3>
         <ul class="list-disc pl-6 mt-2">
             <li>The minimum age is 16 years old.</li>
             <li>A fluorescent jacket and a headlamp are mandatory.</li>
@@ -75,7 +76,7 @@
             <li>Registration for the walk is worth a certificate of good health.</li>
         </ul>
 
-        <h3 class="text-2xl font-semibold secondary mt-6">INFORMATION</h3>
+        <h3 class="text-2xl font-semibold walker-secondary mt-6">INFORMATION</h3>
         <p>DEGEYE Philippe – <a href="mailto:degeye.philippe@gmail.com" class="text-green-600 underline">degeye.philippe@gmail.com</a>
             – +32 476 545 951</p>
 

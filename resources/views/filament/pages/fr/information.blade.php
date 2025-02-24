@@ -2,13 +2,13 @@
     <div class="mx-5 bg-white shadow-lg rounded-lg p-4">
         <div class="flex flex-row items-center justify-center">
             <img src="{{asset('images/logoMarcheur.jpg')}}" alt="logo marcheur" class="w-56 ml-8">
-            <h1 class="text-3xl font-bold primary text-center">Les Marcheurs de la Famenne</h1>
+            <h1 class="text-3xl font-bold walker-primary text-center">Les Marcheurs de la Famenne</h1>
         </div>
 
         <div class="text-center">
-            <h2 class="text-2xl secondary text-center my-4">Vous invitent</h2>
+            <h2 class="text-2xl walker-secondary text-center my-4">Vous invitent</h2>
 
-            <h3 class="text-2xl font-semibold primary text-center mt-6"> au 100 KM – FAMENNE – ARDENNE</h3>
+            <h3 class="text-2xl font-semibold walker-primary text-center mt-6"> au 100 KM – FAMENNE – ARDENNE</h3>
 
             <p class="text-lg text-center font-bold">Le vendredi 29 août 2025 - Départ à 21h</p>
             <x-filament::button
@@ -20,7 +20,7 @@
             </x-filament::button>
         </div>
 
-        <h3 class="text-2xl font-semibold primary mt-6"> et aux autres parcours</h3>
+        <h3 class="text-2xl font-semibold walker-primary mt-6"> et aux autres parcours</h3>
         <p class="text-lg ">Le samedi 30 août 2025</p>
 
         <table class="w-full border-collapse mt-6 max-w-xl">
@@ -50,7 +50,7 @@
             </tbody>
         </table>
 
-        <h3 class="text-2xl font-semibold secondary mt-6">DÉPART</h3>
+        <h3 class="text-2xl font-semibold walker-secondary mt-6">DÉPART</h3>
         <p class="font-semibold">Le Vendredi 29 août 2025 à 21h</p>
         <p class="font-semibold">Institut Ste Julie</p>
         <p>
@@ -59,12 +59,12 @@
             </a>
         </p>
 
-        <h3 class="text-2xl font-semibold secondary mt-6">INSCRIPTION</h3>
+        <h3 class="text-2xl font-semibold walker-secondary mt-6">INSCRIPTION</h3>
         <p>Avant le 1 août 2025 : <span class="font-semibold">45 €</span></p>
         <p>Après le 1 août 2025 : <span class="font-semibold">50 €</span> / Sans T-shirt</p>
         <p class="mt-2">Ce prix comprend : tee-shirt, petit déjeuner à mi-parcours et ravitaillement.</p>
 
-        <h3 class="text-2xl font-semibold secondary mt-6">IMPORTANT</h3>
+        <h3 class="text-2xl font-semibold walker-secondary mt-6">IMPORTANT</h3>
         <ul class="list-disc pl-6 mt-2">
             <li>L’âge minimum est de 16 ans.</li>
             <li>Une veste fluorescente et une lampe frontale sont obligatoires.</li>
@@ -75,13 +75,13 @@
             <li>L’inscription à la marche vaut un certificat de bonne santé.</li>
         </ul>
 
-        <h3 class="text-2xl font-semibold secondary mt-6">SECRETARIAT</h3>
+        <h3 class="text-2xl font-semibold walker-secondary mt-6">SECRETARIAT</h3>
         <ul class="list-disc pl-6 mt-2">
             <li>Le secrétariat est ouvert le vendredi 29 août 2025 à partir de 17h30.</li>
             <li>La permanence de la FFBMP et IVV le samedi 30 août 2025 de 9 h à 21 h.</li>
         </ul>
 
-        <h3 class="text-2xl font-semibold secondary mt-6">RENSEIGNEMENTS</h3>
+        <h3 class="text-2xl font-semibold walker-secondary mt-6">RENSEIGNEMENTS</h3>
         <p>DEGEYE Philippe – <a href="mailto:degeye.philippe@gmail.com" class="text-green-600 underline">degeye.philippe@gmail.com</a>
             – +32 476 545 951</p>
 

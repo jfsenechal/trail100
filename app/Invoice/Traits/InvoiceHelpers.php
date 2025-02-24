@@ -8,6 +8,7 @@ use App\Models\Registration;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Exception;
+use Illuminate\Support\Number;
 use Symfony\Component\HttpFoundation\File\File;
 
 trait InvoiceHelpers
@@ -81,7 +82,7 @@ trait InvoiceHelpers
 
     public function getTotalAmountInWords(): string
     {
-        return $this->total_amount.' €';
+        return  Number::currency($this->total_amount, in: 'EUR', locale: 'be');
     }
 
     public function seller(Seller $seller): static

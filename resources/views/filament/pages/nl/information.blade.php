@@ -2,13 +2,13 @@
     <div class="mx-5 bg-white shadow-lg rounded-lg p-4">
         <div class="flex flex-row items-center justify-center">
             <img src="{{asset('images/logoMarcheur.jpg')}}" alt="logo marcheur" class="w-56 ml-8">
-            <h1 class="text-3xl font-bold primary text-center">Les Marcheurs de la Famenne</h1>
+            <h1 class="text-3xl font-bold walker-primary text-center">Les Marcheurs de la Famenne</h1>
         </div>
 
         <div class="text-center">
-            <h2 class="text-2xl secondary text-center my-4">Nodigen u uit</h2>
+            <h2 class="text-2xl walker-secondary text-center my-4">Nodigen u uit</h2>
 
-            <h3 class="text-2xl font-semibold primary text-center mt-6"> au 100 KM – FAMENNE – ARDENNE</h3>
+            <h3 class="text-2xl font-semibold walker-primary text-center mt-6"> au 100 KM – FAMENNE – ARDENNE</h3>
 
             <p class="text-lg text-center font-bold">Vrijdag 29 augustus 2025 - Vertrek om 21 uur</p>
             <x-filament::button
@@ -20,7 +20,7 @@
             </x-filament::button>
         </div>
 
-        <h3 class="text-2xl font-semibold primary mt-6">en naar de andere routes</h3>
+        <h3 class="text-2xl font-semibold walker-primary mt-6">en naar de andere routes</h3>
         <p class="text-lg ">Zaterdag 30 augustus 2025</p>
 
         <table class="w-full border-collapse mt-6 max-w-xl">
@@ -50,7 +50,7 @@
             </tbody>
         </table>
 
-        <h3 class="text-2xl font-semibold secondary mt-6">VERTREK</h3>
+        <h3 class="text-2xl font-semibold walker-secondary mt-6">VERTREK</h3>
         <p class="font-semibold">Vrijdag 29 augustus 2025 om 21uur</p>
         <p class="font-semibold">Institut Ste Julie</p>
         <p>
@@ -59,12 +59,12 @@
             </a>
         </p>
 
-        <h3 class="text-2xl font-semibold secondary mt-6">INSCHRIJVING</h3>
+        <h3 class="text-2xl font-semibold walker-secondary mt-6">INSCHRIJVING</h3>
         <p>Inschrijving voor 1 augustus 2025 : <span class="font-semibold">45 €</span></p>
         <p>Inschrijving na 1 augustus 2025 : <span class="font-semibold">50 €</span> / Zonder T-shirt</p>
         <p class="mt-2">In de prijs inbegrepen : t-shirt, ontbijt halverwege en bevoorrading.</p>
 
-        <h3 class="text-2xl font-semibold secondary mt-6">BELANGRIJK</h3>
+        <h3 class="text-2xl font-semibold walker-secondary mt-6">BELANGRIJK</h3>
         <ul class="list-disc pl-6 mt-2">
             <li>Minimumleeftijd is 16 jarr.</li>
             <li>Een fluorescerende jas en hoofdkamp zijn verplicht.</li>
@@ -75,13 +75,13 @@
             <li>Inschrijving voor de wandeltocht is gelijkwaardig aan bewijs van goede gezondheid.</li>
         </ul>
 
-        <h3 class="text-2xl font-semibold secondary mt-6">SECRETARIAAT</h3>
+        <h3 class="text-2xl font-semibold walker-secondary mt-6">SECRETARIAAT</h3>
         <ul class="list-disc pl-6 mt-2">
             <li>Het secretariaat is geopend op vrijdag 29 augustus 2025 vanaf 17uur30.</li>
             <li> Informatiebalie van FFBMP en IVV op zaterdag 30 augustus 2025 van 9uur tot 21uur</li>
         </ul>
 
-        <h3 class="text-2xl font-semibold secondary mt-6">AUSKUNFT</h3>
+        <h3 class="text-2xl font-semibold walker-secondary mt-6">AUSKUNFT</h3>
         <p>KRINS Jean-François – <a href="mailto:jfkrins@yahoo.fr" class="text-green-600 underline">jfkrins@yahoo.fr</a>
             – +32 497 500 037</p>
 

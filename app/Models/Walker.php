@@ -3,14 +3,17 @@
 namespace App\Models;
 
 use App\Constant\TshirtEnum;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Number;
 use Illuminate\Support\Str;
 
 class Walker extends Model
 {
     use HasFactory;
+    use HasUuids;
 
     protected $fillable = [
         'first_name',
@@ -54,4 +57,10 @@ class Walker extends Model
 
         return 45;
     }
+
+    public function amountInWords(): string
+    {
+        return Number::currency($this->amount(), in: 'EUR', locale: 'be');
+    }
+
 }

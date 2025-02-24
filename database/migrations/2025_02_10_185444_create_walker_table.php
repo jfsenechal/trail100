@@ -4,7 +4,6 @@ use App\Models\Registration;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Str;
 
 return new class extends Migration {
     /**
@@ -13,8 +12,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('registrations', function (Blueprint $table) {
-            $table->id();
-            $table->uuid()->default(Str::uuid()->toString());
+            $table->uuid('id')->primary();
             $table->string('email');
             $table->boolean('finished')->default(false);
             $table->timestamp('registration_date')->useCurrent();
@@ -22,14 +20,13 @@ return new class extends Migration {
         });
 
         Schema::create('walkers', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('email')->nullable();
             $table->string('last_name');
             $table->string('first_name');
             $table->string('street')->nullable();
             $table->string('city')->nullable();
             $table->string('country')->nullable()->default('Belgium');
-            $table->uuid()->default(Str::uuid()->toString());
             $table->date('date_of_birth')->nullable();
             $table->string('club_name')->nullable();
             $table->string('phone')->nullable();

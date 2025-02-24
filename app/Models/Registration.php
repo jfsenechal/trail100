@@ -5,12 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Number;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Registration extends Model
 {
     use HasFactory;
+    use HasUuids;
+
     //use HasUuids;
 
     protected $fillable = [
@@ -26,6 +29,12 @@ class Registration extends Model
     public function priceFormated(): string|bool
     {
         return Number::currency($this->price, in: 'EUR', locale: 'fr_BE');
+    }
+
+    //$registration = Registration::with('firstWalker')->find($id);
+    public function firstWalker(): HasOne
+    {
+        return $this->hasOne(Walker::class)->oldest();
     }
 
     public function isPaid(): bool

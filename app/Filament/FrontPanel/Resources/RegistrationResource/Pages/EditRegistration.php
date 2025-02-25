@@ -17,12 +17,19 @@ use Illuminate\Contracts\Support\Htmlable;
 class EditRegistration extends EditRecord
 {
     protected static string $resource = RegistrationResource::class;
-    protected ?bool $hasUnsavedDataChangesAlert = true;
+    protected ?bool $hasUnsavedDataChangesAlert = true;//todo
 
     public static function canAccess(array $parameters = []): bool
     {
         $record = $parameters['record'] ?? null;
         if ($record instanceof Registration) {
+            if ($record->isFinished()) {
+                Notification::make()
+                    ->danger()
+                    ->title('Registration is completed')
+                    ->body('You cannot edit it.')
+                    ->send();
+            }
             return !$record->isFinished();
         }
 
@@ -52,13 +59,13 @@ class EditRegistration extends EditRecord
                         ->label(__('messages.form.registration.actions.gdpr_accepted.label')),
                 ])
                 ->label(__('messages.form.registration.actions.header.finish.label'))
-                ->modalSubmitAction(function (StaticAction $action, Registration $record) {
-                    if ($record->walkers->count() !== 0) {
-                        $action
-                            ->label('no walkers')
-                            ->disabled();
-                    }
-                })
+                /*  ->modalSubmitAction(function (StaticAction $action, Registration $record) {
+                      if ($record->walkers->count() === 0) {
+                          $action
+                              ->label('no walkers')
+                              ->disabled();
+                      }
+                  })*/
                 ->requiresConfirmation()
                 ->modalIcon('heroicon-o-check')
                 ->color('success')
@@ -71,23 +78,19 @@ class EditRegistration extends EditRecord
                         ->label('no walkers')
                         ->disabled();
                 })
-                ->action(function (array $data, Registration $record, StaticAction $action): void {
+                ->action(function (array $data, Registration $record): void {
                     if ($record->walkers->count() === 0) {
-                        $action
-                            ->label('no walkers')
-                            ->disabled();
-
                         Notification::make()
                             ->danger()
-                            ->title('Unable to finish')
-                            ->body('You need at least one walker to finish the registration.')
+                            ->title(__('messages.form.registration.notification.nowalkers.title'))
+                            ->body(__('messages.form.registration.notification.nowalkers.body'))
                             ->send();
 
                         return;
                     }
 
-                    $record->gdpr_accepted = $data['gdpr_accepted'];
-                    $record->newsletter_accepted = $data['newsletter_accepted'];
+                    $record->gdpr_accepted = $data['gdpr_accepted'] ?? false;
+                    $record->newsletter_accepted = $data['newsletter_accepted'] ?? false;
                     $record->setFinished();
                     $record->save();
 
@@ -95,8 +98,8 @@ class EditRegistration extends EditRecord
 
                     Notification::make()
                         ->success()
-                        ->title('Finish')
-                        ->body('Super.')
+                        ->title(__('messages.form.registration.notification.finish.title'))
+                        ->body(__('messages.form.registration.notification.finish.body'))
                         ->send();
 
                     $this->getSavedNotification()?->send();

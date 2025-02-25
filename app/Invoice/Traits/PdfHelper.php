@@ -34,16 +34,9 @@ trait PdfHelper
     public static function generatePdfAndSaveIt(Registration $record): void
     {
         Invoice::make('Invoice-'.$record->id)
-            ->id($record->id)
-            ->uuid($record->uuid)
-            ->name(Str::slug($record->email.''.$record->id))
+            ->registration($record)
             ->seller(Seller::withDefaultValues())
             ->buyer(Buyer::newFromRegistration($record))
-            ->registration($record)
-            ->totalAmount($record->totalAmount())
-            ->communication($record->communication())
-            ->status($record->isPaid() ? 'paid' : 'order command')
-            ->date($record->registration_date)
             ->logo(self::logoToBase64())
             ->render()
             ->saveInvoice();
@@ -79,7 +72,6 @@ trait PdfHelper
         $template = sprintf('invoices::pdf.%s', $this->template);
 
         $qrCodeFile = $this
-            ->uuid($this->uuid)
             ->qrCodePath();
 
         $fileScanning = public_path('images/qr-code-scanning2.jpg');

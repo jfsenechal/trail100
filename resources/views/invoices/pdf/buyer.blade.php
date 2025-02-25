@@ -10,19 +10,19 @@
 
             @if($invoice->buyer->address)
                 <p class="buyer-address">
-                    {{ __('invoices::invoice.address') }}: {{ $invoice->buyer->address }}
+                    {{ __('invoices::messages.invoice.address') }}: {{ $invoice->buyer->address }}
                 </p>
             @endif
 
             @if($invoice->buyer->city)
                 <p class="buyer-code">
-                    {{ __('invoices::invoice.code') }}: {{ $invoice->buyer->city }}
+                    {{ __('invoices::messages.invoice.city') }}: {{ $invoice->buyer->city }}
                 </p>
             @endif
 
             @if($invoice->buyer->phone)
                 <p class="buyer-phone">
-                    {{ __('invoices::invoice.phone') }}: {{ $invoice->buyer->phone }}
+                    {{ __('invoices::messages.invoice.phone') }}: {{ $invoice->buyer->phone }}
                 </p>
             @endif
         </td>

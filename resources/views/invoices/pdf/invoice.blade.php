@@ -156,17 +156,16 @@
 <table class="table mt-5">
     <tbody>
     <tr>
-        <td class="border-0 pl-0" width="70%">
+        <td class="border-0 pl-0" width="50%">
             @include('invoices::pdf.buyer')
         </td>
         <td class="border-0 pl-0">
-            @if($invoice->status)
-                <h4 class="text-uppercase cool-gray">
-                    <strong>{{ $invoice->status }}</strong>
-                </h4>
-            @endif
-            <p>{{ __('invoices::invoice.serial') }} <strong>{{ $invoice->id }}</strong></p>
-            <p>{{ __('invoices::invoice.date') }}: <strong>{{ $invoice->date }}</strong></p>
+            <h4 class="text-uppercase cool-gray">
+                <strong>{{ $invoice->registration->statusText() }}</strong>
+            </h4>
+            <p>{{ __('invoices::messages.invoice.serial') }} <strong>{{ $invoice->registration->id }}</strong></p>
+            <p>{{ __('invoices::messages.invoice.date') }}:
+                <strong>{{ $invoice->registration->registrationDateFormated() }}</strong></p>
         </td>
     </tr>
     </tbody>
@@ -175,68 +174,22 @@
 {{-- Buyer --}}
 
 {{-- Table --}}
-<table class="table table-items">
-    <thead>
-    <tr>
-        <th scope="col" class="border-0 pl-0">{{ __('invoices::invoice.description') }}</th>
-        <th scope="col" class="text-center border-0">{{ __('invoices::invoice.quantity') }}</th>
-        <th scope="col" class="text-right border-0">{{ __('invoices::invoice.price') }}</th>
-        <th scope="col" class="text-right border-0 pr-0">{{ __('invoices::invoice.sub_total') }}</th>
-    </tr>
-    </thead>
-    <tbody>
-    {{-- Items --}}
-    @foreach($invoice->items as $item)
-        <tr>
-            <td class="pl-0">
-                {{ $item->first_name }}{{ $item->last_name }}
-                @if($item->city)
-                    <p class="cool-gray">{{ $item->city }}</p>
-                @endif
-            </td>
-            <td class="text-center">{{ $item->tshirt_size->value }}</td>
-            <td class="text-right">
-                {{ $invoice->formatCurrency($item->amount()) }}
-            </td>
-            <td class="text-right pr-0">
-                {{ $invoice->formatCurrency($item->amount()) }}
-            </td>
-        </tr>
-    @endforeach
-    {{-- Summary --}}
-    <tr>
-        <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-        <td class="text-right pl-0">{{ __('invoices::invoice.total_amount') }}</td>
-        <td class="text-right pr-0 total-amount">
-            {{ $invoice->formatCurrency($invoice->total_amount) }}
-        </td>
-    </tr>
-    </tbody>
-</table>
+@include('filament.pages.parts._walkers_list', ['walkers'=>$invoice->registration->walkers, 'amountInWords'=>$invoice->registration->totalAmountInWords()])
 
 @if($invoice->notes)
     <p>
-        {{ __('invoices::invoice.notes') }}: {!! $invoice->notes !!}
+        {{ __('invoices::messages.invoice.notes') }}: {!! $invoice->notes !!}
     </p>
 @endif
 
 <p>
-    {{ __('invoices::invoice.amount_in_words') }}: {{ $invoice->getTotalAmountInWords() }}
-</p>
-<p>
-    {{ __('invoices::invoice.pay_until') }}: blabla
+    {{ __('invoices::messages.invoice.payment.for.label') }}: {{ $invoice->registration->totalAmountInWords() }}
 </p>
 
-<h3>Informations de paiements</h3>
-<br/>
-<strong>For : </strong> {{config('app.name')}}
-<br/>
-<strong>IBAN :</strong> {{config('invoices.seller.bank_account')}}
-<br/>
-<strong>Communication :</strong> {{$invoice->communication}}
-<br/>
-<strong>Amount : </strong> {{$invoice->getTotalAmountInWords()}} euros
-
+<h3 class="text-2xl font-semibold walker-primary my-2">
+    {{__('invoices::messages.invoice.payment.title')}}
+</h3>
+@include('filament.pages.parts._payment_info', ['record' => $invoice->registration])
 @include('invoices::pdf.qrcode')
 
 </body>

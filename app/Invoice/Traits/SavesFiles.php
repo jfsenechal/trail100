@@ -11,7 +11,7 @@ trait SavesFiles
 
     public function qrCodeFileName(): string
     {
-        return 'qrcode-'.$this->uuid.'.png';
+        return 'qrcode-'.$this->id.'.png';
     }
 
     public function qrCodePathDiskTo(): string
@@ -40,7 +40,7 @@ trait SavesFiles
 
     public function invoiceFileName(): string
     {
-        return 'invoice-'.$this->uuid.'.pdf';
+        return 'invoice-'.$this->id.'.pdf';
     }
 
     public function invoicePathDisk(): string

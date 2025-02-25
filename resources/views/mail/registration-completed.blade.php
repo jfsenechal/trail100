@@ -8,32 +8,24 @@
 
 # {{ config('app.name') }}
 
-## Welcome :joy:
+## Welcome {{$registration->firstWalker->first_name}} {{$registration->firstWalker->last_name}} :joy:
 
 <x-mail::panel style="margin-top: 20px;margin-bottom: 20px;">
 <p style="color: #9f1239;font-weight: bold;">
-## Votre inscription sera validée après paiement !
+## {{__('invoices::messages.form.registration.notification.finish.body')}}
 </p>
 </x-mail::panel>
 
-## Informations de paiements
+## {{__('invoices::messages.invoice.payment.title')}}
+@include('mail._payment_info_markdown', ['record' => $registration])
 
-**Name:** {{config('app.name')}}
-
-**Bank account:** {{config('invoices.bank_account')}}
-
-**Communication:** {{$registration->communication()}}
-
-**Amount:** {{$registration->totalAmount()}} euros
-
-
-## Walkers
+## {{__('invoices::messages.walkers')}}
 
 <x-mail::table>
-| Name     | T-shirt  | Price  |
+| ##{{__('invoices::messages.last_name')}}  | ## {{__('invoices::messages.tshirt_size')}}  | ## {{__('invoices::messages.invoice.price')}}  |
 | -------- | -------- | -------|
 @foreach($registration->walkers as $item)
-| {{$item->name()}} | {{$item->tshirt_size}} | {{$item->amount()}} € |
+| {{$item->name()}} | {{$item->tshirt_size}} | {{$item->amountInWords()}} |
 @endforeach
 </x-mail::table>
 ---

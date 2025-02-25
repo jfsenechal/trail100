@@ -6,26 +6,18 @@ use App\Invoice\Traits\InvoiceHelpers;
 use App\Invoice\Traits\PdfHelper;
 use App\Invoice\Traits\SavesFiles;
 use App\Models\Registration;
-use App\Models\Walker;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
-use Illuminate\Support\Collection;
 
 class Invoice
 {
-    use InvoiceHelpers;
     use SavesFiles;
     use PdfHelper;
+    use InvoiceHelpers;
 
     public int $table_columns = 4;
 
-    public string $id;
-
-    public string $uuid;
-
-    public string $name;
-
-    public string $communication;
+    public ?string $name;
 
     public ?string $logo;
 
@@ -34,15 +26,6 @@ class Invoice
     public Buyer $buyer;
 
     public Registration $registration;
-
-    /**
-     * @var Collection<int,Walker>
-     */
-    public Collection $items;
-
-    public float $total_amount;
-
-    public string $status;
 
     public array $paperOptions;
 
@@ -66,11 +49,7 @@ class Invoice
     {
         // Invoice
         $this->name = $name ?: __('invoices::invoice.invoice');
-        $this->items = Collection::make([]);
         $this->template = 'invoice';
-
-        // Date
-        $this->date = Carbon::now();
 
         // Paper
         $this->paperOptions = config('invoices.paper');

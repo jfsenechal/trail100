@@ -72,11 +72,11 @@ class RegistrationCompleted extends Mailable
                 ->withMime('image/jpg');
 
         $invoicePath = Invoice::make()
-            ->uuid($this->registration->uuid)
+            ->registration($this->registration)
             ->invoicePath();
 
         $invoiceFileName = Invoice::make()
-            ->uuid($this->registration->uuid)
+            ->registration($this->registration)
             ->invoiceFileName();
 
         if (is_file($invoicePath)) {

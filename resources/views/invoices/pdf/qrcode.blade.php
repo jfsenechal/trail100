@@ -1,3 +1,4 @@
+
 @if(isset($qrCode))
     <table style="position: relative;right: 5px;top:50px;width: 90%; margin: auto;">
         <tr>
@@ -6,10 +7,9 @@
                      width="150" alt="scan"/>
             </td>
             <td style="width:35%;text-align: center;">
-                <h3>Payer facilement !</h3>
+                <h3>{{__('invoices::messages.invoice.payment.easy')}}</h3>
                 <p>
-                    Scannez ce code via l'application <br> bancaire de votre smartphone et <br>payez facilement
-                    en toute sécurité.
+                    {{__('invoices::messages.invoice.payment.help')}}
                 </p>
             </td>
             <td style="width:30%;">

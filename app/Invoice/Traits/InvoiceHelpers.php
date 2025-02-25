@@ -5,56 +5,17 @@ namespace App\Invoice\Traits;
 use App\Invoice\Buyer;
 use App\Invoice\Seller;
 use App\Models\Registration;
-use Carbon\Carbon;
-use Carbon\CarbonInterface;
 use Exception;
-use Illuminate\Support\Number;
 use Symfony\Component\HttpFoundation\File\File;
 
 trait InvoiceHelpers
 {
-    public function id(string $id): static
+    public string $id;
+
+    public function registration(Registration $registration): static
     {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    public function uuid(string $uuid): static
-    {
-        $this->uuid = $uuid;
-
-        return $this;
-    }
-
-    public function name(string $name): static
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function communication(string $communication): static
-    {
-        $this->communication = $communication;
-
-        return $this;
-    }
-
-    public function date(CarbonInterface|string $date): static
-    {
-        if (!$date instanceof CarbonInterface) {
-            $date = Carbon::createFromFormat('Y-m-d H:i:s', $date);
-        }
-
-        $this->date = $date;
-
-        return $this;
-    }
-
-    public function status(string $status): static
-    {
-        $this->status = $status;
+        $this->registration = $registration;
+        $this->id = $this->registration->id;
 
         return $this;
     }
@@ -73,18 +34,6 @@ trait InvoiceHelpers
         return $this;
     }
 
-    public function totalAmount(float $total_amount): static
-    {
-        $this->total_amount = $total_amount;
-
-        return $this;
-    }
-
-    public function getTotalAmountInWords(): string
-    {
-        return  Number::currency($this->total_amount, in: 'EUR', locale: 'be');
-    }
-
     public function seller(Seller $seller): static
     {
         $this->seller = $seller;
@@ -95,13 +44,6 @@ trait InvoiceHelpers
     public function buyer(Buyer $buyer): static
     {
         $this->buyer = $buyer;
-
-        return $this;
-    }
-
-    public function registration(Registration $registration): static
-    {
-        $this->registration = $registration;
 
         return $this;
     }
@@ -127,18 +69,12 @@ trait InvoiceHelpers
         return 'data:'.$file->getMimeType().';base64,'.base64_encode($file->getContent());
     }
 
-    public function hasTotalAmount(): bool
-    {
-        return !is_null($this->total_amount);
-    }
-
     /**
      * @throws Exception
      */
     protected function beforeRender(): void
     {
         $this->validate();
-        $this->calculate();
     }
 
     /**
@@ -155,22 +91,4 @@ trait InvoiceHelpers
         }
     }
 
-    public function calculate(): static
-    {
-        $total_amount = 0;
-
-        /*
-         * Apply calculations for provided overrides with:
-         * totalAmount(), totalDiscount(), discountByPercent(), totalTaxes(), taxRate()
-         * or use values calculated from items.
-         */
-        $this->hasTotalAmount() ?: $this->total_amount = $total_amount;
-
-        return $this;
-    }
-
-    public function formatCurrency(): string
-    {
-        return $this->total_amount;
-    }
 }

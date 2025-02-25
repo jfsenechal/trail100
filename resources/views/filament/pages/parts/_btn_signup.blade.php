@@ -8,5 +8,5 @@
     icon="tabler-sign-right-f"
     class="text-center my-5 text-3xl hover:bg-pink-200"
 >
-    {{__('messages.registration.btn.new.signup')}}
+    {{__('invoices::messages.registration.btn.new.signup')}}
 </x-filament::button>

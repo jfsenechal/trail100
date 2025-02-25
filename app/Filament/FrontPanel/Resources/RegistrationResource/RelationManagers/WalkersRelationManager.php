@@ -14,6 +14,7 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
 
 class WalkersRelationManager extends RelationManager
@@ -28,15 +29,18 @@ class WalkersRelationManager extends RelationManager
             ->reactive()
             ->schema([
                 Wizard::make([
-                    Wizard\Step::make('Données nécessaires')
+                    Wizard\Step::make('necessary_data')
+                        ->label(__('messages.form.registration.walkers.step1.label'))
                         ->schema(
                             self::fieldsPersonal(),
                         ),
-                    Wizard\Step::make('Contact')
+                    Wizard\Step::make('contact')
+                        ->label(__('messages.form.registration.walkers.step2.label'))
                         ->schema(
                             self::fieldsContact(),
                         ),
-                    Wizard\Step::make('T-shirt')
+                    Wizard\Step::make('tshirt')
+                        ->label(__('messages.form.registration.walkers.step3.label'))
                         ->schema(
                             self::fieldsTshirt(),
                         ),
@@ -48,17 +52,22 @@ class WalkersRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('first_name')
+            ->emptyStateDescription(__('messages.form.registration.walkers.empty.label'))
             ->columns([
-                Tables\Columns\TextColumn::make('first_name'),
-                Tables\Columns\TextColumn::make('last_name'),
-                Tables\Columns\TextColumn::make('city'),
+                Tables\Columns\TextColumn::make('first_name')
+                    ->label(__('messages.first_name')),
+                Tables\Columns\TextColumn::make('last_name')
+                    ->label(__('messages.last_name')),
+                Tables\Columns\TextColumn::make('city')
+                    ->label(__('messages.city')),
                 Tables\Columns\TextColumn::make('email')
+                    ->label(__('messages.email'))
                     ->icon('heroicon-m-envelope'),
                 Tables\Columns\TextColumn::make('tshirt_size')
+                    ->label(__('messages.tshirt_size'))
                     ->badge()->size('xxl')
                     ->color(fn(TshirtEnum $state): string => $state->getColor())
                     ->icon(fn(TshirtEnum $state): string => $state->getIcon()),
-                Tables\Columns\TextColumn::make('email'),
             ])
             ->filters([
                 //
@@ -79,17 +88,24 @@ class WalkersRelationManager extends RelationManager
             ]);
     }
 
+    public static function getTitle(Model $ownerRecord, string $pageClass): string
+    {
+        return __('messages.form.registration.walkers.label');
+    }
+
     public static function fieldsPersonal(): array
     {
         return [
             TextInput::make('first_name')
+                ->label(__('messages.first_name'))
                 ->required()
                 ->maxLength(150),
             TextInput::make('last_name')
+                ->label(__('messages.last_name'))
                 ->required()
                 ->maxLength(150),
             TextInput::make('email')
-                ->label('Email address')
+                ->label(__('messages.email'))
                 ->email()
                 ->maxLength(150)
                 ->autocomplete('email')
@@ -101,19 +117,19 @@ class WalkersRelationManager extends RelationManager
     {
         return [
             TextInput::make('phone')
-                ->label('Phone number')
+                ->label(__('messages.phone'))
                 ->tel(),
             TextInput::make('street')
-                ->label('Street address')
+                ->label(__('messages.street'))
                 ->maxLength(150),
             TextInput::make('city')
-                ->label('City')
+                ->label(__('messages.city'))
                 ->maxLength(150),
             TextInput::make('country')
-                ->label('Country')
+                ->label(__('messages.country'))
                 ->maxLength(150),
             DatePicker::make('date_of_birth')
-                ->label('Birthday')
+                ->label(__('messages.date_of_birth'))
                 ->maxDate(now())
                 ->date(),
         ];
@@ -122,9 +138,10 @@ class WalkersRelationManager extends RelationManager
     public static function fieldsTshirt(): array
     {
         return [
-            Select::make('tshirt')
+            Select::make('tshirt_size')
+                ->label(__('messages.tshirt_size'))
                 ->options(TshirtEnum::class)
-                ->suffixIcon('heroicon-m-clipboard'),
+                ->suffixIcon('tabler-shirt-sport'),
         ];
     }
 
@@ -132,13 +149,16 @@ class WalkersRelationManager extends RelationManager
     {
         return [
             Select::make('display_name')
+                ->label(__('messages.display_name'))
                 ->options(DisplayNameEnum::class)
                 ->helperText(
                     __('messages.display_name.select.help'),
                 ),
-            Checkbox::make('gdpr')
+            Checkbox::make('gdpr_accepted')
+                ->label(__('messages.gdpr_accepted'))
                 ->helperText(__('messages.gdpr.select.help')),
             Placeholder::make('documentation')
+                ->label(__('messages.documentation'))
                 ->content(new HtmlString('<a href="/rgpd">filamentphp.com</a>')),
         ];
     }

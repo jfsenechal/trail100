@@ -58,6 +58,7 @@ class RegistrationCompleted extends Mailable
                 'textbtn' => __('messages.email.registration.confirm.btn.label'),
                 'url' => RegistrationResource::getUrl('complete', ['record' => $this->registration]),
                 'logo' => $this->logo,
+                'qrCode' => $this->qrcode,
                 'seller' => Seller::withDefaultValues(),
             ],
         );

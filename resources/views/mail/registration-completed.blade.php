@@ -16,9 +16,6 @@
 </p>
 </x-mail::panel>
 
-## {{__('invoices::messages.invoice.payment.title')}}
-@include('mail._payment_info_markdown', ['record' => $registration])
-
 ## {{__('invoices::messages.walkers')}}
 
 <x-mail::table>
@@ -30,15 +27,18 @@
 </x-mail::table>
 ---
 
+## {{__('invoices::messages.invoice.payment.title')}}
+@include('mail._payment_info_markdown', ['record' => $registration])
+
+@if(isset($qrCode))
+<img src="{{$message->embed($qrCode)}}" alt="qrcode" height="150">
+@else
+<p>Image not found.</p>
+@endif
+
 <x-mail::button :url="$url" color="success">
     {{$textbtn}}
 </x-mail::button>
-
-@if(isset($qrcode))
-<img src="{{$message->embed($qrcode)}}" alt="logo" height="200">
-@else
-<p>qrcode not found.</p>
-@endif
 
 [Site web des Marcheurs de la Famenne](https://marcheursdelafamenne.marche.be/)
 

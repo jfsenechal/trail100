@@ -76,7 +76,7 @@ class Registration extends Model
 
     public function communication(): string
     {
-        return '100Km fact '.rand(1,1000);//to do change it
+        return '100Km fact '.rand(1,1000);//todo change it
     }
 
     public function runnersPaid(): array

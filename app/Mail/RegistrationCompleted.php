@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use App\Filament\FrontPanel\Resources\RegistrationResource;
 use App\Invoice\Facades\Invoice;
+use App\Invoice\Facades\QrCodeGenerator;
 use App\Invoice\Seller;
 use App\Models\Registration;
 use Illuminate\Bus\Queueable;
@@ -47,10 +48,9 @@ class RegistrationCompleted extends Mailable
             $this->logo = null;
         }
 
-        $this->qrcode = public_path('images/logoMarcheur.jpg');
-        if (!file_exists($this->qrcode)) {
-            $this->qrcode = null;
-        }
+        $this->qrcode = QrCodeGenerator::make()
+            ->id($this->registration->id)
+            ->qrCodePath();
 
         return new Content(
             markdown: 'mail.registration-completed',
@@ -82,7 +82,7 @@ class RegistrationCompleted extends Mailable
         if (is_file($invoicePath)) {
             $attachments[] =
                 Attachment::fromStorageDisk('invoices', $invoiceFileName)
-                    ->as('name.pdf')
+                    ->as($invoiceFileName)
                     ->withMime('application/pdf');
         }
 

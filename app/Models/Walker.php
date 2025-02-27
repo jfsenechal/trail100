@@ -15,12 +15,6 @@ class Walker extends Model
     use HasFactory;
     use HasUuids;
 
-    public function __construct(array $attributes = [])
-    {
-        $this->tshirt_size = TshirtEnum::NO->value;
-        parent::__construct($attributes);
-    }
-
     protected $fillable = [
         'first_name',
         'last_name',

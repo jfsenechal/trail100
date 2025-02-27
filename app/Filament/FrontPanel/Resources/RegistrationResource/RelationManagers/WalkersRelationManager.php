@@ -39,12 +39,7 @@ class WalkersRelationManager extends RelationManager
                         ->schema(
                             self::fieldsContact(),
                         ),
-                    Wizard\Step::make('tshirt')
-                        ->label(__('messages.form.registration.walkers.step3.label'))
-                        ->schema(
-                            self::fieldsTshirt(),
-                        ),
-                ]),
+                ])
             ]);
     }
 
@@ -66,7 +61,6 @@ class WalkersRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('tshirt_size')
                     ->label(__('messages.tshirt_size'))
                     ->badge()->size('xxl')
-                    ->default(TshirtEnum::NO->value)
                     ->color(fn(TshirtEnum $state): string => $state->getColor())
                     ->icon(fn(TshirtEnum $state): string => $state->getIcon()),
             ])
@@ -108,9 +102,15 @@ class WalkersRelationManager extends RelationManager
             TextInput::make('email')
                 ->label(__('messages.email'))
                 ->email()
+                ->suffixIcon('tabler-mail')
                 ->maxLength(150)
                 ->autocomplete('email')
                 ->required(),
+            Select::make('tshirt_size')
+                ->label(__('messages.tshirt_size'))
+                ->default(TshirtEnum::NO->value)
+                ->options(TshirtEnum::class)
+                ->suffixIcon('tabler-shirt-sport'),
         ];
     }
 
@@ -133,16 +133,6 @@ class WalkersRelationManager extends RelationManager
                 ->label(__('messages.date_of_birth'))
                 ->maxDate(now())
                 ->date(),
-        ];
-    }
-
-    public static function fieldsTshirt(): array
-    {
-        return [
-            Select::make('tshirt_size')
-                ->label(__('messages.tshirt_size'))
-                ->options(TshirtEnum::class)
-                ->suffixIcon('tabler-shirt-sport'),
         ];
     }
 

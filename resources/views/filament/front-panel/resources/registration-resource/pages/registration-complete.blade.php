@@ -1,9 +1,16 @@
 <x-filament-panels::page>
 
-    <x-alert type="success">
-        Merci pour votre inscription
+    <div class="flex flex-row gap-2 items-center justify-items-center">
+        <img src="{{asset('images/manwithbeer.png')}}"
+             width="250" alt="scan"/>
+        <x-alert type="success">
+            {{__('invoices::messages.invoice.payment.finish.congratulate')}}
+        </x-alert>
+    </div>
 
-    </x-alert>
+    <h3 class="text-2xl font-semibold walker-secondary my-2">
+        {{__('invoices::messages.walkers.list')}}
+    </h3>
 
     <x-list-walkers :walkers="$record->walkers" :amount="$record->totalAmountInWords()"/>
 

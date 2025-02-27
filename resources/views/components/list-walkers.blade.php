@@ -29,7 +29,7 @@
         <td></td>
         <td class="text-right pl-0">{{ __('invoices::messages.invoice.payment.total_amount.label') }}</td>
         <td class="text-right pr-0 total-amount">
-            {{ $amountInWords }}
+            {{ $amount }}
         </td>
     </tr>
     </tbody>

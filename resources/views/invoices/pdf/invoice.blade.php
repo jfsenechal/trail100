@@ -187,7 +187,7 @@
     {{__('invoices::messages.invoice.payment.title')}}
 </h3>
 
-<x-payment-information :amount="$invoice->totalAmountInWords()" :communication="$invoice->communication()"/>
+<x-payment-information :amount="$invoice->registration->totalAmountInWords()" :communication="$invoice->registration->communication()"/>
 @include('invoices::pdf.qrcode')
 
 </body>

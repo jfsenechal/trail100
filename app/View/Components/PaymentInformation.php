@@ -22,7 +22,6 @@ class PaymentInformation extends Component
         if ($this->markdown) {
             $this->template = 'components.payment-information-markdown';
         }
-        dump($this->markdown);
     }
 
     public function render(): View|Closure|string

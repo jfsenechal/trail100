@@ -66,6 +66,7 @@ class WalkersRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('tshirt_size')
                     ->label(__('messages.tshirt_size'))
                     ->badge()->size('xxl')
+                    ->default(TshirtEnum::NO->value)
                     ->color(fn(TshirtEnum $state): string => $state->getColor())
                     ->icon(fn(TshirtEnum $state): string => $state->getIcon()),
             ])

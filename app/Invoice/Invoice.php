@@ -21,8 +21,6 @@ class Invoice
 
     public ?string $logo;
 
-    public Seller $seller;
-
     public Buyer $buyer;
 
     public Registration $registration;

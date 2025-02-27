@@ -138,7 +138,7 @@
     </style>
 </head>
 <body>
-{{-- Header --}}
+
 <table style="width: 100%;margin-left: 50px;margin-right: 50px;">
     <tr>
         <td style="width: 50%;">
@@ -149,7 +149,7 @@
             @endif
         </td>
         <td style="width: 50%;">
-            @include('invoices::pdf.sender')
+            <x-seller/>
         </td>
     </tr>
 </table>
@@ -171,10 +171,7 @@
     </tbody>
 </table>
 
-{{-- Buyer --}}
-
-{{-- Table --}}
-@include('filament.pages.parts._walkers_list', ['walkers'=>$invoice->registration->walkers, 'amountInWords'=>$invoice->registration->totalAmountInWords()])
+<x-list-walkers :walkers="$invoice->registration->walkers" :amount="$invoice->registration->totalAmountInWords()"/>
 
 @if($invoice->notes)
     <p>
@@ -183,13 +180,14 @@
 @endif
 
 <p>
-    {{ __('invoices::messages.invoice.payment.for.label') }}: {{ $invoice->registration->totalAmountInWords() }}
+    {{ __('invoice.payment.total_amount.label') }}: {{ $invoice->registration->totalAmountInWords() }}
 </p>
 
 <h3 class="text-2xl font-semibold walker-primary my-2">
     {{__('invoices::messages.invoice.payment.title')}}
 </h3>
-@include('filament.pages.parts._payment_info', ['record' => $invoice->registration])
+
+<x-payment-information :amount="$invoice->totalAmountInWords()" :communication="$invoice->communication()"/>
 @include('invoices::pdf.qrcode')
 
 </body>

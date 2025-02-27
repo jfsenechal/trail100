@@ -15,11 +15,16 @@ class RegistrationComplete extends Page
 {
     use InteractsWithRecord;
 
-    public ?string $qrCode;
-
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static string $resource = RegistrationResource::class;
+    public ?string $qrCode;
+    public ?string $qrCodeScanning;
+    public string $message = '';
 
-    protected static string $view = 'filament.front-panel.resources.registration-resource.pages.registration-complete';
+    public function getView(): string
+    {
+        return 'filament.front-panel.resources.registration-resource.pages.registration-complete';
+    }
 
     public function mount(int|string $record): void
     {
@@ -27,9 +32,12 @@ class RegistrationComplete extends Page
          * @var Registration $this ->record
          */
         $this->record = $this->resolveRecord($record);
-        $this->qrCode = QrCodeGenerator::make()
+        $this->qrCode = self::convertToBase64(QrCodeGenerator::make()
             ->id($this->record->id)
-            ->qrCodePath();
+            ->qrCodePath());
+        $fileScanning = public_path('images/qr-code-scanning2.jpg');
+        $this->qrCodeScanning = self::convertToBase64($fileScanning);
+        $this->message = 'coucou';
     }
 
     public function getTitle(): string|Htmlable
@@ -56,5 +64,14 @@ class RegistrationComplete extends Page
     public static function canAccess(array $parameters = []): bool
     {
         return true;
+    }
+
+    private static function convertToBase64(string $filePath): ?string
+    {
+        $imageData = base64_encode(file_get_contents($filePath));
+        $mimeType = mime_content_type($filePath);
+        $base64Image = "data:$mimeType;base64,$imageData";
+
+        return $base64Image;
     }
 }

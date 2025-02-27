@@ -5,7 +5,6 @@ namespace App\Mail;
 use App\Filament\FrontPanel\Resources\RegistrationResource;
 use App\Invoice\Facades\Invoice;
 use App\Invoice\Facades\QrCodeGenerator;
-use App\Invoice\Seller;
 use App\Models\Registration;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -59,7 +58,6 @@ class RegistrationCompleted extends Mailable
                 'url' => RegistrationResource::getUrl('complete', ['record' => $this->registration]),
                 'logo' => $this->logo,
                 'qrCode' => $this->qrcode,
-                'seller' => Seller::withDefaultValues(),
             ],
         );
     }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Constant\TshirtEnum;
 use App\Models\Registration;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -32,7 +33,7 @@ return new class extends Migration {
             $table->date('date_of_birth')->nullable();
             $table->string('club_name')->nullable();
             $table->string('phone')->nullable();
-            $table->string('tshirt_size')->nullable();
+            $table->string('tshirt_size')->default(TshirtEnum::NO->value)->nullable(false);
             $table->string('display_name')->nullable();
             $table->boolean('display_accepted')->default(false);
             $table->foreignIdFor(Registration::class)->constrained('registrations')->cascadeOnDelete();

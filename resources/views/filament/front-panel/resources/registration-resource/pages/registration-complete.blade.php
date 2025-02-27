@@ -1,12 +1,17 @@
 <x-filament-panels::page>
 
-    @include('filament.pages.parts._walkers_list', ['walkers'=>$record->walkers, 'amountInWords'=>$record->totalAmountInWords()])
+    <x-alert type="success">
+        Merci pour votre inscription
+
+    </x-alert>
+
+    <x-list-walkers :walkers="$record->walkers" :amount="$record->totalAmountInWords()"/>
 
     <h3 class="text-2xl font-semibold walker-secondary my-2">
         {{__('invoices::messages.invoice.payment.title')}}
     </h3>
-    @include('filament.pages.parts._payment_info')
+
+    <x-payment-information :amount="$record->totalAmountInWords()" :communication="$record->communication()"/>
 
     @include('invoices::pdf.qrcode')
-
 </x-filament-panels::page>

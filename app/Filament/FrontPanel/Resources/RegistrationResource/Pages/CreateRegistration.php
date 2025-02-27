@@ -27,18 +27,18 @@ class CreateRegistration extends CreateRecord
         $registration = Registration::with('walkers')->withCount('walkers')->first();
 
         try {
-        //    QrCodeGenerator::generateAndSaveIt($registration);
+         //   QrCodeGenerator::generateAndSaveIt($registration);
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
 
         try {
-      //      Invoice::generatePdfAndSaveIt($registration);
+        //    Invoice::generatePdfAndSaveIt($registration);
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
 
-        //Mail::to(new Address('jf@marche.be', $registration->email))->send(new RegistrationCompleted($registration));
+       // Mail::to(new Address('jf@marche.be', $registration->email))->send(new RegistrationCompleted($registration));
         parent::mount();
     }
 

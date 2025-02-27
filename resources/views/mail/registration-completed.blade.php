@@ -28,7 +28,8 @@
 ---
 
 ## {{__('invoices::messages.invoice.payment.title')}}
-@include('mail._payment_info_markdown', ['record' => $registration])
+
+<x-payment-information :amount="$registration->totalAmountInWords()" :communication="$registration->communication()" :markdown="true"/>
 
 @if(isset($qrCode))
 <img src="{{$message->embed($qrCode)}}" alt="qrcode" height="150">

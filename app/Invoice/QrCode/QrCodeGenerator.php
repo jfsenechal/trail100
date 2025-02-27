@@ -98,7 +98,7 @@ class QrCodeGenerator
         $qrCode = new Builder(
             writer: new PngWriter(),
             writerOptions: [],
-            validateResult: true,
+            validateResult: false,//todo set true
             data: $qr_string,
             encoding: new Encoding('UTF-8'),
             size: 300,

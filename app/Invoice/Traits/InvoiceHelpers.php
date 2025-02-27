@@ -3,7 +3,6 @@
 namespace App\Invoice\Traits;
 
 use App\Invoice\Buyer;
-use App\Invoice\Seller;
 use App\Models\Registration;
 use Exception;
 use Symfony\Component\HttpFoundation\File\File;
@@ -30,13 +29,6 @@ trait InvoiceHelpers
     public function logo(?string $logo): static
     {
         $this->logo = $logo;
-
-        return $this;
-    }
-
-    public function seller(Seller $seller): static
-    {
-        $this->seller = $seller;
 
         return $this;
     }
@@ -83,11 +75,7 @@ trait InvoiceHelpers
     public function validate(): void
     {
         if (!$this->registration) {
-            throw new Exception('Buyer not defined.');
-        }
-
-        if (!$this->seller) {
-            throw new Exception('Seller not defined.');
+            throw new Exception('Registration not defined.');
         }
     }
 

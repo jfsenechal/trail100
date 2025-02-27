@@ -4,7 +4,6 @@ namespace App\Invoice\Traits;
 
 use App\Invoice\Buyer;
 use App\Invoice\Invoice;
-use App\Invoice\Seller;
 use App\Models\Registration;
 use Barryvdh\DomPDF\Facade\Pdf as PdfFacade;
 use Barryvdh\DomPDF\PDF;
@@ -35,7 +34,6 @@ trait PdfHelper
     {
         Invoice::make('Invoice-'.$record->id)
             ->registration($record)
-            ->seller(Seller::withDefaultValues())
             ->buyer(Buyer::newFromRegistration($record))
             ->logo(self::logoToBase64())
             ->render()

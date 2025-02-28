@@ -38,39 +38,24 @@ class DatabaseSeeder extends Seeder
 
         $registration = Registration::factory()->create([
             'email' => 'jf@marche.be',
+            'gdpr_accepted' => true,
+            'newsletter_accepted' => true,
+            'completed' => true,
+            'payment_date' => now(),
         ]);
 
         Walker::factory(3)->create(['registration_id' => $registration->id]);
 
-        User::factory(10)->hasAttached($adminRole)->create();
+        User::factory(4)->hasAttached($adminRole)->create();
 
-        Registration::factory(6)->create()->each(function (Registration $registration) {
+        Registration::factory(6)->create([
+            'gdpr_accepted' => true,
+        ])->each(function (Registration $registration) {
             Walker::factory(rand(1, 5))->create([
                 'registration_id' => $registration->id,
             ]);
         });
-
-        //  $user->createToken(config('app.name'));
-        // Create additional users
-        // Create Leads
-        /*   Lead::factory(100)->create()->each(function ($lead) {
-               if ($lead->status == LeadStatus::Qualified) {
-                   // Create Deal for this lead
-                   $deal = Deal::create([
-                       'title' => $lead->title,
-                       'customer_id' => $lead->customer_id,
-                       'lead_id' => $lead->id,
-                       'estimated_revenue' => $lead->estimated_revenue,
-                       'status' => rand(1, 3),
-                       'description' => $lead->description,
-                       'created_at' => $lead->created_at,
-                   ]);
-
-                   // Add products to deal
-                   DealProduct::factory(rand(1, 5))->create([
-                       'deal_id' => $deal->id,
-                   ]);
-               }
-           });*/
     }
+
+
 }

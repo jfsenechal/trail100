@@ -36,7 +36,7 @@ class Registration extends Model
 
     public function isPaid(): bool
     {
-        return (bool)$this->paid;
+        return $this->payment_date !== null;
     }
 
     public function statusText(): string
@@ -44,14 +44,14 @@ class Registration extends Model
         return $this->isPaid() ? __('messages.invoice.paid') : __('messages.invoice.unpaid');
     }
 
-    public function setFinished(): void
+    public function setCompleted(): void
     {
-        $this->finished = true;
+        $this->completed = true;
     }
 
-    public function isFinished(): bool
+    public function isCompleted(): bool
     {
-        return $this->finished;
+        return $this->completed;
     }
 
     public function totalAmount(): float

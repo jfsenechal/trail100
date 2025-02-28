@@ -58,6 +58,11 @@ class Walker extends Model
         return 45;
     }
 
+    public function isPaid(): bool
+    {
+        return $this->registration()->payement_date !== null;
+    }
+
     public function amountInWords(): string
     {
         return Number::currency($this->amount(), in: 'EUR', locale: 'be');

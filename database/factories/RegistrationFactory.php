@@ -18,6 +18,9 @@ class RegistrationFactory extends Factory
     {
         return [
             'email' => fake()->email(),
+            'payment_date' => $this->faker->boolean ? now() : null,
+            'newsletter_accepted' => $this->faker->boolean,
+            'completed' => $this->faker->boolean,
         ];
     }
 }

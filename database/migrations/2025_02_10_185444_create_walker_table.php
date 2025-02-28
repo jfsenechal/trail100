@@ -15,10 +15,11 @@ return new class extends Migration {
         Schema::create('registrations', function (Blueprint $table) {
             $table->uuid('id')->primary()->unique();
             $table->string('email');
-            $table->boolean('finished')->default(false);
+            $table->boolean('completed')->default(false);
             $table->boolean('gdpr_accepted')->default(false);
             $table->boolean('newsletter_accepted')->default(false);
             $table->timestamp('registration_date')->useCurrent();
+            $table->timestamp('payment_date')->default(null)->nullable();
             $table->timestamps();
         });
 

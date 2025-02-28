@@ -23,14 +23,14 @@ class EditRegistration extends EditRecord
     {
         $record = $parameters['record'] ?? null;
         if ($record instanceof Registration) {
-            if ($record->isFinished()) {
+            if ($record->isCompleted()) {
                 Notification::make()
                     ->danger()
                     ->title('Registration is completed')
                     ->body('You cannot edit it.')
                     ->send();
             }
-            return !$record->isFinished();
+            return !$record->isCompleted();
         }
 
         return false;
@@ -49,7 +49,7 @@ class EditRegistration extends EditRecord
     public function getFormActions(): array
     {
         return [
-            Actions\Action::make('finish')
+            Actions\Action::make('completed')
                 ->form([
                     Checkbox::make('newsletter_accepted')
                         ->label(__('messages.form.registration.actions.newsletter_accepted.label'))
@@ -91,7 +91,7 @@ class EditRegistration extends EditRecord
 
                     $record->gdpr_accepted = $data['gdpr_accepted'] ?? false;
                     $record->newsletter_accepted = $data['newsletter_accepted'] ?? false;
-                    $record->setFinished();
+                    $record->setCompleted();
                     $record->save();
 
                     RegistrationProcessed::dispatch($record);

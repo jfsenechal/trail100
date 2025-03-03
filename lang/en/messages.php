@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'page.welcome.title' => 'Homepage',
     'registration.navigation.label' => 'New registration',
     'registration.navigation.plural.model.label' => 'Registrations',
     'form.registration.actions.new.title' => 'New registration',
@@ -25,12 +26,14 @@ return [
     'form.registration.walkers.step2.label' => 'Contact',
     'form.registration.walkers.step3.label' => 'T-shirt',
     'form.registration.notification.finish.title' => 'Registration finished',
-    'form.registration.notification.finish.body' => 'After payment your registration will be validated',
+    'form.registration.notification.finish.body' => 'To be valid, registration must be paid no later than xx/xx/2025',
     'form.registration.notification.nowalkers.title' => 'No walkers',
     'form.registration.notification.nowalkers.body' => 'You need at least one walker to finish the registration.',
     'first_name' => 'First name',
     'last_name' => 'Last name',
     'tshirt_size' => 'T-shirt size',
+    'tshirt.label' => 'T-shirt',
+    'tshirt.cost' => '+5 € for a t-shirt',
     'city' => 'City',
     'email' => 'Email',
     'phone' => 'Phone',

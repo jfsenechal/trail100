@@ -51,7 +51,7 @@ class Walker extends Model
 
     public function amount(): float
     {
-        if ($this->tshirt_size != TshirtEnum::NO->value) {
+        if ($this->tshirt_size->value !== TshirtEnum::NO->value) {
             return 50;
         }
 

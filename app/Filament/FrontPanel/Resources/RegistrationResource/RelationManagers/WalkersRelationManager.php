@@ -4,6 +4,7 @@ namespace App\Filament\FrontPanel\Resources\RegistrationResource\RelationManager
 
 use App\Constant\DisplayNameEnum;
 use App\Constant\TshirtEnum;
+use App\Models\Walker;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Placeholder;
@@ -39,7 +40,7 @@ class WalkersRelationManager extends RelationManager
                         ->schema(
                             self::fieldsContact(),
                         ),
-                ])
+                ]),
             ]);
     }
 
@@ -59,10 +60,13 @@ class WalkersRelationManager extends RelationManager
                     ->label(__('messages.email'))
                     ->icon('heroicon-m-envelope'),
                 Tables\Columns\TextColumn::make('tshirt_size')
-                    ->label(__('messages.tshirt_size'))
+                    ->label(__('invoices::messages.tshirt.label'))
                     ->badge()->size('xxl')
                     ->color(fn(TshirtEnum $state): string => $state->getColor())
                     ->icon(fn(TshirtEnum $state): string => $state->getIcon()),
+                Tables\Columns\TextColumn::make('price')
+                    ->label(__('invoices::messages.invoice.price'))
+                    ->state(fn(Walker $walker) => $walker->amountInWords()),
             ])
             ->filters([
                 //
@@ -108,6 +112,7 @@ class WalkersRelationManager extends RelationManager
                 ->required(),
             Select::make('tshirt_size')
                 ->label(__('messages.tshirt_size'))
+                ->helperText(__('messages.tshirt.cost'))
                 ->default(TshirtEnum::NO->value)
                 ->options(TshirtEnum::class)
                 ->suffixIcon('tabler-shirt-sport'),

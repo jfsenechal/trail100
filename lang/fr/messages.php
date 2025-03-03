@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'page.welcome.title' => 'Accueil',
     'registration.navigation.label' => 'Nouvelle inscription',
     'registration.navigation.plural.model.label' => 'Inscriptions',
     'form.registration.actions.new.title' => 'Nouvelle inscription',
@@ -25,12 +26,14 @@ return [
     'form.registration.walkers.step2.label' => 'Contact',
     'form.registration.walkers.step3.label' => 'T-shirt',
     'form.registration.notification.finish.title' => 'Inscription terminée',
-    'form.registration.notification.finish.body' => 'Après paiement votre inscription sera validée',
+    'form.registration.notification.finish.body' => 'Pour être valable l’inscription doit être payée au plus tard le xx/xx/2025',
     'form.registration.notification.nowalkers.title' => 'Pas de marcheurs',
     'form.registration.notification.nowalkers.body' => 'Vous devez au moins ajouter un marcheur pour finir l\'inscription.',
     'first_name' => 'Prénom',
     'last_name' => 'Nom',
     'tshirt_size' => 'Taille du t-shirt',
+    'tshirt.cost' => '+5 € pour un t-shirt',
+    'tshirt.label' => 'T-shirt',
     'city' => 'Localité',
     'email' => 'Courriel',
     'phone' => 'Téléphone',

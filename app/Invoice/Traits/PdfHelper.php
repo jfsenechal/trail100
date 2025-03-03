@@ -89,13 +89,13 @@ trait PdfHelper
         return $view->render();
     }
 
-    public function downloadPdfFromPath(string $filePath): BinaryFileResponse
+    public static function downloadPdfFromPath(string $filePath): BinaryFileResponse
     {
         if (!file_exists($filePath)) {
             abort(404, 'File not found.');
         }
 
-        $fallback = $this->fallbackName($filePath);
+        //$fallback = $this->fallbackName($filePath);
 
         return FacadeResponse::download($filePath, 'downloaded-file.pdf', [
             'Content-Type' => 'application/pdf',

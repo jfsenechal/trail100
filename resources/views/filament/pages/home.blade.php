@@ -1,17 +1,18 @@
 <x-filament-panels::page>
-    <h2 class="text-green-400 font-bold text-2xl">{{ config('app.name') }}</h2>
+    <h2 class="text-green-400 font-bold text-2xl">
+    Trail Famenne Ardenne
+    </h2>
 
-    langue : {{$locale}}
     <p>
-        <a href="{{route('information',['locale'=>'fr'])}}">information fr</a>
+        <a href="{{route('information',['locale'=>'fr'])}}">Bienvenue au 100 km Famenne Ardenne</a>
     </p>
     <p>
-        <a href="{{route('information',['locale'=>'nl'])}}">information nl</a>
+        <a href="{{route('information',['locale'=>'nl'])}}">Welkom bij de 100 km Famenne Ardenne</a>
     </p>
     <p>
-        <a href="{{route('information',['locale'=>'en'])}}">information en</a>
+        <a href="{{route('information',['locale'=>'en'])}}">Welcome to the 100 km Famenne Ardenne</a>
     </p>
     <p>
-        <a href="{{route('information',['locale'=>'de'])}}">information de</a>
+        <a href="{{route('information',['locale'=>'de'])}}">Willkommen bei den 100 km Famenne Ardenne</a>
     </p>
 </x-filament-panels::page>

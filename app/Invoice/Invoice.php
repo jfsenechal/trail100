@@ -2,6 +2,7 @@
 
 namespace App\Invoice;
 
+use App\Invoice\QrCode\QrCodeGenerator;
 use App\Invoice\Traits\InvoiceHelpers;
 use App\Invoice\Traits\PdfHelper;
 use App\Invoice\Traits\SavesFiles;
@@ -62,6 +63,26 @@ class Invoice
         );
 
         $this->disk = 'invoices';
+    }
+
+    /**
+     * @param Registration $registration
+     * @return void
+     * @throws \Exception
+     */
+    public static function generateWithQrCode(Registration $registration):void
+    {
+        try {
+            QrCodeGenerator::generateAndSaveIt($registration);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+
+        try {
+            self::generatePdfAndSaveIt($registration);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
 
     /**

@@ -5,16 +5,21 @@ namespace App\Filament\Pages;
 use App\Models\Walker;
 use Filament\Actions\Action;
 use Filament\Pages\Page;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
 
 class Homepage extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static string $view = 'filament.pages.home';
     // protected static bool $shouldRegisterNavigation = false;
+
+    public function getTitle(): string|Htmlable
+    {
+        return __('invoices::messages.page.welcome.title');
+    }
 
     /**
      * @var Collection<int, Walker> $walkers
@@ -31,11 +36,6 @@ class Homepage extends Page
     public function localeLanguage(): void
     {
         $this->locale = App::getLocale() ?? 'en';
-    }
-
-    public function getSubheading(): ?string
-    {
-        return __('filament.pages.home.subHeading');
     }
 
     public static function canAccess(): bool

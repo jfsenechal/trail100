@@ -23,24 +23,24 @@ class WalkersCountWidget extends BaseWidget
         })->count();
 
         return [
-            Stat::make('Marcheurs', $walkersCountPaid)
+            Stat::make('Marcheurs validés', $walkersCountPaid)
                 ->description('Nombre de marcheurs payés')
-                ->descriptionIcon('tabler-walk')
-                ->color('success'),
+                ->icon('tabler-walk')
+                ->color('success')                ,
 
-            Stat::make('Marcheurs', $walkersCountUnpaid)
+            Stat::make('Marcheurs non validés', $walkersCountUnpaid)
                 ->description('Nombre de marcheurs non payés')
-                ->descriptionIcon('tabler-walk')
+                ->icon('tabler-walk')
                 ->color('danger'),
 
             Stat::make('Inscriptions payées', Registration::whereNotNull('payment_date')->count())
                 ->description('Date de paiement validée')
-                ->descriptionIcon('tabler-currency-euro')
+                ->icon('tabler-currency-euro')
                 ->color('success'),
 
             Stat::make('Inscriptions non payées', Registration::whereNull('payment_date')->count())
                 ->description('Pas de date de paiement')
-                ->descriptionIcon('tabler-currency-euro-off')
+                ->icon('tabler-currency-euro-off')
                 ->color('danger'),
         ];
     }

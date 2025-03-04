@@ -13,9 +13,9 @@ class ListRegistrations extends ListRecords
 {
     protected static string $resource = RegistrationResource::class;
 
-    private int $registrationsAll = 0;
-    private int $registrationsNotPaidCount = 0;
-    private int $registrationsPaidCount = 0;
+    private int $registrationsAll;
+    private int $registrationsNotPaidCount;
+    private int $registrationsPaidCount;
 
     public function __construct()
     {
@@ -46,7 +46,7 @@ class ListRegistrations extends ListRecords
                     return $this->registrationsPaidCount;
                 })
                 ->modifyQueryUsing(function (Builder $query) {
-                    return Registration::whereNotNull('payment_date')->count();
+                    return Registration::whereNotNull('payment_date');
                 }),
         ];
     }

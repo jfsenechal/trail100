@@ -75,7 +75,7 @@ class RegistrationResource extends Resource
                         $record->payment_date = new \DateTime();
                         $record->save();
                     })
-                    ->label(false)
+                    ->label(fn(Registration $record): string => $record->isPaid() ? 'Payé' : 'Payer')
                     ->tooltip(fn(Registration $record): string => $record->isPaid() ? '' : 'Payer')
                     ->disabled(fn(Registration $record): bool => $record->isPaid())
                     ->form(function (Form $form) {

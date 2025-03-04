@@ -5,6 +5,7 @@ namespace App\Filament\AdminPanel\Resources;
 use App\Constant\TshirtEnum;
 use App\Filament\AdminPanel\Resources\WalkerResource\Pages;
 use App\Models\Registration;
+use App\Models\Role;
 use App\Models\Walker;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -14,6 +15,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class WalkerResource extends Resource
 {
@@ -115,5 +117,10 @@ class WalkerResource extends Resource
             'view' => Pages\ViewWalker::route('/{record}'),
             'edit' => Pages\EditWalker::route('/{record}/edit'),
         ];
+    }
+
+    public static function canAccess(): bool
+    {
+        return Auth::getUser()->hasRole(Role::ROLE_ADMIN);
     }
 }

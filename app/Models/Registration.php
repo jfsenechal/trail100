@@ -2,15 +2,13 @@
 
 namespace App\Models;
 
-use App\Invoice\Traits\InvoiceHelpers;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Number;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Registration extends Model
 {
@@ -76,7 +74,7 @@ class Registration extends Model
 
     public function communication(): string
     {
-        return '100Km fact '.rand(1,1000);//todo change it
+        return '100Km fact '.rand(1, 1000);//todo change it
     }
 
     public function runnersPaid(): array

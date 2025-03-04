@@ -2,8 +2,10 @@
 
 namespace App\Filament\AdminPanel\Resources;
 
+use App\Filament\Actions\InvoiceDownloadAction;
 use App\Filament\AdminPanel\Resources\RegistrationResource\Pages;
 use App\Models\Registration;
+use App\Models\Role;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -11,12 +13,22 @@ use Filament\Tables;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class RegistrationResource extends Resource
 {
     protected static ?string $model = Registration::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Inscriptions';
+    }
+
+    public static function getModelLabel(): string
+    {
+        return 'Inscriptions';
+    }
 
     public static function form(Form $form): Form
     {
@@ -87,6 +99,7 @@ class RegistrationResource extends Resource
                     ->modalDescription(__('Confirmer que la facture a été payée')),
                 Tables\Actions\ViewAction::make()->label('Visualiser'),
                 Tables\Actions\EditAction::make(),
+                InvoiceDownloadAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -111,4 +124,10 @@ class RegistrationResource extends Resource
             'edit' => Pages\EditRegistration::route('/{record}/edit'),
         ];
     }
+
+    public static function canAccess(): bool
+    {
+        return Auth::getUser()->hasRole(Role::ROLE_ADMIN);
+    }
+
 }

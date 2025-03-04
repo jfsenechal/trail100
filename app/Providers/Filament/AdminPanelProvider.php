@@ -2,7 +2,9 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\AdminPanel\Resources\WalkerResource\Widgets\WalkersCountWidget;
 use App\Filament\Pages\Auth\Login;
+use App\Http\Middleware\SetLocaleLanguage;
 use App\Models\Role;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -43,7 +45,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/AdminPanel/Widgets'), for: 'App\\Filament\\AdminPanel\\Widgets')
             ->widgets([
-             //   Widgets\AccountWidget::class,
+             WalkersCountWidget::class
              //   Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
@@ -56,6 +58,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                SetLocaleLanguage::class
             ])
             ->authMiddleware([
                 Authenticate::class,
